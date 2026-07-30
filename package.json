@@ -1,0 +1,14 @@
+{
+  "name": "orlune",
+  "private": true,
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.17.0",
+      "onFail": "download"
+    }
+  },
+  "devDependencies": {
+    "typescript": "~6.0.3"
+  }
+}

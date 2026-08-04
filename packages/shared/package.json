@@ -1,4 +1,11 @@
 {
   "name": "@orlune/shared",
-  "private": true
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
 }

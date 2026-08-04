@@ -1,4 +1,5 @@
 import express from "express";
+import { projectRouter } from "./routes/project.routes.js";
 
 export const app = express();
 
@@ -9,3 +10,6 @@ app.get("/", (_req, res) => {
     message: "Orlune API",
   });
 });
+
+
+app.use("/projects", projectRouter);

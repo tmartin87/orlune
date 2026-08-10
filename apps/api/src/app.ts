@@ -1,3 +1,4 @@
+import { errorMiddleware } from "./middleware/error.middleware.js";
 import express from "express";
 import { projectRouter } from "./routes/project.routes.js";
 
@@ -13,3 +14,4 @@ app.get("/", (_req, res) => {
 
 
 app.use("/projects", projectRouter);
+app.use(errorMiddleware);

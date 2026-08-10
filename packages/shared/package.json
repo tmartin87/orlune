@@ -5,6 +5,13 @@
   "scripts": {
     "build": "tsc"
   },
+
+   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "dependencies": {
     "zod": "^4.4.3"
   }

@@ -1,18 +1,14 @@
 import type { CreateProjectInput } from "@orlune/shared";
 
-export function createProject(input: CreateProjectInput) {
-  return {
-    id: "2",
-    name: input.name,
-  };
-}
-
+import {
+  createProjectInRepository,
+  findAllProjects,
+} from "../repositories/project.repository.js";
 
 export function getAllProjects() {
-  return [
-    {
-      id: "1",
-      name: "Orlune",
-    },
-  ];
+  return findAllProjects();
+}
+
+export function createProject(input: CreateProjectInput) {
+  return createProjectInRepository(input);
 }

@@ -1,26 +1,17 @@
-import type {
-  CreateProjectInput,
-  Project,
-} from "@orlune/shared";
+import type { CreateProjectInput } from "@orlune/shared";
 
-const projects: Project[] = [
-  {
-    id: "1",
-    name: "Orlune",
-  },
-];
+import { prisma } from "../db/prisma.js";
 
-export function findAllProjects() {
-  return projects;
+export async function findAllProjects() {
+  return prisma.project.findMany();
 }
 
-export function createProjectInRepository(input: CreateProjectInput) {
-  const project: Project = {
-    id: String(projects.length + 1),
-    name: input.name,
-  };
-
-  projects.push(project);
-
-  return project;
+export async function createProjectInRepository(
+  input: CreateProjectInput,
+) {
+  return prisma.project.create({
+    data: {
+      name: input.name,
+    },
+  });
 }

@@ -5,10 +5,10 @@ import {
   findAllProjects,
 } from "../repositories/project.repository.js";
 
-export function getAllProjects() {
-  return findAllProjects();
+export async function getAllProjects() {
+  return  findAllProjects();
 }
 
-export function createProject(input: CreateProjectInput) {
+export async function createProject(input: CreateProjectInput) {
   return createProjectInRepository(input);
 }

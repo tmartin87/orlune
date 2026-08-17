@@ -15,4 +15,12 @@ datasource db {
 model Project {
   id   String @id @default(cuid())
   name String
+  sections Section[]
+}
+
+model Section {
+  id        String  @id @default(cuid())
+  name      String
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }

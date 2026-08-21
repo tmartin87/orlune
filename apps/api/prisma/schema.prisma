@@ -23,4 +23,6 @@ model Section {
   name      String
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, name])
 }

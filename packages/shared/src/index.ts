@@ -11,3 +11,8 @@ export {
 } from "./schemas/section.schema.js";
 
 export { ZodError } from "zod";
+
+export {
+  createTaskSchema,
+  type CreateTaskInput,
+} from "./schemas/task.schema.js";

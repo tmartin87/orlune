@@ -23,6 +23,15 @@ model Section {
   name      String
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
+  tasks Task[]
+  
   @@unique([projectId, name])
+}
+
+model Task {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  sectionId   String
+  section     Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 }

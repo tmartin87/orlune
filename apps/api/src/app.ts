@@ -7,8 +7,11 @@ import { taskRouter } from "./routes/task.routes.js";
 export const app = express();
 
 app.use(express.json());
+
 app.use("/projects", sectionRouter);
+app.use("/projects", projectRouter);
 app.use("/sections", taskRouter);
+
 
 app.get("/", (_req, res) => {
   res.json({
@@ -16,6 +19,5 @@ app.get("/", (_req, res) => {
   });
 });
  
-
-app.use("/projects", projectRouter);
 app.use(errorMiddleware);
+

@@ -1,7 +1,10 @@
 import type { Request, Response } from "express";
 import { createTaskSchema } from "@orlune/shared";
 
-import { createSectionTask } from "../services/task.service.js";
+import {
+  createSectionTask,
+  getTasksBySection,
+} from "../services/task.service.js";
 
 type SectionParams = {
   sectionId: string;
@@ -25,4 +28,15 @@ export async function createTask(
   const task = await createSectionTask(body);
 
   res.status(201).json(task);
+}
+
+export async function getSectionTasks(
+  req: Request<SectionParams>,
+  res: Response,
+) {
+  const { sectionId } = req.params; 
+
+  const tasks = await getTasksBySection(sectionId);
+
+  res.json(tasks);
 }

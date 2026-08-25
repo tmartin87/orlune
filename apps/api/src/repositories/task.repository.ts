@@ -11,3 +11,11 @@ export async function createTask(input: CreateTaskInput) {
     },
   });
 }
+
+export async function findTasksBySection(sectionId: string) {
+  return prisma.task.findMany({
+    where: {
+      sectionId,
+    },
+  });
+}

@@ -34,6 +34,16 @@ export const errorMiddleware: ErrorRequestHandler = (
     return;
   }
 
+   if (
+  err instanceof Prisma.PrismaClientKnownRequestError &&
+  err.code === "P2025"
+) {
+  res.status(404).json({
+    message: "Task not found",
+  });
+
+  return;
+}
   console.error(err);
 
   res.status(500).json({

@@ -1,10 +1,15 @@
 import { Router } from "express";
+
 import {
   createTask,
   getSectionTasks,
+  updateTask,
 } from "../controllers/task.controller.js";
 
+export const sectionTaskRouter = Router();
 export const taskRouter = Router();
 
-taskRouter.get("/:sectionId/tasks", getSectionTasks);
-taskRouter.post("/:sectionId/tasks", createTask);
+sectionTaskRouter.get("/:sectionId/tasks", getSectionTasks);
+sectionTaskRouter.post("/:sectionId/tasks", createTask);
+
+taskRouter.patch("/:taskId", updateTask);

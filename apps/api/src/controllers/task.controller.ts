@@ -1,10 +1,13 @@
 import type { Request, Response } from "express";
-import { createTaskSchema } from "@orlune/shared";
+import { createTaskSchema, updateTaskSchema } from "@orlune/shared";
+
 
 import {
   createSectionTask,
   getTasksBySection,
+  updateTask as updateTaskService,
 } from "../services/task.service.js";
+
 
 type SectionParams = {
   sectionId: string;
@@ -14,6 +17,16 @@ type CreateTaskBody = {
   title: string;
   description?: string;
 };
+
+type TaskParams = {
+  taskId: string;
+};
+
+type UpdateTaskBody = {
+  title?: string;
+  description?: string;
+};
+
 
 export async function createTask(
   req: Request<SectionParams, {}, CreateTaskBody>,
@@ -39,4 +52,17 @@ export async function getSectionTasks(
   const tasks = await getTasksBySection(sectionId);
 
   res.json(tasks);
+}
+
+export async function updateTask(
+  req: Request<TaskParams, {}, UpdateTaskBody>,
+  res: Response,
+) {
+  const { taskId } = req.params;
+
+  const body = updateTaskSchema.parse(req.body);
+
+  const task = await updateTaskService(taskId, body);
+
+  res.json(task);
 }

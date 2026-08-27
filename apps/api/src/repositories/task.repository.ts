@@ -1,4 +1,7 @@
-import type { CreateTaskInput } from "@orlune/shared";
+import type {
+  CreateTaskInput,
+  UpdateTaskInput,
+} from "@orlune/shared";
 
 import { prisma } from "../db/prisma.js";
 
@@ -17,5 +20,17 @@ export async function findTasksBySection(sectionId: string) {
     where: {
       sectionId,
     },
+  });
+}
+
+export async function updateTask(
+  taskId: string,
+  input: UpdateTaskInput,
+) {
+  return prisma.task.update({
+    where: {
+      id: taskId,
+    },
+    data: input,
   });
 }

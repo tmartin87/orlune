@@ -6,6 +6,7 @@ import {
   createSectionTask,
   getTasksBySection,
   updateTask as updateTaskService,
+  deleteTask as deleteTaskService,
 } from "../services/task.service.js";
 
 
@@ -66,3 +67,14 @@ export async function updateTask(
 
   res.json(task);
 }
+
+export async function deleteTask(
+  req: Request<TaskParams>,
+  res: Response,
+) {
+  const { taskId } = req.params;  
+
+  await deleteTaskService(taskId);
+
+  res.status(204).send();
+} 

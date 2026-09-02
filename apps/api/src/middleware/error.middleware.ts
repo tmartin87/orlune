@@ -39,7 +39,7 @@ export const errorMiddleware: ErrorRequestHandler = (
   err.code === "P2025"
 ) {
   res.status(404).json({
-    message: "Task not found",
+    message: "Resource not found",
   });
 
   return;

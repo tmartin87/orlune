@@ -8,6 +8,8 @@ export {
 export {
   createSectionSchema,
   type CreateSectionInput,
+  updateSectionSchema,
+  type UpdateSectionInput,
 } from "./schemas/section.schema.js";
 
 export { ZodError } from "zod";
@@ -18,3 +20,4 @@ export {
   updateTaskSchema,
   type UpdateTaskInput,
 } from "./schemas/task.schema.js";
+

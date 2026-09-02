@@ -1,16 +1,28 @@
 import type { Request, Response } from "express";
-import { createSectionSchema } from "@orlune/shared";
+import {
+  createSectionSchema,
+  updateSectionSchema,
+} from "@orlune/shared";
 
 import {
   createProjectSection,
   getSectionsByProject,
+  updateProjectSection,
 } from "../services/section.service.js";
 
 type ProjectParams = {
   projectId: string;
 };
 
+type SectionParams = {
+  sectionId: string;
+};
+
 type CreateSectionBody = {
+  name: string;
+};
+
+type UpdateSectionBody = {
   name: string;
 };
 
@@ -37,4 +49,17 @@ export async function createSection(
   const section = await createProjectSection(body);
 
   res.status(201).json(section);
+}
+
+export async function updateSection(
+  req: Request<SectionParams, {}, UpdateSectionBody>,
+  res: Response,
+) {
+  const { sectionId } = req.params;
+
+  const body = updateSectionSchema.parse(req.body);
+
+  const updatedSection = await updateProjectSection(sectionId, body);
+
+  res.json(updatedSection);
 }

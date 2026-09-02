@@ -1,9 +1,14 @@
 import { Router } from "express";
 
-import { createSection, getProjectSections } from "../controllers/section.controller.js";
+import { 
+    createSection, 
+    getProjectSections, 
+    updateSection } from "../controllers/section.controller.js";
 
+export const projectSectionRouter = Router();
 export const sectionRouter = Router();
 
-sectionRouter.get("/:projectId/sections", getProjectSections);
+projectSectionRouter.get("/:projectId/sections", getProjectSections);
+projectSectionRouter.post("/:projectId/sections", createSection);
 
-sectionRouter.post("/:projectId/sections", createSection);
+sectionRouter.patch("/:sectionId", updateSection);

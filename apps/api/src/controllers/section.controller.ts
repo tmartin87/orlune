@@ -8,6 +8,7 @@ import {
   createProjectSection,
   getSectionsByProject,
   updateProjectSection,
+  deleteProjectSection,
 } from "../services/section.service.js";
 
 type ProjectParams = {
@@ -62,4 +63,15 @@ export async function updateSection(
   const updatedSection = await updateProjectSection(sectionId, body);
 
   res.json(updatedSection);
+}
+
+export async function deleteSection(
+  req: Request<SectionParams>,
+  res: Response,
+) {
+  const { sectionId } = req.params;
+
+  await deleteProjectSection(sectionId);
+
+  res.status(204).send();
 }

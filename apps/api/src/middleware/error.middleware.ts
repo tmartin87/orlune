@@ -1,5 +1,6 @@
 import { ZodError } from "@orlune/shared";
 import { Prisma } from "../generated/prisma/client.js";
+import { ConflictError } from "../errors/conflict.error.js";
 
 import type {
   ErrorRequestHandler,
@@ -34,16 +35,25 @@ export const errorMiddleware: ErrorRequestHandler = (
     return;
   }
 
-   if (
-  err instanceof Prisma.PrismaClientKnownRequestError &&
-  err.code === "P2025"
-) {
-  res.status(404).json({
-    message: "Resource not found",
-  });
+  if (
+    err instanceof Prisma.PrismaClientKnownRequestError &&
+    err.code === "P2025"
+  ) {
+    res.status(404).json({
+      message: "Resource not found",
+    });
 
-  return;
-}
+    return;
+  }
+
+  if (err instanceof ConflictError) {
+    res.status(409).json({
+      message: err.message,
+    });
+
+    return;
+  }
+
   console.error(err);
 
   res.status(500).json({

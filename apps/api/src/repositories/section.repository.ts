@@ -33,3 +33,21 @@ export async function updateSection(
     data: input,
   });
 }
+
+export async function hasTasksInSection(sectionId: string) {
+  const task = await prisma.task.findFirst({
+    where: {
+      sectionId,
+    },
+  });
+
+  return task !== null;
+}
+
+export async function deleteSection(sectionId: string) {
+  return prisma.section.delete({
+    where: {
+      id: sectionId,
+    },
+  });
+}

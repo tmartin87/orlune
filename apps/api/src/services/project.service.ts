@@ -4,7 +4,7 @@ import { ConflictError } from "../errors/conflict.error.js";
 import {
   createProjectWithBacklog,
   findAllProjects,
-  hasSectionsInProject,
+  hasTasksInProject,
   deleteProject as deleteProjectRepository,
 } from "../repositories/project.repository.js";
 
@@ -17,11 +17,10 @@ export async function createProject(input: CreateProjectInput) {
 }
 
 export async function deleteProject(projectId: string) {
-  const hasSections = await hasSectionsInProject(projectId);
+  const hasTasks = await hasTasksInProject(projectId);
 
-  if (hasSections) {
-    throw new ConflictError("Cannot delete project with sections");
-  }
-
+if (hasTasks) {
+  throw new ConflictError("Cannot delete project with tasks");
+}
   return deleteProjectRepository(projectId);
 }

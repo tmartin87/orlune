@@ -28,16 +28,17 @@ export async function createProjectWithBacklog(
 }
 
 
-export async function hasSectionsInProject(projectId: string) {
-  const section = await prisma.section.findFirst({
+export async function hasTasksInProject(projectId: string) {
+  const task = await prisma.task.findFirst({
     where: {
-      projectId,
+      section: {
+        projectId,
+      },
     },
   });
 
-  return section !== null;
+  return task !== null;
 }
-
 export async function deleteProject(projectId: string) {
   return prisma.project.delete({
     where: {

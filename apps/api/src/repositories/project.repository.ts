@@ -26,3 +26,22 @@ export async function createProjectWithBacklog(
     return project;
   });
 }
+
+
+export async function hasSectionsInProject(projectId: string) {
+  const section = await prisma.section.findFirst({
+    where: {
+      projectId,
+    },
+  });
+
+  return section !== null;
+}
+
+export async function deleteProject(projectId: string) {
+  return prisma.project.delete({
+    where: {
+      id: projectId,
+    },
+  });
+}

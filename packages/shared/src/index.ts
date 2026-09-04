@@ -1,8 +1,10 @@
 export {
   projectSchema,
   createProjectSchema,
+  updateProjectSchema,
   type Project,
   type CreateProjectInput,
+  type UpdateProjectInput,
 } from "./schemas/project.schema.js";
 
 export {

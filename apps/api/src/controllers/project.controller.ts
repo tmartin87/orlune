@@ -2,11 +2,13 @@ import type { Request, Response } from "express";
 
 import {
   createProjectSchema,
+  updateProjectSchema,
   type CreateProjectInput,
 } from "@orlune/shared";
 
 import {
   createProject,
+  updateProject as updateProjectService,
   deleteProject as deleteProjectService,
   getAllProjects,
 } from "../services/project.service.js";
@@ -42,4 +44,17 @@ export async function deleteProject(
   await deleteProjectService(projectId);
 
   res.status(204).send();
+}
+
+export async function updateProject(
+  req: Request<ProjectParams>,
+  res: Response,
+) {
+  const { projectId } = req.params;
+
+  const input = updateProjectSchema.parse(req.body);
+
+  const project = await updateProjectService(projectId, input);
+
+  res.json(project);
 }

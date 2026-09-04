@@ -1,4 +1,7 @@
-import type { CreateProjectInput } from "@orlune/shared";
+import type {
+  CreateProjectInput,
+  UpdateProjectInput,
+} from "@orlune/shared";
 
 import { prisma } from "../db/prisma.js";
 
@@ -44,5 +47,14 @@ export async function deleteProject(projectId: string) {
     where: {
       id: projectId,
     },
+  });
+}
+
+export async function updateProject(projectId: string,input: UpdateProjectInput,) {
+  return prisma.project.update({
+    where: {
+      id: projectId,
+    },
+    data: input,
   });
 }

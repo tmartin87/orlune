@@ -8,11 +8,12 @@ import {
 import { 
   projectSectionRouter,
   sectionRouter } from "./routes/section.routes.js";
-
+import { authRouter } from "./routes/auth.routes.js";
 export const app = express();
 
 app.use(express.json());
 
+app.use("/auth", authRouter);
 
 app.use("/projects", projectRouter);
 app.use("/projects", projectSectionRouter);

@@ -23,3 +23,8 @@ export {
   type UpdateTaskInput,
 } from "./schemas/task.schema.js";
 
+export {
+  registerUserSchema,
+  type RegisterUserInput,
+} from "./schemas/user.schema.js";
+

@@ -16,8 +16,11 @@ export async function getAllProjects() {
   return findAllProjects();
 }
 
-export async function createProject(input: CreateProjectInput) {
-  return createProjectWithBacklog(input);
+export async function createProject(
+  input: CreateProjectInput,
+  userId: string
+) {
+  return createProjectWithBacklog(input, userId);
 }
 
 export async function deleteProject(projectId: string) {

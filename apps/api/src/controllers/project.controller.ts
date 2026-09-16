@@ -27,10 +27,21 @@ export async function createProjectController(
   req: Request,
   res: Response,
 ) {
+  if (!req.user) {
+    res.status(401).json({
+      message: "Unauthorized",
+    });
+
+    return;
+  }
+
   const input: CreateProjectInput =
     createProjectSchema.parse(req.body);
 
-  const project = await createProject(input);
+  const project = await createProject(
+    input,
+    req.user.id,
+  );
 
   res.status(201).json(project);
 }

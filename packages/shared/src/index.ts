@@ -25,6 +25,7 @@ export {
 
 export {
   registerUserSchema,
+  loginUserSchema,
   type RegisterUserInput,
+  type LoginUserInput,
 } from "./schemas/user.schema.js";
-

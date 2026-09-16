@@ -11,11 +11,13 @@ export async function findAllProjects() {
 
 export async function createProjectWithBacklog(
   input: CreateProjectInput,
+  userId: string,
 ) {
   return prisma.$transaction(async (tx) => {
     const project = await tx.project.create({
       data: {
         name: input.name,
+        userId,
       },
     });
 

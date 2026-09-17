@@ -10,11 +10,26 @@ import { authMiddleware } from "../middleware/auth.middleware.js";
 
 export const projectRouter = Router();
 
-projectRouter.get("/", getProjects);
+projectRouter.get(
+  "/",
+  authMiddleware,
+  getProjects,
+);
+
 projectRouter.post(
   "/",
   authMiddleware,
   createProjectController,
 );
-projectRouter.delete("/:projectId", deleteProjectController);
-projectRouter.patch("/:projectId", updateProject);
+
+projectRouter.delete(
+  "/:projectId",
+  authMiddleware,
+  deleteProjectController,
+);
+
+projectRouter.patch(
+  "/:projectId",
+  authMiddleware,
+   updateProject
+  );

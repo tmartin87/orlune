@@ -2,6 +2,7 @@ import { ZodError } from "@orlune/shared";
 import { Prisma } from "../generated/prisma/client.js";
 import { ConflictError } from "../errors/conflict.error.js";
 import { UnauthorizedError } from "../errors/unauthorized.error.js";
+import { NotFoundError } from "../errors/not-found.error.js";
 
 import type {
   ErrorRequestHandler,
@@ -57,6 +58,14 @@ export const errorMiddleware: ErrorRequestHandler = (
 
 if (err instanceof UnauthorizedError) {
   res.status(401).json({
+    message: err.message,
+  });
+
+  return;
+}
+
+if (err instanceof NotFoundError) {
+  res.status(404).json({
     message: err.message,
   });
 

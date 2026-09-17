@@ -3,17 +3,17 @@ import type {
   UpdateProjectInput,
  } from "@orlune/shared";
 import { ConflictError } from "../errors/conflict.error.js";
+import { NotFoundError } from "../errors/not-found.error.js";
 
 import {
   createProjectWithBacklog,
-  findAllProjects,
-  hasTasksInProject,
-  deleteProject as deleteProjectRepository,
-  updateProject as updateProjectRepository,
+  findProjectsByUserId,
+  updateProjectByIdAndUserId as updateProjectRepository,
+  deleteProjectByIdAndUserId,
 } from "../repositories/project.repository.js";
 
-export async function getAllProjects() {
-  return findAllProjects();
+export async function getProjectsByUserId(userId: string) {
+  return findProjectsByUserId(userId);
 }
 
 export async function createProject(
@@ -22,17 +22,40 @@ export async function createProject(
 ) {
   return createProjectWithBacklog(input, userId);
 }
+export async function deleteProject(
+  projectId: string,
+  userId: string,
+) {
+  const result = await deleteProjectByIdAndUserId(
+    projectId,
+    userId,
+  );
 
-export async function deleteProject(projectId: string) {
-  const hasTasks = await hasTasksInProject(projectId);
+  if (result.status === "not_found") {
+    throw new NotFoundError("Project not found");
+  }
 
-if (hasTasks) {
-  throw new ConflictError("Cannot delete project with tasks");
+  if (result.status === "has_tasks") {
+    throw new ConflictError(
+      "Cannot delete project with tasks",
+    );
+  }
 }
 
-  return deleteProjectRepository(projectId);
-}
+export async function updateProject(
+  projectId: string,
+  userId: string,
+  input: UpdateProjectInput,
+) {
+  const projects = await updateProjectRepository(
+    projectId,
+    userId,
+    input,
+  );
 
-export async function updateProject(projectId: string, input: UpdateProjectInput) {
-  return updateProjectRepository(projectId, input);
-} 
+  if (projects.length === 0) {
+    throw new NotFoundError("Project not found");
+  }
+
+  return projects[0];
+}

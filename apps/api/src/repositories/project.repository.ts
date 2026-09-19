@@ -2,7 +2,7 @@ import type {
   CreateProjectInput,
   UpdateProjectInput,
 } from "@orlune/shared";
-
+import { Prisma } from "../generated/prisma/client.js";
 import { prisma } from "../db/prisma.js";
 
 export async function findProjectsByUserId(userId: string) {
@@ -37,24 +37,7 @@ export async function createProjectWithBacklog(
 }
 
 
-export async function hasTasksInProject(projectId: string) {
-  const task = await prisma.task.findFirst({
-    where: {
-      section: {
-        projectId,
-      },
-    },
-  });
 
-  return task !== null;
-}
-export async function deleteProject(projectId: string) {
-  return prisma.project.delete({
-    where: {
-      id: projectId,
-    },
-  });
-}
 
 export async function updateProjectByIdAndUserId(projectId: string, userId: string, input: UpdateProjectInput) {
   return prisma.project.updateManyAndReturn({
@@ -70,43 +53,68 @@ export async function deleteProjectByIdAndUserId(
   projectId: string,
   userId: string,
 ) {
-  return prisma.$transaction(async (tx) => {
-    const project = await tx.project.findFirst({
-      where: {
-        id: projectId,
-        userId,
-      },
-    });
+  const MAX_ATTEMPTS = 3;
 
-    if (!project) {
-      return {
-        status: "not_found" as const,
-      };
-    }
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      return await prisma.$transaction(
+        async (tx) => {
+          const project = await tx.project.findFirst({
+            where: {
+              id: projectId,
+              userId,
+            },
+          });
 
-    const task = await tx.task.findFirst({
-      where: {
-        section: {
-          projectId,
+          if (!project) {
+            return {
+              status: "not_found" as const,
+            };
+          }
+
+          const task = await tx.task.findFirst({
+            where: {
+              section: {
+                projectId,
+              },
+            },
+          });
+
+          if (task) {
+            return {
+              status: "has_tasks" as const,
+            };
+          }
+
+          await tx.project.delete({
+            where: {
+              id: projectId,
+              userId,
+            },
+          });
+
+          return {
+            status: "deleted" as const,
+          };
         },
-      },
-    });
+        {
+          isolationLevel:
+            Prisma.TransactionIsolationLevel.Serializable,
+        },
+      );
+    } catch (error) {
+      const isRetryableConflict =
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2034";
 
-    if (task) {
-      return {
-        status: "has_tasks" as const,
-      };
+      if (
+        !isRetryableConflict ||
+        attempt === MAX_ATTEMPTS
+      ) {
+        throw error;
+      }
     }
+  }
 
-    await tx.project.delete({
-      where: {
-        id: projectId,
-        userId,
-      },
-    });
-
-    return {
-      status: "deleted" as const,
-    };
-  });
+  throw new Error("Unexpected transaction retry state");
 }

@@ -1,39 +1,88 @@
 import { ConflictError } from "../errors/conflict.error.js";
 import {
-  createSection,
-  findSectionsByProject,
-  updateSection as updateSectionRepository,
-  hasTasksInSection,
-  deleteSection as deleteSectionRepository,
+  createSectionByProjectAndUserId,
+  updateSectionByIdAndUserId as updateSectionRepository,
+  deleteSectionByIdAndUserId,
+  findProjectSectionsByUserId,
 } from "../repositories/section.repository.js";
+
+
+import { NotFoundError } from "../errors/not-found.error.js";
 
 import type {
   CreateSectionInput,
   UpdateSectionInput,
 } from "@orlune/shared";
 
+export async function getSectionsByProject(
+  projectId: string,
+  userId: string,
 
-export async function getSectionsByProject(projectId: string) {
-  return findSectionsByProject(projectId);
+) {
+  const project = await findProjectSectionsByUserId(
+    projectId,
+    userId,
+  );
+
+  if (!project) {
+    throw new NotFoundError("Project not found");
+  }
+
+  return project.sections;
 }
 
-export async function createProjectSection(input: CreateSectionInput) {
-  return createSection(input);
+
+export async function createProjectSection(
+  input: CreateSectionInput,
+  userId: string,
+) {
+  const result = await createSectionByProjectAndUserId(
+    input.projectId,
+    userId,
+    input,
+  );
+
+  if (result.status === "not_found") {
+    throw new NotFoundError("Project not found");
+  }
+
+  return result.section;
 }
 
 export async function updateProjectSection(
   sectionId: string,
+  userId: string,
   input: UpdateSectionInput,
 ) {
-  return updateSectionRepository(sectionId, input);
-}
+  const sections = await updateSectionRepository(
+    sectionId,
+    userId,
+    input,
+  );
 
-export async function deleteProjectSection(sectionId: string) {
-  const hasTasks = await hasTasksInSection(sectionId);
-
-  if (hasTasks) {
-    throw new ConflictError("Cannot delete section with tasks");
+  if (sections.length === 0) {
+    throw new NotFoundError("Section not found");
   }
 
-  return deleteSectionRepository(sectionId);
+  return sections[0];
+}
+
+export async function deleteProjectSection(
+  sectionId: string,
+  userId: string,
+) {
+  const result = await deleteSectionByIdAndUserId(
+    sectionId,
+    userId,
+  );
+
+  if (result.status === "not_found") {
+    throw new NotFoundError("Section not found");
+  }
+
+  if (result.status === "has_tasks") {
+    throw new ConflictError(
+      "Cannot delete section with tasks",
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 
 import { 
     createSection, 
@@ -10,9 +11,26 @@ import {
 export const projectSectionRouter = Router();
 export const sectionRouter = Router();
 
-projectSectionRouter.get("/:projectId/sections", getProjectSections);
-projectSectionRouter.post("/:projectId/sections", createSection);
+projectSectionRouter.get(
+  "/:projectId/sections",
+  authMiddleware,
+  getProjectSections,
+);
 
-sectionRouter.patch("/:sectionId", updateSection);
+projectSectionRouter.post(
+  "/:projectId/sections",
+  authMiddleware,
+  createSection,
+);
 
-sectionRouter.delete("/:sectionId", deleteSection);
+sectionRouter.patch(
+  "/:sectionId",
+  authMiddleware,
+  updateSection,
+);
+
+sectionRouter.delete(
+  "/:sectionId",
+  authMiddleware,
+  deleteSection,
+);

@@ -9,7 +9,17 @@ import {
   projectSectionRouter,
   sectionRouter } from "./routes/section.routes.js";
 import { authRouter } from "./routes/auth.routes.js";
+import cors from "cors";
+
+
+
 export const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 
 app.use(express.json());
 

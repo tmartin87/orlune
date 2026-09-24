@@ -26,16 +26,16 @@ export const errorMiddleware: ErrorRequestHandler = (
     return;
   }
 
-  if (
-    err instanceof Prisma.PrismaClientKnownRequestError &&
-    err.code === "P2002"
-  ) {
-    res.status(409).json({
-      message: "A section with this name already exists in the project",
-    });
+ if (
+  err instanceof Prisma.PrismaClientKnownRequestError &&
+  err.code === "P2002"
+) {
+  res.status(409).json({
+    message: "Resource already exists",
+  });
 
-    return;
-  }
+  return;
+}
 
   if (
     err instanceof Prisma.PrismaClientKnownRequestError &&

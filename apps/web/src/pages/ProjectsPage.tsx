@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useProjects } from "../features/projects/useProjects";
 import { useAuth } from "../features/auth/useAuth";
 import { CreateProjectForm } from "../features/projects/CreateProjectForm";
 import { DeleteProjectButton } from "../features/projects/DeleteProjectButton";
 import { UpdateProjectForm } from "../features/projects/UpdateProjectForm";
+
 export function ProjectsPage() {
   const { data: projects, isPending, isError } = useProjects();
 
@@ -31,7 +32,7 @@ export function ProjectsPage() {
       <ul>
         {projects.map((project) => (
           <li key={project.id}>
-            <span>{project.name}</span>
+            <Link to={`/projects/${project.id}`}>{project.name}</Link>
 
             <UpdateProjectForm
               projectId={project.id}

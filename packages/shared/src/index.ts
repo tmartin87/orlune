@@ -8,9 +8,11 @@ export {
 } from "./schemas/project.schema.js";
 
 export {
+  sectionSchema,
   createSectionSchema,
-  type CreateSectionInput,
   updateSectionSchema,
+  type Section,
+  type CreateSectionInput,
   type UpdateSectionInput,
 } from "./schemas/section.schema.js";
 

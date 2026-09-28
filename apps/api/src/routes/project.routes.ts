@@ -6,6 +6,12 @@ import {
   deleteProject as deleteProjectController,
   updateProject,
 } from "../controllers/project.controller.js";
+
+import {
+  getLandingController,
+  saveLandingController,
+} from "../controllers/landing.controller.js";
+
 import { authMiddleware } from "../middleware/auth.middleware.js";
 
 export const projectRouter = Router();
@@ -22,6 +28,18 @@ projectRouter.post(
   createProjectController,
 );
 
+projectRouter.get(
+  "/:projectId/landing",
+  authMiddleware,
+  getLandingController,
+);
+
+projectRouter.put(
+  "/:projectId/landing",
+  authMiddleware,
+  saveLandingController,
+);
+
 projectRouter.delete(
   "/:projectId",
   authMiddleware,
@@ -31,5 +49,5 @@ projectRouter.delete(
 projectRouter.patch(
   "/:projectId",
   authMiddleware,
-   updateProject
-  );
+  updateProject,
+);

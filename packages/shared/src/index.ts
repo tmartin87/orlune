@@ -33,3 +33,15 @@ export {
   type RegisterUserInput,
   type LoginUserInput,
 } from "./schemas/user.schema.js";
+
+
+export {
+  heroBlockSchema,
+  ctaBlockSchema,
+  landingBlockSchema,
+  saveLandingSchema,
+  type HeroBlock,
+  type CtaBlock,
+  type LandingBlock,
+  type SaveLandingInput,
+} from "./schemas/landing.schema.js";

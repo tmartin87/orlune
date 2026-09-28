@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import { AuthContext } from "./auth-context";
 import { deleteToken, getToken, saveToken } from "./auth-storage";
@@ -21,6 +21,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     deleteToken();
     setIsAuthenticated(false);
   };
+
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      logout();
+    };
+
+    window.addEventListener("auth:unauthorized", handleUnauthorized);
+
+    return () => {
+      window.removeEventListener("auth:unauthorized", handleUnauthorized);
+    };
+  }, []);
 
   return (
     <AuthContext.Provider

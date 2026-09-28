@@ -1,19 +1,23 @@
 import { z } from "zod";
 
+export const taskSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string().nullable(),
+  sectionId: z.string(),
+});
+
 export const createTaskSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
   sectionId: z.string(),
 });
 
-export type CreateTaskInput = z.infer<typeof createTaskSchema>;
-
-
-export const updateTaskSchema = z.object({
-  title: z.string().min(1).optional(),
-  description: z.string().optional(),
-
-})
+export const updateTaskSchema = z
+  .object({
+    title: z.string().min(1).optional(),
+    description: z.string().optional(),
+  })
   .refine(
     (data) => data.title !== undefined || data.description !== undefined,
     {
@@ -21,4 +25,6 @@ export const updateTaskSchema = z.object({
     },
   );
 
-  export type UpdateTaskInput = z.infer<typeof updateTaskSchema>;
+export type Task = z.infer<typeof taskSchema>;
+export type CreateTaskInput = z.infer<typeof createTaskSchema>;
+export type UpdateTaskInput = z.infer<typeof updateTaskSchema>;

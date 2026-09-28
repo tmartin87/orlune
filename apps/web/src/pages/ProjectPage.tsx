@@ -1,9 +1,10 @@
 import { Link, useParams } from "react-router-dom";
 
 import { CreateSectionForm } from "../features/sections/CreateSectionForm";
-import { useSections } from "../features/sections/useSections";
 import { DeleteSectionButton } from "../features/sections/DeleteSectionButton";
 import { UpdateSectionForm } from "../features/sections/UpdateSectionForm";
+import { useSections } from "../features/sections/useSections";
+import { SectionTasks } from "../features/tasks/SectionTasks";
 
 export function ProjectPage() {
   const { projectId } = useParams();
@@ -37,7 +38,7 @@ export function ProjectPage() {
       <ul>
         {sections?.map((section) => (
           <li key={section.id}>
-            {section.name}
+            <span>{section.name}</span>
 
             <UpdateSectionForm
               sectionId={section.id}
@@ -45,7 +46,12 @@ export function ProjectPage() {
               currentName={section.name}
             />
 
-            <DeleteSectionButton sectionId={section.id} projectId={projectId} />
+            <DeleteSectionButton
+              sectionId={section.id}
+              projectId={projectId}
+            />
+
+            <SectionTasks sectionId={section.id} />
           </li>
         ))}
       </ul>

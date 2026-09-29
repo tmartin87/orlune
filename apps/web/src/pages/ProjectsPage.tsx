@@ -25,14 +25,14 @@ export function ProjectsPage() {
   }
   return (
     <main>
-      <h1>Projects</h1>
+      <h1 className="text-2xl font-semibold text-slate-900">Projects</h1>
 
       <CreateProjectForm />
 
       <ul>
         {projects.map((project) => (
           <li key={project.id}>
-            <Link to={`/projects/${project.id}`}>{project.name}</Link>
+            <Link to={`/projects/${project.id}/editor`}>{project.name}</Link>
 
             <UpdateProjectForm
               projectId={project.id}

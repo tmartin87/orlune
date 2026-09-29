@@ -3,7 +3,7 @@ import { LandingEditorPage } from "../pages/LandingEditorPage";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { LoginPage } from "../pages/LoginPage";
 import { ProjectsPage } from "../pages/ProjectsPage";
-import { ProjectPage } from "../pages/ProjectPage";
+
 
 export const router = createBrowserRouter([
   {
@@ -19,19 +19,19 @@ export const router = createBrowserRouter([
   ),
 },
   {
-    path: "/projects",
-    element: (
-      <ProtectedRoute>
-        <ProjectsPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/projects/:projectId",
-    element: (
-      <ProtectedRoute>
-        <ProjectPage />
-      </ProtectedRoute>
-    ),
-  },
+  path: "/projects",
+  element: (
+    <ProtectedRoute>
+      <ProjectsPage />
+    </ProtectedRoute>
+  ),
+},
+ {
+  path: "/projects/:projectId",
+  element: (
+    <ProtectedRoute>
+      <LandingEditorPage />
+    </ProtectedRoute>
+  ),
+},
 ]);

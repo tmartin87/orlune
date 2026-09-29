@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import type { LandingBlock } from "@orlune/shared";
 
@@ -19,11 +20,13 @@ export function LandingEditor({
   onSave,
   isSaving,
 }: LandingEditorProps) {
-  const [blocks, setBlocks] =
-    useState<LandingBlock[]>(initialBlocks);
+  const [blocks, setBlocks] = useState<LandingBlock[]>(initialBlocks);
 
-  const [selectedBlockId, setSelectedBlockId] =
-    useState<string | null>(null);
+  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(
+    null,
+  );
+
+  const [isPreview, setIsPreview] = useState(false);
 
   const selectedBlock =
     blocks.find((block) => block.id === selectedBlockId) ?? null;
@@ -39,10 +42,7 @@ export function LandingEditor({
       },
     };
 
-    setBlocks((currentBlocks) => [
-      ...currentBlocks,
-      hero,
-    ]);
+    setBlocks((currentBlocks) => [...currentBlocks, hero]);
   };
 
   const addCta = () => {
@@ -55,15 +55,10 @@ export function LandingEditor({
       },
     };
 
-    setBlocks((currentBlocks) => [
-      ...currentBlocks,
-      cta,
-    ]);
+    setBlocks((currentBlocks) => [...currentBlocks, cta]);
   };
 
-  const updateBlockContent = (
-    update: BlockContentUpdate,
-  ) => {
+  const updateBlockContent = (update: BlockContentUpdate) => {
     setBlocks((currentBlocks) =>
       currentBlocks.map((block) => {
         if (
@@ -73,10 +68,7 @@ export function LandingEditor({
           return block;
         }
 
-        if (
-          update.type === "hero" &&
-          block.type === "hero"
-        ) {
+        if (update.type === "hero" && block.type === "hero") {
           return {
             ...block,
             content: {
@@ -86,10 +78,7 @@ export function LandingEditor({
           };
         }
 
-        if (
-          update.type === "cta" &&
-          block.type === "cta"
-        ) {
+        if (update.type === "cta" && block.type === "cta") {
           return {
             ...block,
             content: {
@@ -106,9 +95,7 @@ export function LandingEditor({
 
   const deleteBlock = (blockId: string) => {
     setBlocks((currentBlocks) =>
-      currentBlocks.filter(
-        (block) => block.id !== blockId,
-      ),
+      currentBlocks.filter((block) => block.id !== blockId),
     );
 
     if (selectedBlockId === blockId) {
@@ -155,71 +142,157 @@ export function LandingEditor({
     });
   };
 
+  if (isPreview) {
+    return (
+      <main className="min-h-screen bg-white">
+        <header className="flex items-center justify-between gap-4 border-b border-slate-200 px-6 py-4">
+          <p className="text-sm font-medium text-slate-500">
+            Preview · current draft
+          </p>
+
+          <button
+            type="button"
+            onClick={() => setIsPreview(false)}
+            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700"
+          >
+            Back to editor
+          </button>
+        </header>
+
+        {blocks.length === 0 ? (
+          <p className="p-12 text-center text-slate-500">
+            No blocks to preview yet.
+          </p>
+        ) : (
+          blocks.map((block) => (
+            <BlockRenderer key={block.id} block={block} />
+          ))
+        )}
+      </main>
+    );
+  }
+
   return (
-    <main>
-      <h1>Landing Editor</h1>
-
-      <BlockLibrary
-        onAddHero={addHero}
-        onAddCta={addCta}
-      />
-
-      <button
-        type="button"
-        onClick={() => onSave(blocks)}
-        disabled={isSaving}
-      >
-        {isSaving ? "Saving..." : "Save"}
-      </button>
-
-      {blocks.map((block, index) => (
-        <div key={block.id}>
-          <button
-            type="button"
-            onClick={() =>
-              setSelectedBlockId(block.id)
-            }
+    <main className="flex min-h-screen flex-col">
+      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4">
+        <div className="flex items-center gap-4">
+          <Link
+            to="/projects"
+            className="text-sm text-slate-500 hover:text-slate-900"
           >
-            Select
-          </button>
+            ← Projects
+          </Link>
 
-          <button
-            type="button"
-            onClick={() =>
-              moveBlock(block.id, "up")
-            }
-            disabled={index === 0}
-          >
-            ↑
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              moveBlock(block.id, "down")
-            }
-            disabled={index === blocks.length - 1}
-          >
-            ↓
-          </button>
-
-          <button
-            type="button"
-            onClick={() => deleteBlock(block.id)}
-          >
-            Delete
-          </button>
-
-          <BlockRenderer block={block} />
+          <h1 className="text-lg font-semibold">
+            Landing Editor
+          </h1>
         </div>
-      ))}
 
-      {selectedBlock && (
-        <PropertiesPanel
-          block={selectedBlock}
-          onContentChange={updateBlockContent}
-        />
-      )}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setIsPreview(true)}
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          >
+            Preview
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onSave(blocks)}
+            disabled={isSaving}
+            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-50"
+          >
+            {isSaving ? "Saving..." : "Save"}
+          </button>
+        </div>
+      </header>
+
+      <div className="grid flex-1 grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)_280px]">
+        <aside className="border-r border-slate-200 bg-white p-4">
+          <BlockLibrary
+            onAddHero={addHero}
+            onAddCta={addCta}
+          />
+        </aside>
+
+        <section
+          aria-label="Landing canvas"
+          className="min-w-0 bg-slate-100 p-6"
+        >
+          <div className="mx-auto max-w-4xl space-y-4">
+            {blocks.length === 0 && (
+              <p className="rounded-xl border-2 border-dashed border-slate-300 p-12 text-center text-slate-500">
+                Add a block to start building your landing.
+              </p>
+            )}
+
+            {blocks.map((block, index) => (
+              <div
+                key={block.id}
+                className={`rounded-xl border bg-white p-5 ${
+                  selectedBlockId === block.id
+                    ? "border-indigo-500 ring-2 ring-indigo-200"
+                    : "border-slate-200"
+                }`}
+              >
+                <div className="mb-4 flex gap-3 border-b border-slate-100 pb-3 text-sm">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedBlockId(block.id)}
+                    className="font-medium text-indigo-600"
+                  >
+                    Select
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => moveBlock(block.id, "up")}
+                    disabled={index === 0}
+                    aria-label="Move block up"
+                    className="disabled:opacity-30"
+                  >
+                    ↑
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => moveBlock(block.id, "down")}
+                    disabled={index === blocks.length - 1}
+                    aria-label="Move block down"
+                    className="disabled:opacity-30"
+                  >
+                    ↓
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => deleteBlock(block.id)}
+                    className="ml-auto text-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
+
+                <BlockRenderer block={block} />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div className="border-l border-slate-200 bg-white p-4">
+          {selectedBlock ? (
+            <PropertiesPanel
+              block={selectedBlock}
+              onContentChange={updateBlockContent}
+            />
+          ) : (
+            <p className="text-sm text-slate-500">
+              Select a block to edit its properties.
+            </p>
+          )}
+        </div>
+      </div>
     </main>
   );
 }

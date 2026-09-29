@@ -1,51 +1,60 @@
 # Orlune
 
-Orlune es una aplicación de gestión de proyectos basada en tableros Kanban, desarrollada con TypeScript, Express, Prisma y PostgreSQL.
+Orlune es un **landing-page builder full-stack** que permite crear y editar páginas mediante bloques reutilizables y persistir su contenido en base de datos.
 
-El proyecto sigue una arquitectura por capas y aplica buenas prácticas de diseño de APIs, validación de datos y persistencia.
+Está desarrollado con React, TypeScript, Node.js, Express, Prisma y PostgreSQL, dentro de un monorepo con tipos y esquemas de validación compartidos entre frontend y backend.
 
-
-## Visión del proyecto
-
-El objetivo a largo plazo de Orlune es convertirse en una plataforma que permita a profesionales, emprendedores y pequeños negocios crear, personalizar y gestionar su presencia online mediante herramientas impulsadas por inteligencia artificial.
-
-Actualmente, el desarrollo se centra en la construcción de una API para la gestión de proyectos basada en tableros Kanban. Este módulo constituye la base sobre la que se desarrollarán el resto de funcionalidades de la plataforma.
-
-
-## Estado del proyecto
-
-🚧 Orlune se encuentra actualmente en fase de desarrollo.
-
-En esta primera etapa se está construyendo la API y el modelo de datos que servirán de base para las futuras funcionalidades de la plataforma.
-
+> 🚧 Proyecto actualmente en desarrollo.
 
 ## Características
 
-Actualmente la aplicación permite:
+Actualmente Orlune permite:
 
-- Crear proyectos.
-- Crear automáticamente una sección Backlog para cada proyecto.
-- Listar proyectos.
-- Listar las secciones de un proyecto.
-- Crear nuevas secciones.
-- Crear tareas dentro de una sección.
+- Registro e inicio de sesión.
+- Autenticación mediante JWT.
+- Rutas protegidas en el frontend.
+- Creación y gestión de proyectos.
+- Landing builder asociado a cada proyecto.
+- Añadir bloques `Hero` y `CTA`.
+- Seleccionar y editar bloques.
+- Eliminar y reordenar bloques.
+- Guardar una landing en PostgreSQL.
+- Recuperar su contenido y orden después de recargar.
+- Autorización de recursos por usuario.
 - Validación de datos mediante Zod.
 - Gestión centralizada de errores HTTP.
-- Persistencia mediante PostgreSQL y Prisma ORM.
-  
 
-## Tecnologías
+## Stack
 
+### Frontend
+
+- React
 - TypeScript
+- Vite
+- React Router
+- TanStack Query
+- Zod
+
+### Backend
+
 - Node.js
 - Express
+- TypeScript
 - Prisma ORM
 - PostgreSQL
+- JWT
+- Argon2
 - Zod
-- pnpm
 
+### Tooling
+
+- pnpm
+- pnpm workspaces
+- Git
 
 ## Arquitectura
+
+### Backend
 
 La API sigue una arquitectura por capas:
 
@@ -54,121 +63,186 @@ HTTP Request
     │
     ▼
 Route
+    │
     ▼
 Controller
+    │
     ▼
 Service
+    │
     ▼
 Repository
+    │
     ▼
 Prisma
+    │
     ▼
 PostgreSQL
 ```
 
-Cada capa tiene una única responsabilidad:
+Cada capa mantiene una responsabilidad concreta:
 
-- Controller: gestiona las peticiones HTTP.
-- Service: contiene la lógica de negocio.
-- Repository: encapsula el acceso a la base de datos.
-- Prisma: acceso tipado a PostgreSQL.
+- **Route:** define endpoints y aplica middleware.
+- **Controller:** gestiona la entrada y salida HTTP.
+- **Service:** contiene la lógica de negocio.
+- **Repository:** encapsula el acceso a datos.
+- **Prisma:** proporciona acceso tipado a PostgreSQL.
 
+### Frontend
 
-## Estructura del proyecto
+El frontend diferencia entre **server state** y **estado local**.
+
+TanStack Query gestiona los datos procedentes de la API, su caché y las mutations de persistencia. React mantiene el estado local del editor mientras el usuario modifica la landing.
+
+```text
+PostgreSQL
+    │
+    ▼
+API
+    │
+    ▼
+TanStack Query
+    │
+    ▼
+LandingEditor
+    │
+    ▼
+Local draft
+    │
+    │ Save
+    ▼
+Mutation
+    │
+    ▼
+API
+```
+
+El editor utiliza **discriminated unions** de TypeScript para modelar los distintos tipos de bloques de forma segura.
+
+Los contratos principales se definen mediante Zod en `@orlune/shared` y se comparten entre frontend y backend.
+
+## Estructura
+
+Orlune utiliza un monorepo con pnpm workspaces:
 
 ```text
 apps/
-└── api/
-    ├── controllers/
-    ├── services/
-    ├── repositories/
-    ├── routes/
-    ├── middleware/
-    └── prisma/
+├── api/
+│   ├── prisma/
+│   └── src/
+│       ├── controllers/
+│       ├── services/
+│       ├── repositories/
+│       ├── routes/
+│       └── middleware/
+│
+└── web/
+    └── src/
+        ├── features/
+        │   └── landing-builder/
+        ├── pages/
+        ├── router/
+        └── lib/
 
 packages/
 └── shared/
-    └── schemas/
+    └── src/
+        └── schemas/
 ```
-El paquete `shared` contiene los esquemas de validación y los tipos compartidos entre las distintas aplicaciones del monorepo.
-
 
 ## Modelo de datos
 
-El dominio de la aplicación se organiza mediante una relación jerárquica entre proyectos, secciones y tareas.
+Cada usuario puede tener varios proyectos y cada proyecto almacena los bloques que forman su landing page.
 
 ```mermaid
 erDiagram
-    Project ||--o{ Section : contains
-    Section ||--o{ Task : contains
+    User ||--o{ Project : owns
+    Project ||--o{ LandingBlock : contains
 ```
 
+Los bloques almacenan su tipo, contenido y posición, permitiendo reconstruir la landing manteniendo el orden definido en el editor.
+
+## API del Landing Builder
+
+```text
+GET /projects/:projectId/landing
+PUT /projects/:projectId/landing
+```
+
+El guardado de una landing se realiza mediante una transacción y el backend comprueba que el proyecto pertenece al usuario autenticado.
 
 ## Instalación
 
+Instalar dependencias:
+
 ```bash
 pnpm install
+```
 
+Compilar el paquete compartido:
+
+```bash
 pnpm --filter @orlune/shared build
+```
 
+Aplicar migraciones:
+
+```bash
 pnpm --filter @orlune/api exec prisma migrate dev
+```
 
+Iniciar el backend:
+
+```bash
 pnpm --filter @orlune/api dev
 ```
 
+Iniciar el frontend:
+
+```bash
+pnpm --filter @orlune/web dev
+```
 
 ## Scripts
 
 | Comando | Descripción |
-|----------|-------------|
-| pnpm --filter @orlune/api dev | Inicia la API |
-| pnpm --filter @orlune/api build | Compila la API |
-| pnpm --filter @orlune/shared build | Compila el paquete shared |
-| pnpm --filter @orlune/api exec prisma studio | Abre Prisma Studio |
-
+| --- | --- |
+| `pnpm --filter @orlune/web dev` | Inicia el frontend |
+| `pnpm --filter @orlune/web build` | Compila el frontend |
+| `pnpm --filter @orlune/api dev` | Inicia la API |
+| `pnpm --filter @orlune/api build` | Compila la API |
+| `pnpm --filter @orlune/shared build` | Compila el paquete shared |
+| `pnpm --filter @orlune/api exec prisma studio` | Abre Prisma Studio |
 
 ## Roadmap
 
-### Backend
+### Completado
 
+- [x] Registro y login
+- [x] Autenticación JWT
 - [x] Gestión de proyectos
-- [x] Gestión de secciones
-- [x] Gestión de tareas
-- [ ] Listado de tareas por sección
-- [ ] Actualización de tareas
-- [ ] Movimiento de tareas entre secciones
-- [ ] Eliminación de tareas
+- [x] Autorización por usuario
+- [x] Bloques Hero y CTA
+- [x] Edición de contenido
+- [x] Eliminación y reordenación de bloques
+- [x] Persistencia del landing builder
+- [x] Recuperación de landings guardadas
 
+### Próximos pasos
 
-### Frontend
-
-- [ ] Aplicación web
-- [ ] Editor Kanban
-
-
-### Plataforma
-
-- [ ] Autenticación
+- [ ] Interfaz visual del editor
+- [ ] Preview de la landing
+- [ ] Nuevos tipos de bloques
+- [ ] Publicación de landing pages
+- [ ] URL pública para cada landing
+- [ ] Deploy
 - [ ] Integración con IA
 
+## Desarrollo
 
-## Principios de diseño
+Orlune se desarrolla de forma incremental mediante ramas de funcionalidad.
 
-Durante el desarrollo de Orlune se han seguido los siguientes principios:
-
-- Separación de responsabilidades mediante una arquitectura por capas.
-- Validación de datos en tiempo de ejecución con Zod.
-- Acceso a datos centralizado mediante el patrón Repository.
-- Tipado compartido entre aplicaciones mediante el paquete `shared`.
-- Control de versiones mediante Git con ramas por funcionalidad y commits atómicos.
-
-
-## Metodología de desarrollo
-
-Orlune se desarrolla de forma incremental, incorporando cada funcionalidad en una rama independiente.
-
-Antes de integrarse en la rama principal, cada cambio se implementa, se valida manualmente y se revisa para mantener una arquitectura consistente y un historial de Git limpio.
-Eso transmite una forma de trabajar profesional sin dejar de ser completamente cierto.
+Antes de integrar una feature en `main`, los cambios se validan manualmente y se compilan los paquetes afectados para mantener una arquitectura consistente y un historial de Git limpio.
 
 
 ## Licencia

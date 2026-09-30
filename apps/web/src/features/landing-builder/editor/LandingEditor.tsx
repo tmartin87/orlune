@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 import type { LandingBlock } from "@orlune/shared";
@@ -15,6 +15,8 @@ type LandingEditorProps = {
   isSaving: boolean;
   onPublish: (blocks: LandingBlock[]) => void;
   isPublishing: boolean;
+  feedback: ReactNode;
+  onDraftChange: () => void;
 };
 
 export function LandingEditor({
@@ -23,6 +25,8 @@ export function LandingEditor({
   isSaving,
   onPublish,
   isPublishing,
+  feedback,
+  onDraftChange,
 }: LandingEditorProps) {
   const [blocks, setBlocks] = useState<LandingBlock[]>(initialBlocks);
 
@@ -34,6 +38,8 @@ export function LandingEditor({
     blocks.find((block) => block.id === selectedBlockId) ?? null;
 
   const addHero = () => {
+    onDraftChange();
+
     const hero: LandingBlock = {
       id: crypto.randomUUID(),
       type: "hero",
@@ -48,6 +54,8 @@ export function LandingEditor({
   };
 
   const addCta = () => {
+    onDraftChange();
+
     const cta: LandingBlock = {
       id: crypto.randomUUID(),
       type: "cta",
@@ -61,6 +69,7 @@ export function LandingEditor({
   };
 
   const updateBlockContent = (update: BlockContentUpdate) => {
+    onDraftChange();
     setBlocks((currentBlocks) =>
       currentBlocks.map((block) => {
         if (block.id !== update.blockId || block.type !== update.type) {
@@ -93,6 +102,7 @@ export function LandingEditor({
   };
 
   const deleteBlock = (blockId: string) => {
+    onDraftChange();
     setBlocks((currentBlocks) =>
       currentBlocks.filter((block) => block.id !== blockId),
     );
@@ -103,6 +113,7 @@ export function LandingEditor({
   };
 
   const moveBlock = (blockId: string, direction: "up" | "down") => {
+    onDraftChange();
     setBlocks((currentBlocks) => {
       const currentIndex = currentBlocks.findIndex(
         (block) => block.id === blockId,
@@ -146,6 +157,13 @@ export function LandingEditor({
             Back to editor
           </button>
         </header>
+
+        <div
+          className="space-y-1 bg-white px-6 py-2"
+          aria-label="Save and publish feedback"
+        >
+          {feedback}
+        </div>
 
         {blocks.length === 0 ? (
           <p className="p-12 text-center text-slate-500">
@@ -200,6 +218,13 @@ export function LandingEditor({
           </button>
         </div>
       </header>
+
+      <div
+        className="space-y-1 bg-white px-6 py-2"
+        aria-label="Save and publish feedback"
+      >
+        {feedback}
+      </div>
 
       <div className="grid flex-1 grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)_280px]">
         <aside className="border-r border-slate-200 bg-white p-4">

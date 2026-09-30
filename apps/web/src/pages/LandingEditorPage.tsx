@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import type { LandingBlock } from "@orlune/shared";
@@ -14,7 +15,12 @@ export function LandingEditorPage() {
     return <p>Project not found.</p>;
   }
 
-  return <LandingEditorPageContent projectId={projectId} />;
+  return (
+    <LandingEditorPageContent
+      key={projectId}
+      projectId={projectId}
+    />
+  );
 }
 
 type LandingEditorPageContentProps = {
@@ -29,6 +35,14 @@ function LandingEditorPageContent({
   const saveLandingMutation = useSaveLanding();
   const publishLandingMutation = usePublishLanding();
 
+  const [draftVersion, setDraftVersion] = useState(0);
+  const [savedVersion, setSavedVersion] = useState<number | null>(
+    null,
+  );
+  const [publishedVersion, setPublishedVersion] = useState<
+    number | null
+  >(null);
+
   if (isPending) {
     return <p>Loading landing...</p>;
   }
@@ -37,7 +51,13 @@ function LandingEditorPageContent({
     return <p>Could not load landing.</p>;
   }
 
+  const handleDraftChange = () => {
+    setDraftVersion((version) => version + 1);
+  };
+
   const handleSave = (blocks: LandingBlock[]) => {
+    setSavedVersion(draftVersion);
+
     saveLandingMutation.mutate({
       projectId,
       input: {
@@ -47,6 +67,8 @@ function LandingEditorPageContent({
   };
 
   const handlePublish = (blocks: LandingBlock[]) => {
+    setPublishedVersion(draftVersion);
+
     publishLandingMutation.mutate({
       projectId,
       input: {
@@ -56,40 +78,52 @@ function LandingEditorPageContent({
   };
 
   return (
-    <>
-      <LandingEditor
-        initialBlocks={data.blocks}
-        onSave={handleSave}
-        isSaving={saveLandingMutation.isPending}
-        onPublish={handlePublish}
-        isPublishing={publishLandingMutation.isPending}
-      />
+    <LandingEditor
+      initialBlocks={data.blocks}
+      onSave={handleSave}
+      isSaving={saveLandingMutation.isPending}
+      onPublish={handlePublish}
+      isPublishing={publishLandingMutation.isPending}
+      onDraftChange={handleDraftChange}
+      feedback={
+        <>
+          {saveLandingMutation.isSuccess &&
+            savedVersion === draftVersion && (
+              <p role="status" className="text-sm text-green-700">
+                Landing saved.
+              </p>
+            )}
 
-      {saveLandingMutation.isSuccess && <p>Landing saved.</p>}
+          {saveLandingMutation.isError &&
+            savedVersion === draftVersion && (
+              <p role="alert" className="text-sm text-red-600">
+                Could not save landing.
+              </p>
+            )}
 
-      {saveLandingMutation.isError && (
-        <p>Could not save landing.</p>
-      )}
+          {publishLandingMutation.isSuccess &&
+            publishedVersion === draftVersion && (
+              <p role="status" className="text-sm text-green-700">
+                Landing published.{" "}
+                <Link
+                  to={`/p/${projectId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
+                  Open public landing
+                </Link>
+              </p>
+            )}
 
-      {publishLandingMutation.isSuccess && (
-        <p role="status" className="p-4 text-green-700">
-          Landing published.{" "}
-          <Link
-            to={`/p/${projectId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline"
-          >
-            Open public landing
-          </Link>
-        </p>
-      )}
-
-      {publishLandingMutation.isError && (
-        <p role="alert" className="p-4 text-red-600">
-          Could not publish landing. Please try again.
-        </p>
-      )}
-    </>
+          {publishLandingMutation.isError &&
+            publishedVersion === draftVersion && (
+              <p role="alert" className="text-sm text-red-600">
+                Could not publish landing. Please try again.
+              </p>
+            )}
+        </>
+      }
+    />
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import { AuthContext } from "./auth-context";
 import { deleteToken, getToken, saveToken } from "./auth-storage";
+import { queryClient } from "../../lib/query-client";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -19,6 +20,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = () => {
     deleteToken();
+    queryClient.clear();
     setIsAuthenticated(false);
   };
 

@@ -13,18 +13,20 @@ type LandingEditorProps = {
   initialBlocks: LandingBlock[];
   onSave: (blocks: LandingBlock[]) => void;
   isSaving: boolean;
+  onPublish: (blocks: LandingBlock[]) => void;
+  isPublishing: boolean;
 };
 
 export function LandingEditor({
   initialBlocks,
   onSave,
   isSaving,
+  onPublish,
+  isPublishing,
 }: LandingEditorProps) {
   const [blocks, setBlocks] = useState<LandingBlock[]>(initialBlocks);
 
-  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(
-    null,
-  );
+  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
 
   const [isPreview, setIsPreview] = useState(false);
 
@@ -61,10 +63,7 @@ export function LandingEditor({
   const updateBlockContent = (update: BlockContentUpdate) => {
     setBlocks((currentBlocks) =>
       currentBlocks.map((block) => {
-        if (
-          block.id !== update.blockId ||
-          block.type !== update.type
-        ) {
+        if (block.id !== update.blockId || block.type !== update.type) {
           return block;
         }
 
@@ -103,10 +102,7 @@ export function LandingEditor({
     }
   };
 
-  const moveBlock = (
-    blockId: string,
-    direction: "up" | "down",
-  ) => {
+  const moveBlock = (blockId: string, direction: "up" | "down") => {
     setBlocks((currentBlocks) => {
       const currentIndex = currentBlocks.findIndex(
         (block) => block.id === blockId,
@@ -117,23 +113,15 @@ export function LandingEditor({
       }
 
       const targetIndex =
-        direction === "up"
-          ? currentIndex - 1
-          : currentIndex + 1;
+        direction === "up" ? currentIndex - 1 : currentIndex + 1;
 
-      if (
-        targetIndex < 0 ||
-        targetIndex >= currentBlocks.length
-      ) {
+      if (targetIndex < 0 || targetIndex >= currentBlocks.length) {
         return currentBlocks;
       }
 
       const reorderedBlocks = [...currentBlocks];
 
-      [
-        reorderedBlocks[currentIndex],
-        reorderedBlocks[targetIndex],
-      ] = [
+      [reorderedBlocks[currentIndex], reorderedBlocks[targetIndex]] = [
         reorderedBlocks[targetIndex],
         reorderedBlocks[currentIndex],
       ];
@@ -164,9 +152,7 @@ export function LandingEditor({
             No blocks to preview yet.
           </p>
         ) : (
-          blocks.map((block) => (
-            <BlockRenderer key={block.id} block={block} />
-          ))
+          blocks.map((block) => <BlockRenderer key={block.id} block={block} />)
         )}
       </main>
     );
@@ -183,9 +169,7 @@ export function LandingEditor({
             ← Projects
           </Link>
 
-          <h1 className="text-lg font-semibold">
-            Landing Editor
-          </h1>
+          <h1 className="text-lg font-semibold">Landing Editor</h1>
         </div>
 
         <div className="flex items-center gap-3">
@@ -200,20 +184,26 @@ export function LandingEditor({
           <button
             type="button"
             onClick={() => onSave(blocks)}
-            disabled={isSaving}
+            disabled={isSaving || isPublishing}
             className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-50"
           >
             {isSaving ? "Saving..." : "Save"}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onPublish(blocks)}
+            disabled={isSaving || isPublishing}
+            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+          >
+            {isPublishing ? "Publishing..." : "Publish"}
           </button>
         </div>
       </header>
 
       <div className="grid flex-1 grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)_280px]">
         <aside className="border-r border-slate-200 bg-white p-4">
-          <BlockLibrary
-            onAddHero={addHero}
-            onAddCta={addCta}
-          />
+          <BlockLibrary onAddHero={addHero} onAddCta={addCta} />
         </aside>
 
         <section

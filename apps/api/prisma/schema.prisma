@@ -16,12 +16,14 @@ model User {
 }
 
 model Project {
-  id       String         @id @default(cuid())
-  name     String
-  userId   String
-  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sections Section[]
-  blocks   LandingBlock[]
+  id              String         @id @default(cuid())
+  name            String
+  userId          String
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sections        Section[]
+  blocks          LandingBlock[]
+  publishedBlocks Json?
+  publishedAt     DateTime?
 }
 
 model LandingBlock {

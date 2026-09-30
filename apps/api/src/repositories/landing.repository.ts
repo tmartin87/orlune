@@ -73,5 +73,70 @@ export async function replaceLandingByProjectIdAndUserId(
         position: "asc",
       },
     });
+
+  });
+}
+
+export async function publishLandingByProjectIdAndUserId(
+  projectId: string,
+  userId: string,
+) {
+  return prisma.$transaction(async (tx) => {
+    const project = await tx.project.findFirst({
+      where: {
+        id: projectId,
+        userId,
+      },
+      select: {
+        blocks: {
+          orderBy: {
+            position: "asc",
+          },
+        },
+      },
+    });
+
+    if (!project) {
+      return null;
+    }
+
+    const publishedBlocks = project.blocks.map((block) => ({
+      id: block.id,
+      type: block.type,
+      content: block.content,
+    }));
+
+    return tx.project.update({
+      where: {
+        id: projectId,
+        userId,
+      },
+      data: {
+        publishedBlocks,
+        publishedAt: new Date(),
+      },
+      select: {
+        id: true,
+        publishedAt: true,
+      },
+    });
+  });
+}
+
+export async function findPublishedLandingByProjectId(
+  projectId: string,
+) {
+  return prisma.project.findFirst({
+    where: {
+      id: projectId,
+      publishedAt: {
+        not: null,
+      },
+    },
+    select: {
+      name: true,
+      publishedBlocks: true,
+      publishedAt: true,
+    },
   });
 }

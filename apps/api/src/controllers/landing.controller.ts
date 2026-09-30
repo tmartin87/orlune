@@ -8,6 +8,8 @@ import {
 import {
   getLanding,
   saveLanding,
+  publishLanding,
+  getPublishedLanding,
 } from "../services/landing.service.js";
 
 type LandingParams = {
@@ -62,4 +64,34 @@ export async function saveLandingController(
   res.json({
     blocks,
   });
+}
+
+export async function publishLandingController(
+  req: Request<LandingParams>,
+  res: Response,
+){
+  if (!req.user) {
+    res.status(401).json({
+      message: "Unauthorized",
+    });
+    return;
+  }
+
+  const publication = await publishLanding(
+    req.params.projectId,
+    req.user.id,
+  );
+
+  res.json(publication);
+}
+
+export async function getPublishedLandingController(
+  req: Request<LandingParams>,
+  res: Response,
+) {
+  const landing = await getPublishedLanding(
+    req.params.projectId,
+  );
+
+  res.json(landing);
 }

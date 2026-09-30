@@ -3,7 +3,7 @@ import { LandingEditorPage } from "../pages/LandingEditorPage";
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { LoginPage } from "../pages/LoginPage";
 import { ProjectsPage } from "../pages/ProjectsPage";
-
+import { PublicLandingPage } from "../pages/PublicLandingPage";
 
 export const router = createBrowserRouter([
   {
@@ -33,5 +33,9 @@ export const router = createBrowserRouter([
       <LandingEditorPage />
     </ProtectedRoute>
   ),
+},
+ {
+  path: "/p/:projectId",
+  element: <PublicLandingPage />,
 },
 ]);

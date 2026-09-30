@@ -10,6 +10,7 @@ import {
 import {
   getLandingController,
   saveLandingController,
+  publishLandingController,
 } from "../controllers/landing.controller.js";
 
 import { authMiddleware } from "../middleware/auth.middleware.js";
@@ -39,6 +40,13 @@ projectRouter.put(
   authMiddleware,
   saveLandingController,
 );
+
+projectRouter.post(
+  "/:projectId/landing/publish",
+  authMiddleware,
+  publishLandingController,
+);
+
 
 projectRouter.delete(
   "/:projectId",

@@ -9,6 +9,7 @@ import {
   projectSectionRouter,
   sectionRouter } from "./routes/section.routes.js";
 import { authRouter } from "./routes/auth.routes.js";
+import { publicRouter } from "./routes/public.routes.js";
 import cors from "cors";
 
 
@@ -40,5 +41,7 @@ app.get("/", (_req, res) => {
     message: "Orlune API",
   });
 });
+
+app.use("/public", publicRouter);
 
 app.use(errorMiddleware);

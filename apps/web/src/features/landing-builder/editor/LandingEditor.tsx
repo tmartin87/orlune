@@ -11,6 +11,7 @@ import { BlockLibrary } from "./BlockLibrary";
 import type { BlockContentUpdate } from "../types/landing-block";
 
 type LandingEditorProps = {
+  projectId: string;
   initialBlocks: LandingBlock[];
   onSave: (blocks: LandingBlock[]) => void;
   isSaving: boolean;
@@ -21,6 +22,7 @@ type LandingEditorProps = {
 };
 
 export function LandingEditor({
+  projectId,
   initialBlocks,
   onSave,
   isSaving,
@@ -322,6 +324,8 @@ export function LandingEditor({
         <div className="border-l border-slate-200 bg-white p-4">
           {selectedBlock ? (
             <PropertiesPanel
+              key={selectedBlock.id}
+              projectId={projectId}
               block={selectedBlock}
               onContentChange={updateBlockContent}
             />

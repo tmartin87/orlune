@@ -1,23 +1,32 @@
-import type {
-  BlockContentUpdate,
-  LandingBlock,
-} from "../types/landing-block";
+import type { BlockContentUpdate, LandingBlock } from "../types/landing-block";
 
 type PropertiesPanelProps = {
+  projectId: string;
   block: LandingBlock;
   onContentChange: (update: BlockContentUpdate) => void;
 };
+import { HeroImageUpload } from "./HeroImageUpload";
 
 export function PropertiesPanel({
+  projectId,
   block,
   onContentChange,
 }: PropertiesPanelProps) {
   if (block.type === "hero") {
     return (
       <aside className="space-y-5">
-        <h2 className="text-sm font-semibold text-slate-900">
-          Properties
-        </h2>
+        <h2 className="text-sm font-semibold text-slate-900">Properties</h2>
+        <HeroImageUpload
+          projectId={projectId}
+          onUploaded={(url) =>
+            onContentChange({
+              blockId: block.id,
+              type: "hero",
+              field: "imageUrl",
+              value: url,
+            })
+          }
+        />
 
         <label className="block space-y-2 text-sm font-medium text-slate-700">
           Heading
@@ -112,9 +121,7 @@ export function PropertiesPanel({
   if (block.type === "cta") {
     return (
       <aside className="space-y-5">
-        <h2 className="text-sm font-semibold text-slate-900">
-          Properties
-        </h2>
+        <h2 className="text-sm font-semibold text-slate-900">Properties</h2>
 
         <label className="block space-y-2 text-sm font-medium text-slate-700">
           Heading

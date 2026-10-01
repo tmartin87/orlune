@@ -1,5 +1,31 @@
 # Contexto de Orlune
 
+## Subida de imágenes completada — 1 de octubre de 2026
+
+Esta actualización sustituye las notas anteriores que indicaban que el proveedor y la subida de archivos estaban pendientes.
+
+- Proveedor elegido: Cloudinary, con cuenta gratuita creada por el usuario.
+- Rama confirmada para esta funcionalidad: feature/hero-image-upload. El commit de esta funcionalidad todavía no se ha confirmado.
+- Credenciales configuradas únicamente en apps/api/.env; el usuario confirmó que Git ignora ese archivo. No incluir credenciales en documentación ni commits.
+- SDK cloudinary instalado en la API y configuración en src/lib/cloudinary.ts.
+- El repositorio de proyectos incorpora findProjectByIdAndUserId para comprobar la propiedad del proyecto.
+- Servicio upload.service.ts: verifica el propietario y firma timestamp, public_id único por proyecto, upload_preset y overwrite=false. Devuelve cloudName, apiKey, signature y params, nunca el API Secret.
+- Ruta protegida: POST /projects/:projectId/images/upload-signature. La respuesta utiliza Cache-Control: no-store.
+- Preset previsto/utilizado: orlune_hero_images, Signed, formatos JPG/JPEG, PNG y WebP, sin sobrescritura. No se encontró un límite de tamaño configurable en la consola.
+- El frontend solicita la firma con el token de Orlune y sube el archivo directamente al endpoint image/upload de Cloudinary mediante FormData, sin enviarle el token de Orlune.
+- image-upload-api.ts comprueba formato MIME y tamaño máximo de 5 MiB antes de subir. Ese límite es una comprobación del frontend, no un límite confirmado del proveedor.
+- HeroImageUpload muestra el selector, el estado de subida y los errores. Al completarse, actualiza imageUrl del Hero; Save persiste el borrador y Publish actualiza la copia pública.
+- projectId se transmite desde LandingEditorPage a LandingEditor, PropertiesPanel y HeroImageUpload. PropertiesPanel utiliza key={selectedBlock.id}.
+- Se corrigió un error Invalid cloud_name: el usuario ajustó el nombre del entorno de Cloudinary y reinició la API.
+- El usuario confirmó compilación correcta y las pruebas de subir imagen, guardar y recargar, publicar y abrir la página pública, y reemplazar la imagen.
+- Las pruebas funcionales fueron realizadas por el usuario. La terminal del asistente sigue sin funcionar; no afirmar una verificación local independiente.
+
+### Próxima acción
+
+- Revisar git status con el usuario y preparar el commit de subida de imágenes, incluyendo esta memoria y excluyendo .env y tmp/.
+- Siguen pendientes el despliegue, la revisión del aviso de chunks de más de 500 kB, GSAP en la landing/preview y el resto de personalización acordada.
+
+
 ## Estado al preparar el commit — 1 de octubre de 2026
 
 Esta actualización sustituye las notas anteriores que indicaban que la animación de entrada y las imágenes del Hero aún no estaban implementadas.

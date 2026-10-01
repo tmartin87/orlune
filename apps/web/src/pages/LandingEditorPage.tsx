@@ -79,6 +79,7 @@ function LandingEditorPageContent({
 
   return (
     <LandingEditor
+    projectId={projectId}
       initialBlocks={data.blocks}
       onSave={handleSave}
       isSaving={saveLandingMutation.isPending}

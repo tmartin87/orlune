@@ -14,6 +14,9 @@ import {
 } from "../controllers/landing.controller.js";
 
 import { authMiddleware } from "../middleware/auth.middleware.js";
+import {
+  createImageUploadSignatureController,
+} from "../controllers/upload.controller.js";
 
 export const projectRouter = Router();
 
@@ -58,4 +61,10 @@ projectRouter.patch(
   "/:projectId",
   authMiddleware,
   updateProject,
+);
+
+projectRouter.post(
+  "/:projectId/images/upload-signature",
+  authMiddleware,
+  createImageUploadSignatureController,
 );

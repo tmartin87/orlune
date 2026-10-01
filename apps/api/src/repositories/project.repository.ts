@@ -118,3 +118,18 @@ export async function deleteProjectByIdAndUserId(
 
   throw new Error("Unexpected transaction retry state");
 }
+
+export async function findProjectByIdAndUserId(
+  projectId: string,
+  userId: string,
+) {
+  return prisma.project.findFirst({
+    where: {
+      id: projectId,
+      userId,
+    },
+    select: {
+      id: true,
+    },
+  });
+}

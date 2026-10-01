@@ -1,23 +1,13 @@
-export type HeroBlock = {
-  id: string;
-  type: "hero";
-  content: {
-    heading: string;
-    subheading: string;
-    buttonText: string;
-  };
-};
+import type {
+  HeroBlock,
+  CtaBlock,
+} from "@orlune/shared";
 
-export type CtaBlock = {
-  id: string;
-  type: "cta";
-  content: {
-    heading: string;
-    buttonText: string;
-  };
-};
-
-export type LandingBlock = HeroBlock | CtaBlock;
+export type {
+  HeroBlock,
+  CtaBlock,
+  LandingBlock,
+} from "@orlune/shared";
 
 export type BlockContentUpdate =
   | {

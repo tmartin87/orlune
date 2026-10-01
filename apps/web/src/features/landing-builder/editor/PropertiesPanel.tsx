@@ -1,4 +1,7 @@
-import type { BlockContentUpdate, LandingBlock } from "../types/landing-block";
+import type {
+  BlockContentUpdate,
+  LandingBlock,
+} from "../types/landing-block";
 
 type PropertiesPanelProps = {
   block: LandingBlock;
@@ -12,7 +15,9 @@ export function PropertiesPanel({
   if (block.type === "hero") {
     return (
       <aside className="space-y-5">
-        <h2 className="text-sm font-semibold text-slate-900">Properties</h2>
+        <h2 className="text-sm font-semibold text-slate-900">
+          Properties
+        </h2>
 
         <label className="block space-y-2 text-sm font-medium text-slate-700">
           Heading
@@ -23,7 +28,7 @@ export function PropertiesPanel({
             onChange={(event) =>
               onContentChange({
                 blockId: block.id,
-                type: block.type,
+                type: "hero",
                 field: "heading",
                 value: event.target.value,
               })
@@ -40,7 +45,7 @@ export function PropertiesPanel({
             onChange={(event) =>
               onContentChange({
                 blockId: block.id,
-                type: block.type,
+                type: "hero",
                 field: "subheading",
                 value: event.target.value,
               })
@@ -57,8 +62,44 @@ export function PropertiesPanel({
             onChange={(event) =>
               onContentChange({
                 blockId: block.id,
-                type: block.type,
+                type: "hero",
                 field: "buttonText",
+                value: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
+          Image URL
+          <input
+            type="url"
+            placeholder="https://example.com/image.jpg"
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            value={block.content.imageUrl ?? ""}
+            onChange={(event) =>
+              onContentChange({
+                blockId: block.id,
+                type: "hero",
+                field: "imageUrl",
+                value: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
+          Image description
+          <input
+            type="text"
+            placeholder="Describe what the image shows"
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            value={block.content.imageAlt ?? ""}
+            onChange={(event) =>
+              onContentChange({
+                blockId: block.id,
+                type: "hero",
+                field: "imageAlt",
                 value: event.target.value,
               })
             }
@@ -71,7 +112,9 @@ export function PropertiesPanel({
   if (block.type === "cta") {
     return (
       <aside className="space-y-5">
-        <h2 className="text-sm font-semibold text-slate-900">Properties</h2>
+        <h2 className="text-sm font-semibold text-slate-900">
+          Properties
+        </h2>
 
         <label className="block space-y-2 text-sm font-medium text-slate-700">
           Heading
@@ -82,7 +125,7 @@ export function PropertiesPanel({
             onChange={(event) =>
               onContentChange({
                 blockId: block.id,
-                type: block.type,
+                type: "cta",
                 field: "heading",
                 value: event.target.value,
               })
@@ -99,7 +142,7 @@ export function PropertiesPanel({
             onChange={(event) =>
               onContentChange({
                 blockId: block.id,
-                type: block.type,
+                type: "cta",
                 field: "buttonText",
                 value: event.target.value,
               })

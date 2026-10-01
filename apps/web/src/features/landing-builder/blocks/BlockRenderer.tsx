@@ -23,6 +23,13 @@ export function BlockRenderer({ block }: BlockRendererProps) {
           >
             {block.content.buttonText}
           </button>
+          {block.content.imageUrl?.trim() && (
+            <img
+              src={block.content.imageUrl.trim()}
+              alt={block.content.imageAlt ?? ""}
+              className="mx-auto mt-10 aspect-video w-full max-w-3xl rounded-xl object-cover"
+            />
+          )}
         </section>
       );
 

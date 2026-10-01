@@ -7,6 +7,14 @@ export const heroBlockSchema = z.object({
     heading: z.string(),
     subheading: z.string(),
     buttonText: z.string(),
+     imageUrl: z
+      .string()
+      .trim()
+      .url()
+      .regex(/^https?:\/\//i, "Use an HTTP or HTTPS image URL")
+      .or(z.literal(""))
+      .optional(),
+    imageAlt: z.string().optional(),
   }),
 });
 

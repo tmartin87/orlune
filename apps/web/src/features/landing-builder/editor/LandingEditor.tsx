@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 
 import type { LandingBlock } from "@orlune/shared";
 
@@ -33,6 +34,8 @@ export function LandingEditor({
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
 
   const [isPreview, setIsPreview] = useState(false);
+
+  const shouldReduceMotion = useReducedMotion();
 
   const selectedBlock =
     blocks.find((block) => block.id === selectedBlockId) ?? null;
@@ -70,6 +73,7 @@ export function LandingEditor({
 
   const updateBlockContent = (update: BlockContentUpdate) => {
     onDraftChange();
+
     setBlocks((currentBlocks) =>
       currentBlocks.map((block) => {
         if (block.id !== update.blockId || block.type !== update.type) {
@@ -103,6 +107,7 @@ export function LandingEditor({
 
   const deleteBlock = (blockId: string) => {
     onDraftChange();
+
     setBlocks((currentBlocks) =>
       currentBlocks.filter((block) => block.id !== blockId),
     );
@@ -114,6 +119,7 @@ export function LandingEditor({
 
   const moveBlock = (blockId: string, direction: "up" | "down") => {
     onDraftChange();
+
     setBlocks((currentBlocks) => {
       const currentIndex = currentBlocks.findIndex(
         (block) => block.id === blockId,
@@ -212,7 +218,7 @@ export function LandingEditor({
             type="button"
             onClick={() => onPublish(blocks)}
             disabled={isSaving || isPublishing}
-            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
           >
             {isPublishing ? "Publishing..." : "Publish"}
           </button>
@@ -241,57 +247,75 @@ export function LandingEditor({
                 Add a block to start building your landing.
               </p>
             )}
+            <AnimatePresence initial={false}>
+              {blocks.map((block, index) => (
+                <motion.div
+                  layout={shouldReduceMotion ? false : "position"}
+                  exit={{
+                    opacity: 0,
+                    y: shouldReduceMotion ? 0 : -12,
+                  }}
+                  key={block.id}
+                  initial={{
+                    opacity: 0,
+                    y: shouldReduceMotion ? 0 : 16,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0 : 0.2,
+                    ease: "easeOut",
+                  }}
+                  className={`rounded-xl border bg-white p-5 ${
+                    selectedBlockId === block.id
+                      ? "border-indigo-500 ring-2 ring-indigo-200"
+                      : "border-slate-200"
+                  }`}
+                >
+                  <div className="mb-4 flex gap-3 border-b border-slate-100 pb-3 text-sm">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedBlockId(block.id)}
+                      className="font-medium text-indigo-600"
+                    >
+                      Select
+                    </button>
 
-            {blocks.map((block, index) => (
-              <div
-                key={block.id}
-                className={`rounded-xl border bg-white p-5 ${
-                  selectedBlockId === block.id
-                    ? "border-indigo-500 ring-2 ring-indigo-200"
-                    : "border-slate-200"
-                }`}
-              >
-                <div className="mb-4 flex gap-3 border-b border-slate-100 pb-3 text-sm">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedBlockId(block.id)}
-                    className="font-medium text-indigo-600"
-                  >
-                    Select
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => moveBlock(block.id, "up")}
+                      disabled={index === 0}
+                      aria-label="Move block up"
+                      className="disabled:opacity-30"
+                    >
+                      ↑
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={() => moveBlock(block.id, "up")}
-                    disabled={index === 0}
-                    aria-label="Move block up"
-                    className="disabled:opacity-30"
-                  >
-                    ↑
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => moveBlock(block.id, "down")}
+                      disabled={index === blocks.length - 1}
+                      aria-label="Move block down"
+                      className="disabled:opacity-30"
+                    >
+                      ↓
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={() => moveBlock(block.id, "down")}
-                    disabled={index === blocks.length - 1}
-                    aria-label="Move block down"
-                    className="disabled:opacity-30"
-                  >
-                    ↓
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => deleteBlock(block.id)}
+                      className="ml-auto text-red-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
 
-                  <button
-                    type="button"
-                    onClick={() => deleteBlock(block.id)}
-                    className="ml-auto text-red-600"
-                  >
-                    Delete
-                  </button>
-                </div>
-
-                <BlockRenderer block={block} />
-              </div>
-            ))}
+                  <BlockRenderer block={block} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         </section>
 

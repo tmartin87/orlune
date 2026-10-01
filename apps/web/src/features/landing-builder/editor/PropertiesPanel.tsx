@@ -80,6 +80,24 @@ export function PropertiesPanel({
         </label>
 
         <label className="block space-y-2 text-sm font-medium text-slate-700">
+          Button URL
+          <input
+            type="url"
+            placeholder="https://example.com"
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            value={block.content.buttonUrl ?? ""}
+            onChange={(event) =>
+              onContentChange({
+                blockId: block.id,
+                type: "hero",
+                field: "buttonUrl",
+                value: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
           Image URL
           <input
             type="url"

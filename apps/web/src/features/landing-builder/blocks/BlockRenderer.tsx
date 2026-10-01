@@ -2,9 +2,35 @@ import type { LandingBlock } from "../types/landing-block";
 
 type BlockRendererProps = {
   block: LandingBlock;
+  isEditing?: boolean;
 };
 
-export function BlockRenderer({ block }: BlockRendererProps) {
+function getSafeButtonUrl(value: string | undefined): string | null {
+  if (!value?.trim()) {
+    return null;
+  }
+
+  try {
+    const url = new URL(value.trim());
+
+    if (url.protocol !== "http:" && url.protocol !== "https:") {
+      return null;
+    }
+
+    return url.href;
+  } catch {
+    return null;
+  }
+}
+
+export function BlockRenderer({
+  block,
+  isEditing = false,
+}: BlockRendererProps) {
+  const buttonUrl =
+  block.type === "hero"
+    ? getSafeButtonUrl(block.content.buttonUrl)
+    : null;
   switch (block.type) {
     case "hero":
       return (
@@ -17,12 +43,22 @@ export function BlockRenderer({ block }: BlockRendererProps) {
             {block.content.subheading}
           </p>
 
-          <button
-            type="button"
-            className="mt-8 max-w-full rounded-lg bg-indigo-600 px-6 py-3 font-medium text-white break-words hover:bg-indigo-700"
-          >
-            {block.content.buttonText}
-          </button>
+          {!isEditing && buttonUrl ? (
+  <a
+    href={buttonUrl}
+    className="mt-8 inline-block max-w-full rounded-lg bg-indigo-600 px-6 py-3 font-medium text-white break-words hover:bg-indigo-700"
+  >
+    {block.content.buttonText}
+  </a>
+) : (
+  <button
+    type="button"
+    disabled
+    className="mt-8 max-w-full rounded-lg bg-indigo-600 px-6 py-3 font-medium text-white break-words"
+  >
+    {block.content.buttonText}
+  </button>
+)}
           {block.content.imageUrl?.trim() && (
             <img
               src={block.content.imageUrl.trim()}

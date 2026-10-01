@@ -314,7 +314,7 @@ export function LandingEditor({
                     </button>
                   </div>
 
-                  <BlockRenderer block={block} />
+                  <BlockRenderer block={block} isEditing />
                 </motion.div>
               ))}
             </AnimatePresence>

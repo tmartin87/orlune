@@ -1,5 +1,37 @@
 # Contexto de Orlune
 
+## Estado actual — 6 de octubre de 2026
+
+Esta sección prevalece sobre los pendientes históricos que aparecen más abajo.
+
+### Avances integrados
+
+- Historial local verificado: 0eadfbe (motion del editor), b8961ee (imágenes por URL), 0a3d645 (subida firmada con Cloudinary), dfb5dbd (enlaces del Hero), 910aaea (diseño del login), 7002aef (interfaz de proyectos y validación de nombres).
+- El usuario confirmó los pushes. Al revisar el repositorio, main y la referencia local origin/main coinciden en 7002aef; no se ha realizado un fetch nuevo en esta comprobación.
+- Hero admite buttonUrl opcional HTTP/HTTPS. El enlace funciona en Preview y en la landing pública; el editor recibe isEditing para impedir navegar mientras se edita. El usuario confirmó los tres comportamientos.
+- Login con identidad de Orlune, formulario diseñado, errores accesibles y botón desactivado con estado Signing in mientras se envía. El usuario confirmó su funcionamiento.
+- Lista de proyectos con tarjetas adaptables, acceso al editor, estado vacío, reintento de carga y controles de renombrar/eliminar dentro de Project settings.
+- Formularios de creación y renombrado diseñados; eliminación con confirmación y cancelación. Se conserva la restricción antigua del backend que impide borrar proyectos con tareas.
+- projectNameSchema compartido aplica trim y min(1) tanto a creación como a actualización. Se dieron instrucciones para retirar la validación duplicada de los formularios. El cambio está integrado en 7002aef; no se han repetido compilaciones ni pruebas de navegador por el asistente en esta actualización.
+
+### Despliegue: punto exacto para continuar
+
+- Prioridad inmediata: preparar y desplegar frontend, API y PostgreSQL para la demo del 15 de octubre de 2026; quedan 9 días desde esta actualización.
+- Se ha propuesto crear feature/deployment-config desde main. En la comprobación actual la rama sigue siendo main; no dar por creada la nueva rama.
+- Instrucciones entregadas, todavía sin aplicar en el código observado: crear apps/web/src/lib/config.ts que lea VITE_API_URL, falle si falta y elimine barras finales; importar API_URL desde los clientes privado y público.
+- Se indicó crear apps/web/.env.local y apps/web/.env.example con VITE_API_URL=http://localhost:3000. git check-ignore confirma que la ruta .env.local está ignorada; no se ha leído su contenido ni confirmado su existencia.
+- Ambos clientes siguen utilizando http://localhost:3000 en el código. No hay config.ts ni .env.example nuevos identificados por Git. El próximo paso es que el usuario aplique las instrucciones, reinicie Vite y compile el frontend.
+- Después: preparar puerto y CORS configurables en la API, configuración de compilación/arranque y migraciones, alojamiento gratuito y pruebas completas en el entorno desplegado. No hay despliegue ni cuenta de Render confirmados.
+- Las variables VITE_ se incluyen en el navegador; solo deben contener configuración pública. Cloudinary API Secret, JWT_SECRET y DATABASE_URL siguen siendo exclusivos del backend.
+
+### Estado de herramientas y Git
+
+- El acceso de lectura mediante terminal vuelve a funcionar el 6 de octubre. Las notas anteriores sobre imposibilidad de leer archivos describen el periodo anterior.
+- Antes de editar esta memoria: main sin modificaciones de archivos seguidos y únicamente tmp/ sin seguimiento. El contenido de tmp/ sigue sin revisarse; no incluirlo en commits.
+- El usuario sigue escribiendo código y ejecutando Git. Esta actualización de MEMORY.md está expresamente autorizada; no se ha creado ningún commit.
+- Siguen pendientes revisar el aviso de chunks superiores a 500 kB, GSAP para landing/preview, retirar el Kanban restante y ensayar la demo con respaldo.
+
+
 ## Subida de imágenes completada — 1 de octubre de 2026
 
 Esta actualización sustituye las notas anteriores que indicaban que el proveedor y la subida de archivos estaban pendientes.

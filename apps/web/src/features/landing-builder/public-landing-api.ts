@@ -1,5 +1,6 @@
 import type { LandingBlock } from "@orlune/shared";
 import { api } from "../../lib/api";
+import { API_URL } from "../../lib/config";
 
 export type PublishedLanding = {
   name: string;
@@ -11,7 +12,7 @@ export async function getPublishedLanding(
   projectId: string,
 ): Promise<PublishedLanding> {
   const response = await fetch(
-    `http://localhost:3000/public/landings/${encodeURIComponent(projectId)}`,
+    `${API_URL}/public/landings/${encodeURIComponent(projectId)}`,
   );
 
   if (!response.ok) {

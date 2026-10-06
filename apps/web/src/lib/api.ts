@@ -1,4 +1,5 @@
 import { getToken } from "../features/auth/auth-storage";
+import { API_URL } from "./config";
 
 export class ApiError extends Error {
   status: number;
@@ -14,7 +15,6 @@ type ErrorResponse = {
   message?: string;
 };
 
-const API_URL = "http://localhost:3000";
 
 export async function api<T>(
   path: string,

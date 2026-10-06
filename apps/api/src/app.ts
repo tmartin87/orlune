@@ -11,14 +11,21 @@ import {
 import { authRouter } from "./routes/auth.routes.js";
 import { publicRouter } from "./routes/public.routes.js";
 import cors from "cors";
+import "dotenv/config";
 
+const frontendUrl = process.env.FRONTEND_URL?.trim();
 
+if (!frontendUrl) {
+  throw new Error("FRONTEND_URL is not configured");
+}
+
+const frontendOrigin = new URL(frontendUrl).origin;
 
 export const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: frontendOrigin,
   }),
 );
 

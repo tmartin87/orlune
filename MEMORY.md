@@ -1,5 +1,30 @@
 # Contexto de Orlune
 
+## Despliegue completado — 6 de octubre de 2026, cierre de la tarde
+
+Esta sección prevalece sobre todas las notas anteriores de despliegue pendientes que aparecen más abajo.
+
+- Orlune está desplegado en Render y el usuario confirmó el recorrido completo. Demo prevista para el 15 de octubre de 2026.
+- Frontend: Static Site llamado orlune, https://orlune-2t8d.onrender.com ; login en /login.
+- API: Web Service orlune-api, https://orlune-api.onrender.com ; el usuario confirmó la respuesta de GET / con el mensaje Orlune API.
+- Base de datos: orlune-db, PostgreSQL 18, Frankfurt. API también en Frankfurt. La base aparece dentro de My project y la API aparecía en Ungrouped Services. El workspace también se llama orlune-db: distinguirlo del recurso PostgreSQL.
+- feature/deployment-config integrada y subida a main en f57225b, según la salida de Git compartida. En la revisión local previa a esta actualización: main...origin/main y solo tmp/ sin seguimiento. No se ha hecho fetch ni ningún commit por el asistente.
+- Configuración implementada: apps/web/src/lib/config.ts centraliza VITE_API_URL para clientes privados y públicos; apps/web/.env.example documenta el valor local. API utiliza PORT y FRONTEND_URL y escucha en 0.0.0.0.
+- Render: rama main, Root Directory vacío y NODE_VERSION=24. El frontend publica apps/web/dist.
+- Build API corregido: corepack pnpm install --frozen-lockfile --prod=false && corepack pnpm --filter @orlune/shared build && corepack pnpm --filter @orlune/api exec prisma generate && corepack pnpm --filter @orlune/api build.
+- Start API indicado: corepack pnpm --filter @orlune/api exec prisma migrate deploy && corepack pnpm --filter @orlune/api start. El registro compartido todavía mostraba la variante sin corepack; el arranque posterior funcionó. Confirmar el valor efectivo en Render si hace falta.
+- Build frontend indicado: corepack pnpm install --frozen-lockfile --prod=false && corepack pnpm --filter @orlune/shared build && corepack pnpm --filter @orlune/web build.
+- corepack enable falló con EROFS al modificar /usr/bin/pnpm. Se corrigió usando corepack pnpm directamente.
+- Variables API: DATABASE_URL (conexión interna de Render), JWT_SECRET, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET y FRONTEND_URL=https://orlune-2t8d.onrender.com. Render proporciona PORT. No guardar secretos en la memoria.
+- Variable pública del frontend: VITE_API_URL=https://orlune-api.onrender.com. Regla SPA configurada: Source /*, Destination /index.html, Action Rewrite. El usuario confirmó el login al recargar.
+- Error P1013 corregido sustituyendo una DATABASE_URL mal formada. Una credencial se compartió accidentalmente y se guio su rotación. El usuario confirmó expresamente que las credenciales antiguas están eliminadas. No reproducirlas.
+- Error CORS corregido: FRONTEND_URL se había cambiado en el Static Site, pero la API seguía permitiendo localhost:5173. Se cambió en orlune-api y se desplegó de nuevo; login correcto.
+- Cuenta de demo creada por POST /auth/register desde PowerShell con contraseña solicitada de forma oculta. La base de Render es independiente: no se copiaron usuarios ni proyectos locales.
+- Validación local: usuario compartió lint web, build API y build web correctos y confirmó arranque de producción. Validación en Render: confirmó login, crear proyecto, editar Hero, subir imagen, guardar y recargar, publicar y abrir la landing pública en incógnito. Pruebas funcionales realizadas por el usuario, no por el asistente.
+- Planes gratuitos por elección del usuario. API duerme tras inactividad y PostgreSQL gratuito caduca a los 30 días de su creación (6 de octubre): revisar migración o pago antes de caducar y preparar el servicio antes de la demo. No se han configurado recordatorios ni monitorización automática.
+- Próximo trabajo propuesto: GSAP para Hero y preview respetando movimiento reducido, y ensayo de la demo. Pendientes: aviso de chunks >500 kB (577,72 kB en build compartido), retirar restos de Kanban y preparar respaldo.
+- Actualización de esta memoria expresamente solicitada por el usuario. No se han modificado archivos de aplicación ni creado commits; tmp/ continúa fuera del alcance.
+
 ## Estado actual — 6 de octubre de 2026
 
 Esta sección prevalece sobre los pendientes históricos que aparecen más abajo.

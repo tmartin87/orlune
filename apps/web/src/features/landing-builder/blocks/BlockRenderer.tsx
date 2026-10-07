@@ -168,6 +168,49 @@ export function BlockRenderer({
         </section>
       );
 
+    case "imageText": {
+      const imageUrl = block.content.imageUrl?.trim();
+      const imageOnRight = block.content.imagePosition === "right";
+
+      return (
+        <section className="rounded-lg bg-white px-6 py-16 sm:px-10">
+          <div
+            className={[
+              "mx-auto max-w-6xl",
+              imageUrl ? "grid items-center gap-10 md:grid-cols-2" : "",
+            ].join(" ")}
+          >
+            {imageUrl && (
+              <img
+                src={imageUrl}
+                alt={block.content.imageAlt ?? ""}
+                className={[
+                  "aspect-[4/3] min-w-0 w-full rounded-2xl object-cover",
+                  imageOnRight ? "md:order-2" : "",
+                ].join(" ")}
+              />
+            )}
+
+            <div
+              className={[
+                "min-w-0",
+                imageUrl ? "" : "mx-auto max-w-3xl",
+                imageOnRight && imageUrl ? "md:order-1" : "",
+              ].join(" ")}
+            >
+              <h2 className="break-words text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                {block.content.heading}
+              </h2>
+
+              <p className="mt-5 whitespace-pre-line break-words text-lg leading-relaxed text-slate-600">
+                {block.content.description}
+              </p>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     case "cta":
       return (
         <section className="rounded-lg bg-slate-900 px-6 py-12 text-center">

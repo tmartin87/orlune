@@ -41,9 +41,11 @@ export {
   featuresBlockSchema,
   landingBlockSchema,
   saveLandingSchema,
+  imageTextBlockSchema,
   type HeroBlock,
   type CtaBlock,
   type FeaturesBlock,
   type LandingBlock,
   type SaveLandingInput,
+  type ImageTextBlock,
 } from "./schemas/landing.schema.js";

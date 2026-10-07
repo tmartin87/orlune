@@ -1,6 +1,7 @@
 import type {
   HeroBlock,
   CtaBlock,
+  ImageTextBlock,
 } from "@orlune/shared";
 
 export type {
@@ -8,6 +9,7 @@ export type {
   CtaBlock,
   FeaturesBlock,
   LandingBlock,
+  ImageTextBlock,
 } from "@orlune/shared";
 
 export type BlockContentUpdate =
@@ -34,5 +36,11 @@ export type BlockContentUpdate =
       type: "features";
       field: "title" | "description";
       itemId: string;
+      value: string;
+    }
+  | {
+      blockId: string;
+      type: "imageText";
+      field: keyof ImageTextBlock["content"];
       value: string;
     };

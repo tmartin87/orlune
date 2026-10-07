@@ -54,11 +54,31 @@ export const featuresBlockSchema = z.object({
   }),
 });
 
+export const imageTextBlockSchema = z.object({
+  id: z.string(),
+  type: z.literal("imageText"),
+  content: z.object({
+    heading: z.string(),
+    description: z.string(),
+    imageUrl: z
+      .string()
+      .trim()
+      .url()
+      .regex(/^https?:\/\//i, "Use an HTTP or HTTPS image URL")
+      .or(z.literal(""))
+      .optional(),
+    imageAlt: z.string().optional(),
+    imagePosition: z.enum(["left", "right"]).optional(),
+  }),
+});
+
 export const landingBlockSchema = z.discriminatedUnion("type", [
   heroBlockSchema,
   ctaBlockSchema,
   featuresBlockSchema,
+  imageTextBlockSchema,
 ]);
+
 
 export const saveLandingSchema = z.object({
   blocks: z.array(landingBlockSchema),
@@ -69,3 +89,4 @@ export type CtaBlock = z.infer<typeof ctaBlockSchema>;
 export type LandingBlock = z.infer<typeof landingBlockSchema>;
 export type SaveLandingInput = z.infer<typeof saveLandingSchema>;
 export type FeaturesBlock = z.infer<typeof featuresBlockSchema>;
+export type ImageTextBlock = z.infer<typeof imageTextBlockSchema>;

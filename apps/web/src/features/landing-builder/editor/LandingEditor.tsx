@@ -105,6 +105,25 @@ export function LandingEditor({
     setSelectedBlockId(features.id);
   };
 
+  const addImageText = () => {
+    onDraftChange();
+
+    const imageText: LandingBlock = {
+      id: crypto.randomUUID(),
+      type: "imageText",
+      content: {
+        heading: "Tell your story",
+        description: "Show what makes your product or service special.",
+        imageUrl: "",
+        imageAlt: "",
+        imagePosition: "left",
+      },
+    };
+
+    setBlocks((currentBlocks) => [...currentBlocks, imageText]);
+    setSelectedBlockId(imageText.id);
+  };
+
   const updateBlockContent = (update: BlockContentUpdate) => {
     onDraftChange();
 
@@ -153,6 +172,16 @@ export function LandingEditor({
         }
 
         if (update.type === "cta" && block.type === "cta") {
+          return {
+            ...block,
+            content: {
+              ...block.content,
+              [update.field]: update.value,
+            },
+          };
+        }
+
+        if (update.type === "imageText" && block.type === "imageText") {
           return {
             ...block,
             content: {
@@ -300,6 +329,7 @@ export function LandingEditor({
             onAddHero={addHero}
             onAddCta={addCta}
             onAddFeatures={addFeatures}
+            onAddImageText={addImageText}
           />
         </aside>
 

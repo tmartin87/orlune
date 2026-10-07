@@ -348,5 +348,120 @@ export function PropertiesPanel({
       </aside>
     );
   }
+
+  if (block.type === "imageText") {
+    return (
+      <aside className="space-y-5">
+        <h2 className="text-sm font-semibold text-slate-900">Properties</h2>
+
+        <label className={labelClassName}>
+          Image position
+          <select
+            className={fieldClassName}
+            value={block.content.imagePosition ?? "left"}
+            onChange={(event) => {
+              const position = event.target.value;
+
+              if (position !== "left" && position !== "right") {
+                return;
+              }
+
+              onContentChange({
+                blockId: block.id,
+                type: "imageText",
+                field: "imagePosition",
+                value: position,
+              });
+            }}
+          >
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </label>
+
+        <HeroImageUpload
+          projectId={projectId}
+          onUploaded={(url) =>
+            onContentChange({
+              blockId: block.id,
+              type: "imageText",
+              field: "imageUrl",
+              value: url,
+            })
+          }
+        />
+
+        <label className={labelClassName}>
+          Heading
+          <input
+            type="text"
+            className={fieldClassName}
+            value={block.content.heading}
+            onChange={(event) =>
+              onContentChange({
+                blockId: block.id,
+                type: "imageText",
+                field: "heading",
+                value: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        <label className={labelClassName}>
+          Description
+          <textarea
+            rows={5}
+            className={`${fieldClassName} resize-y`}
+            value={block.content.description}
+            onChange={(event) =>
+              onContentChange({
+                blockId: block.id,
+                type: "imageText",
+                field: "description",
+                value: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        <label className={labelClassName}>
+          Image URL
+          <input
+            type="url"
+            placeholder="https://example.com/image.jpg"
+            className={fieldClassName}
+            value={block.content.imageUrl ?? ""}
+            onChange={(event) =>
+              onContentChange({
+                blockId: block.id,
+                type: "imageText",
+                field: "imageUrl",
+                value: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        <label className={labelClassName}>
+          Image description
+          <input
+            type="text"
+            placeholder="Describe what the image shows"
+            className={fieldClassName}
+            value={block.content.imageAlt ?? ""}
+            onChange={(event) =>
+              onContentChange({
+                blockId: block.id,
+                type: "imageText",
+                field: "imageAlt",
+                value: event.target.value,
+              })
+            }
+          />
+        </label>
+      </aside>
+    );
+  }
   return null;
 }

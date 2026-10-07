@@ -38,10 +38,12 @@ export {
 export {
   heroBlockSchema,
   ctaBlockSchema,
+  featuresBlockSchema,
   landingBlockSchema,
   saveLandingSchema,
   type HeroBlock,
   type CtaBlock,
+  type FeaturesBlock,
   type LandingBlock,
   type SaveLandingInput,
 } from "./schemas/landing.schema.js";

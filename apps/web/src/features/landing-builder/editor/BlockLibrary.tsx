@@ -1,18 +1,18 @@
 type BlockLibraryProps = {
   onAddHero: () => void;
   onAddCta: () => void;
+  onAddFeatures: () => void;
 };
 
 export function BlockLibrary({
   onAddHero,
   onAddCta,
+  onAddFeatures,
 }: BlockLibraryProps) {
-   return (
+  return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-sm font-semibold text-slate-900">
-          Blocks
-        </h2>
+        <h2 className="text-sm font-semibold text-slate-900">Blocks</h2>
         <p className="mt-1 text-xs text-slate-500">
           Choose a block to add to your landing.
         </p>
@@ -24,9 +24,7 @@ export function BlockLibrary({
           onClick={onAddHero}
           className="w-full rounded-lg border border-slate-200 bg-white p-4 text-left transition-colors hover:border-indigo-400 hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
         >
-          <span className="block text-sm font-medium">
-            + Hero
-          </span>
+          <span className="block text-sm font-medium">+ Hero</span>
           <span className="mt-1 block text-xs text-slate-500">
             Introduce your business with a headline.
           </span>
@@ -37,11 +35,19 @@ export function BlockLibrary({
           onClick={onAddCta}
           className="w-full rounded-lg border border-slate-200 bg-white p-4 text-left transition-colors hover:border-indigo-400 hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
         >
-          <span className="block text-sm font-medium">
-            + Call to action
-          </span>
+          <span className="block text-sm font-medium">+ Call to action</span>
           <span className="mt-1 block text-xs text-slate-500">
             Invite visitors to take the next step.
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={onAddFeatures}
+          className="w-full rounded-lg border border-slate-200 bg-white p-4 text-left transition-colors hover:border-indigo-400 hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+        >
+          <span className="block text-sm font-medium">+ Features</span>
+          <span className="mt-1 block text-xs text-slate-500">
+            Highlight three benefits of your product or service.
           </span>
         </button>
       </div>

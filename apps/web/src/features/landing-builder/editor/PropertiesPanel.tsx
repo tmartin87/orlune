@@ -1,20 +1,16 @@
-import type {
-  BlockContentUpdate,
-  LandingBlock,
-} from "../types/landing-block";
-import { HeroImageUpload } from "./HeroImageUpload";
+import type { BlockContentUpdate, LandingBlock } from "../types/landing-block";
 
 type PropertiesPanelProps = {
   projectId: string;
   block: LandingBlock;
   onContentChange: (update: BlockContentUpdate) => void;
 };
+import { HeroImageUpload } from "./HeroImageUpload";
 
 const fieldClassName =
   "block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 disabled:cursor-not-allowed disabled:opacity-60";
 
-const labelClassName =
-  "block space-y-2 text-sm font-medium text-slate-700";
+const labelClassName = "block space-y-2 text-sm font-medium text-slate-700";
 
 export function PropertiesPanel({
   projectId,
@@ -22,17 +18,9 @@ export function PropertiesPanel({
   onContentChange,
 }: PropertiesPanelProps) {
   if (block.type === "hero") {
-    const isBackground = block.content.layout === "background";
-    const isSplit =
-      block.content.layout === "split" &&
-      Boolean(block.content.imageUrl?.trim());
-
     return (
       <aside className="space-y-5">
-        <h2 className="text-sm font-semibold text-slate-900">
-          Properties
-        </h2>
-
+        <h2 className="text-sm font-semibold text-slate-900">Properties</h2>
         <label className={labelClassName}>
           Layout
           <select
@@ -69,7 +57,10 @@ export function PropertiesPanel({
             className={fieldClassName}
             value={
               block.content.alignment ??
-              (isSplit ? "left" : "center")
+              (block.content.layout === "split" &&
+              block.content.imageUrl?.trim()
+                ? "left"
+                : "center")
             }
             onChange={(event) => {
               const alignment = event.target.value;
@@ -95,11 +86,11 @@ export function PropertiesPanel({
           Color theme
           <select
             className={fieldClassName}
-            disabled={isBackground}
+            disabled={block.content.layout === "background"}
             value={
-              isBackground
+              block.content.layout === "background"
                 ? "dark"
-                : block.content.theme ?? "light"
+                : (block.content.theme ?? "light")
             }
             onChange={(event) => {
               const theme = event.target.value;
@@ -119,14 +110,12 @@ export function PropertiesPanel({
             <option value="light">Light</option>
             <option value="dark">Dark</option>
           </select>
-
-          {isBackground && (
+          {block.content.layout === "background" && (
             <span className="block text-xs font-normal text-slate-500">
               Background images always use the dark theme for readability.
             </span>
           )}
         </label>
-
         <HeroImageUpload
           projectId={projectId}
           onUploaded={(url) =>
@@ -139,11 +128,11 @@ export function PropertiesPanel({
           }
         />
 
-        <label className={labelClassName}>
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
           Heading
           <input
             type="text"
-            className={fieldClassName}
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             value={block.content.heading}
             onChange={(event) =>
               onContentChange({
@@ -156,11 +145,11 @@ export function PropertiesPanel({
           />
         </label>
 
-        <label className={labelClassName}>
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
           Subheading
           <input
             type="text"
-            className={fieldClassName}
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             value={block.content.subheading}
             onChange={(event) =>
               onContentChange({
@@ -173,11 +162,11 @@ export function PropertiesPanel({
           />
         </label>
 
-        <label className={labelClassName}>
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
           Button text
           <input
             type="text"
-            className={fieldClassName}
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             value={block.content.buttonText}
             onChange={(event) =>
               onContentChange({
@@ -190,12 +179,12 @@ export function PropertiesPanel({
           />
         </label>
 
-        <label className={labelClassName}>
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
           Button URL
           <input
             type="url"
             placeholder="https://example.com"
-            className={fieldClassName}
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             value={block.content.buttonUrl ?? ""}
             onChange={(event) =>
               onContentChange({
@@ -208,12 +197,12 @@ export function PropertiesPanel({
           />
         </label>
 
-        <label className={labelClassName}>
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
           Image URL
           <input
             type="url"
             placeholder="https://example.com/image.jpg"
-            className={fieldClassName}
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             value={block.content.imageUrl ?? ""}
             onChange={(event) =>
               onContentChange({
@@ -226,12 +215,12 @@ export function PropertiesPanel({
           />
         </label>
 
-        <label className={labelClassName}>
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
           Image description
           <input
             type="text"
             placeholder="Describe what the image shows"
-            className={fieldClassName}
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             value={block.content.imageAlt ?? ""}
             onChange={(event) =>
               onContentChange({
@@ -250,15 +239,13 @@ export function PropertiesPanel({
   if (block.type === "cta") {
     return (
       <aside className="space-y-5">
-        <h2 className="text-sm font-semibold text-slate-900">
-          Properties
-        </h2>
+        <h2 className="text-sm font-semibold text-slate-900">Properties</h2>
 
-        <label className={labelClassName}>
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
           Heading
           <input
             type="text"
-            className={fieldClassName}
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             value={block.content.heading}
             onChange={(event) =>
               onContentChange({
@@ -271,11 +258,11 @@ export function PropertiesPanel({
           />
         </label>
 
-        <label className={labelClassName}>
+        <label className="block space-y-2 text-sm font-medium text-slate-700">
           Button text
           <input
             type="text"
-            className={fieldClassName}
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             value={block.content.buttonText}
             onChange={(event) =>
               onContentChange({
@@ -290,6 +277,76 @@ export function PropertiesPanel({
       </aside>
     );
   }
+  if (block.type === "features") {
+    return (
+      <aside className="space-y-5">
+        <h2 className="text-sm font-semibold text-slate-900">Properties</h2>
 
+        <label className={labelClassName}>
+          Section heading
+          <input
+            type="text"
+            className={fieldClassName}
+            value={block.content.heading}
+            onChange={(event) =>
+              onContentChange({
+                blockId: block.id,
+                type: "features",
+                field: "heading",
+                value: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        {block.content.items.map((item, index) => (
+          <fieldset
+            key={item.id}
+            className="min-w-0 space-y-4 rounded-xl border border-slate-200 p-4"
+          >
+            <legend className="px-2 text-sm font-semibold text-slate-900">
+              Feature {index + 1}
+            </legend>
+
+            <label className={labelClassName}>
+              Title
+              <input
+                type="text"
+                className={fieldClassName}
+                value={item.title}
+                onChange={(event) =>
+                  onContentChange({
+                    blockId: block.id,
+                    type: "features",
+                    field: "title",
+                    itemId: item.id,
+                    value: event.target.value,
+                  })
+                }
+              />
+            </label>
+
+            <label className={labelClassName}>
+              Description
+              <textarea
+                rows={3}
+                className={`${fieldClassName} resize-y`}
+                value={item.description}
+                onChange={(event) =>
+                  onContentChange({
+                    blockId: block.id,
+                    type: "features",
+                    field: "description",
+                    itemId: item.id,
+                    value: event.target.value,
+                  })
+                }
+              />
+            </label>
+          </fieldset>
+        ))}
+      </aside>
+    );
+  }
   return null;
 }

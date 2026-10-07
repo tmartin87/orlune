@@ -37,9 +37,27 @@ export const ctaBlockSchema = z.object({
   }),
 });
 
+export const featuresBlockSchema = z.object({
+  id: z.string(),
+  type: z.literal("features"),
+  content: z.object({
+    heading: z.string(),
+    items: z
+      .array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          description: z.string(),
+        }),
+      )
+      .length(3),
+  }),
+});
+
 export const landingBlockSchema = z.discriminatedUnion("type", [
   heroBlockSchema,
   ctaBlockSchema,
+  featuresBlockSchema,
 ]);
 
 export const saveLandingSchema = z.object({
@@ -50,3 +68,4 @@ export type HeroBlock = z.infer<typeof heroBlockSchema>;
 export type CtaBlock = z.infer<typeof ctaBlockSchema>;
 export type LandingBlock = z.infer<typeof landingBlockSchema>;
 export type SaveLandingInput = z.infer<typeof saveLandingSchema>;
+export type FeaturesBlock = z.infer<typeof featuresBlockSchema>;

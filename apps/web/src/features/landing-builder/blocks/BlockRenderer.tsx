@@ -133,6 +133,41 @@ export function BlockRenderer({
         </section>
       );
     }
+    case "features":
+      return (
+        <section className="rounded-lg bg-white px-6 py-16 sm:px-10">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="mx-auto max-w-3xl break-words text-center text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              {block.content.heading}
+            </h2>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {block.content.items.map((item, index) => (
+                <article
+                  key={item.id}
+                  className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-6"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 text-sm font-semibold text-indigo-700"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+
+                  <h3 className="mt-5 break-words text-xl font-semibold text-slate-900">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-3 break-words text-base leading-relaxed text-slate-600">
+                    {item.description}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
     case "cta":
       return (
         <section className="rounded-lg bg-slate-900 px-6 py-12 text-center">

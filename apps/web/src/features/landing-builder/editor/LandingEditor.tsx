@@ -73,6 +73,38 @@ export function LandingEditor({
     setBlocks((currentBlocks) => [...currentBlocks, cta]);
   };
 
+  const addFeatures = () => {
+    onDraftChange();
+
+    const features: LandingBlock = {
+      id: crypto.randomUUID(),
+      type: "features",
+      content: {
+        heading: "Everything you need",
+        items: [
+          {
+            id: crypto.randomUUID(),
+            title: "Easy to use",
+            description: "Get started quickly with a simple experience.",
+          },
+          {
+            id: crypto.randomUUID(),
+            title: "Made for you",
+            description: "Adapt the experience to your needs.",
+          },
+          {
+            id: crypto.randomUUID(),
+            title: "Ready to grow",
+            description: "Take the next step with confidence.",
+          },
+        ],
+      },
+    };
+
+    setBlocks((currentBlocks) => [...currentBlocks, features]);
+    setSelectedBlockId(features.id);
+  };
+
   const updateBlockContent = (update: BlockContentUpdate) => {
     onDraftChange();
 
@@ -80,6 +112,34 @@ export function LandingEditor({
       currentBlocks.map((block) => {
         if (block.id !== update.blockId || block.type !== update.type) {
           return block;
+        }
+        if (update.type === "features" && block.type === "features") {
+          if (update.field === "heading") {
+            return {
+              ...block,
+              content: {
+                ...block.content,
+                heading: update.value,
+              },
+            };
+          }
+
+          return {
+            ...block,
+            content: {
+              ...block.content,
+              items: block.content.items.map((item) => {
+                if (item.id !== update.itemId) {
+                  return item;
+                }
+
+                return {
+                  ...item,
+                  [update.field]: update.value,
+                };
+              }),
+            },
+          };
         }
 
         if (update.type === "hero" && block.type === "hero") {
@@ -236,7 +296,11 @@ export function LandingEditor({
 
       <div className="grid flex-1 grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)_280px]">
         <aside className="border-r border-slate-200 bg-white p-4">
-          <BlockLibrary onAddHero={addHero} onAddCta={addCta} />
+          <BlockLibrary
+            onAddHero={addHero}
+            onAddCta={addCta}
+            onAddFeatures={addFeatures}
+          />
         </aside>
 
         <section

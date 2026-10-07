@@ -274,6 +274,49 @@ export function PropertiesPanel({
             }
           />
         </label>
+        <label className={labelClassName}>
+          Button URL
+          <input
+            type="url"
+            placeholder="https://example.com"
+            className={fieldClassName}
+            value={block.content.buttonUrl ?? ""}
+            onChange={(event) =>
+              onContentChange({
+                blockId: block.id,
+                type: "cta",
+                field: "buttonUrl",
+                value: event.target.value,
+              })
+            }
+          />
+        </label>
+
+        <label className={labelClassName}>
+          Color theme
+          <select
+            className={fieldClassName}
+            value={block.content.theme ?? "dark"}
+            onChange={(event) => {
+              const theme = event.target.value;
+
+              if (theme !== "light" && theme !== "dark") {
+                return;
+              }
+
+              onContentChange({
+                blockId: block.id,
+                type: "cta",
+                field: "theme",
+                value: theme,
+              });
+            }}
+          >
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+        
       </aside>
     );
   }

@@ -211,20 +211,46 @@ export function BlockRenderer({
       );
     }
 
-    case "cta":
+    case "cta": {
+      const buttonUrl = getSafeButtonUrl(block.content.buttonUrl);
+      const isDark = (block.content.theme ?? "dark") === "dark";
+
+      const buttonClassName = [
+        "mt-6 inline-block max-w-full rounded-lg px-6 py-3",
+        "break-words font-medium transition-colors",
+        "focus-visible:outline-2 focus-visible:outline-offset-4",
+        isDark
+          ? "bg-white text-slate-900 hover:bg-slate-100"
+          : "bg-indigo-600 text-white hover:bg-indigo-700",
+      ].join(" ");
+
       return (
-        <section className="rounded-lg bg-slate-900 px-6 py-12 text-center">
-          <h2 className="mx-auto max-w-xl break-words text-2xl font-semibold text-white">
+        <section
+          className={[
+            "rounded-lg px-6 py-12 text-center sm:px-10",
+            isDark ? "bg-slate-900" : "bg-slate-50",
+          ].join(" ")}
+        >
+          <h2
+            className={[
+              "mx-auto max-w-xl break-words text-2xl font-semibold",
+              isDark ? "text-white" : "text-slate-900",
+            ].join(" ")}
+          >
             {block.content.heading}
           </h2>
 
-          <button
-            type="button"
-            className="mt-6 max-w-full rounded-lg bg-white px-6 py-3 font-medium text-slate-900 break-words hover:bg-slate-100"
-          >
-            {block.content.buttonText}
-          </button>
+          {!isEditing && buttonUrl ? (
+            <a href={buttonUrl} className={buttonClassName}>
+              {block.content.buttonText}
+            </a>
+          ) : (
+            <button type="button" disabled className={buttonClassName}>
+              {block.content.buttonText}
+            </button>
+          )}
         </section>
       );
+    }
   }
 }

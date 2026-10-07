@@ -34,6 +34,14 @@ export const ctaBlockSchema = z.object({
   content: z.object({
     heading: z.string(),
     buttonText: z.string(),
+    buttonUrl: z
+      .string()
+      .trim()
+      .url()
+      .regex(/^https?:\/\//i, "Use an HTTP or HTTPS URL")
+      .or(z.literal(""))
+      .optional(),
+    theme: z.enum(["light", "dark"]).optional(),
   }),
 });
 

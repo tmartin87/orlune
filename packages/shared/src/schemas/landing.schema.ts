@@ -22,6 +22,9 @@ export const heroBlockSchema = z.object({
       .or(z.literal(""))
       .optional(),
     imageAlt: z.string().optional(),
+    layout: z.enum(["centered", "split", "background"]).optional(),
+    alignment: z.enum(["left", "center"]).optional(),
+    theme: z.enum(["light", "dark"]).optional(),
   }),
 });
 

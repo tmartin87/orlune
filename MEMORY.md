@@ -1,5 +1,30 @@
 # Contexto de Orlune
 
+## Estado actual — 8 de octubre de 2026
+
+Esta sección prevalece sobre los próximos pasos y estados de Git históricos de abajo.
+
+### Bloques implementados e integrados
+
+- e3ed4a4: Hero con layouts centered, split y background; alineación left/center y tema light/dark. Imagen de fondo fuerza aspecto oscuro y desactiva el selector de tema. Campos opcionales para mantener compatibles los bloques antiguos. Usuario confirmó comprobaciones locales y funcionamiento en Render.
+- 57d1770: bloque features con título de sección y tres tarjetas fijas, cada una con id, título y descripción editables. Biblioteca, renderizador, panel, tipos y actualización por itemId conectados. Durante la revisión se detectó la eliminación accidental de los selectores del Hero y se dieron instrucciones para recuperarlos; el usuario confirmó la corrección antes del commit. Confirmó pruebas locales; no dejó una confirmación separada inequívoca de la prueba de Features en Render.
+- ac0be94: bloque imageText con título, descripción, imagen opcional, texto alternativo y posición izquierda/derecha. Reutiliza HeroImageUpload. En móvil la imagen aparece encima; sin imagen se muestra solo texto. Diff revisado por el asistente; el usuario confirmó el resultado después de las instrucciones de integración y prueba en Render.
+- 5b21516: CTA con buttonUrl HTTP/HTTPS opcional y tema light/dark opcional (dark por defecto). Enlace activo en preview/público y botón desactivado en editor. Usuario reportó todo correcto; el 8 de octubre se detectó que el commit seguía fuera de main y se guio su integración. La revisión local posterior confirma que ya está en main. No se ha verificado independientemente el último despliegue ni el CTA público tras esa integración.
+- Las pruebas funcionales y las compilaciones/lint reportadas durante estos cambios fueron realizadas por el usuario. Las revisiones del asistente fueron lecturas de código y diffs; no atribuirle pruebas de navegador.
+
+### Punto exacto para retomar
+
+- Próxima tarea acordada: página de inicio de Orlune en /, distinta del login y de las landings generadas. La última lectura del router todavía no incluye esa ruta.
+- Diseño previsto: Hero que explique Orlune, muestra visual de una landing, tres pasos (crear, personalizar y publicar), botón Entrar a /login. Primero Tailwind adaptable; después animaciones.
+- Se indicó crear feature/home-page, pero NO está creada/activa según la última comprobación: seguimos en main. Antes de modificar código, el usuario debe crear la rama con git switch -c feature/home-page.
+- Prioridad acordada: bloques (ya implementados), página de inicio, capa pequeña de GSAP en Hero/preview y ensayo. Demo el 15 de octubre; reservar tiempo para pruebas y respaldo.
+- Siguen pendientes el aviso de chunks >500 kB, restos de Kanban y revisión de caducidad del PostgreSQL gratuito creado el 6 de octubre. Detalles de despliegue y rotación de credenciales están en la sección siguiente.
+
+### Git y colaboración
+
+- Antes de esta edición: main...origin/main, HEAD 5b21516, solo tmp/ sin seguimiento. No se ha realizado fetch en esta comprobación; la igualdad es con la referencia local origin/main.
+- El usuario escribe código y ejecuta Git. Esta actualización de MEMORY.md está expresamente solicitada; no se han modificado archivos de aplicación ni creado commits. tmp/ continúa fuera del alcance.
+
 ## Despliegue completado — 6 de octubre de 2026, cierre de la tarde
 
 Esta sección prevalece sobre todas las notas anteriores de despliegue pendientes que aparecen más abajo.

@@ -4,12 +4,18 @@ import { ProtectedRoute } from "../features/auth/ProtectedRoute";
 import { LoginPage } from "../pages/LoginPage";
 import { ProjectsPage } from "../pages/ProjectsPage";
 import { PublicLandingPage } from "../pages/PublicLandingPage";
+import { HomePage } from "../pages/HomePage";
 
 export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />,
+  },
   {
     path: "/login",
     element: <LoginPage />,
   },
+  
   {
   path: "/projects/:projectId/editor",
   element: (

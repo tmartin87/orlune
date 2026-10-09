@@ -10,6 +10,13 @@ import { BlockLibrary } from "./BlockLibrary";
 
 import type { BlockContentUpdate } from "../types/landing-block";
 
+const blockLabels: Record<LandingBlock["type"], string> = {
+  hero: "Hero",
+  cta: "Call to action",
+  features: "Features",
+  imageText: "Image and text",
+};
+
 type LandingEditorProps = {
   projectId: string;
   initialBlocks: LandingBlock[];
@@ -32,9 +39,7 @@ export function LandingEditor({
   onDraftChange,
 }: LandingEditorProps) {
   const [blocks, setBlocks] = useState<LandingBlock[]>(initialBlocks);
-
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
-
   const [isPreview, setIsPreview] = useState(false);
 
   const shouldReduceMotion = useReducedMotion();
@@ -132,6 +137,7 @@ export function LandingEditor({
         if (block.id !== update.blockId || block.type !== update.type) {
           return block;
         }
+
         if (update.type === "features" && block.type === "features") {
           if (update.field === "heading") {
             return {
@@ -267,7 +273,9 @@ export function LandingEditor({
             No blocks to preview yet.
           </p>
         ) : (
-          blocks.map((block) => <BlockRenderer key={block.id} block={block} />)
+          blocks.map((block) => (
+            <BlockRenderer key={block.id} block={block} />
+          ))
         )}
       </main>
     );
@@ -275,16 +283,27 @@ export function LandingEditor({
 
   return (
     <main className="flex min-h-screen flex-col">
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4">
-        <div className="flex items-center gap-4">
+      <header className="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4 shadow-sm">
+        <div className="flex min-w-0 items-center gap-4">
           <Link
             to="/projects"
-            className="text-sm text-slate-500 hover:text-slate-900"
+            aria-label="Orlune — back to projects"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-lg font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-500"
           >
-            ← Projects
+            O
           </Link>
 
-          <h1 className="text-lg font-semibold">Landing Editor</h1>
+          <div className="min-w-0">
+            <Link
+              to="/projects"
+              className="text-xs font-medium text-slate-500 transition-colors hover:text-indigo-600"
+            >
+              ← All projects
+            </Link>
+            <h1 className="text-base font-semibold tracking-tight text-slate-900">
+              Landing editor
+            </h1>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -300,7 +319,7 @@ export function LandingEditor({
             type="button"
             onClick={() => onSave(blocks)}
             disabled={isSaving || isPublishing}
-            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-50"
+            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSaving ? "Saving..." : "Save"}
           </button>
@@ -323,8 +342,8 @@ export function LandingEditor({
         {feedback}
       </div>
 
-      <div className="grid flex-1 grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)_280px]">
-        <aside className="border-r border-slate-200 bg-white p-4">
+      <div className="grid flex-1 grid-cols-1 xl:grid-cols-[220px_minmax(0,1fr)_340px]">
+        <aside className="border-b border-slate-200 bg-white p-4 xl:border-b-0 xl:border-r">
           <BlockLibrary
             onAddHero={addHero}
             onAddCta={addCta}
@@ -335,23 +354,21 @@ export function LandingEditor({
 
         <section
           aria-label="Landing canvas"
-          className="min-w-0 bg-slate-100 p-6"
+          className="min-w-0 bg-slate-100/80 p-4 sm:p-6"
         >
-          <div className="mx-auto max-w-4xl space-y-4">
+          <div className="mx-auto max-w-5xl space-y-5">
             {blocks.length === 0 && (
               <p className="rounded-xl border-2 border-dashed border-slate-300 p-12 text-center text-slate-500">
                 Add a block to start building your landing.
               </p>
             )}
+
             <AnimatePresence initial={false}>
               {blocks.map((block, index) => (
                 <motion.div
-                  layout={shouldReduceMotion ? false : "position"}
-                  exit={{
-                    opacity: 0,
-                    y: shouldReduceMotion ? 0 : -12,
-                  }}
                   key={block.id}
+                  onClick={() => setSelectedBlockId(block.id)}
+                  layout={shouldReduceMotion ? false : "position"}
                   initial={{
                     opacity: 0,
                     y: shouldReduceMotion ? 0 : 16,
@@ -360,62 +377,81 @@ export function LandingEditor({
                     opacity: 1,
                     y: 0,
                   }}
+                  exit={{
+                    opacity: 0,
+                    y: shouldReduceMotion ? 0 : -12,
+                  }}
                   transition={{
                     duration: shouldReduceMotion ? 0 : 0.2,
                     ease: "easeOut",
                   }}
-                  className={`rounded-xl border bg-white p-5 ${
+                  className={`cursor-pointer rounded-2xl border bg-white p-3 shadow-sm ${
                     selectedBlockId === block.id
-                      ? "border-indigo-500 ring-2 ring-indigo-200"
+                      ? "border-indigo-500 ring-2 ring-indigo-100"
                       : "border-slate-200"
                   }`}
                 >
-                  <div className="mb-4 flex gap-3 border-b border-slate-100 pb-3 text-sm">
+                  <div className="mb-3 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
                     <button
                       type="button"
                       onClick={() => setSelectedBlockId(block.id)}
-                      className="font-medium text-indigo-600"
+                      aria-pressed={selectedBlockId === block.id}
+                      className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 ${
+                        selectedBlockId === block.id
+                          ? "bg-indigo-50 text-indigo-700"
+                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                      }`}
                     >
-                      Select
+                      {blockLabels[block.type]}
                     </button>
 
-                    <button
-                      type="button"
-                      onClick={() => moveBlock(block.id, "up")}
-                      disabled={index === 0}
-                      aria-label="Move block up"
-                      className="disabled:opacity-30"
+                    <div
+                      className="ml-auto flex items-center gap-1"
+                      onClick={(event) => event.stopPropagation()}
                     >
-                      ↑
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => moveBlock(block.id, "up")}
+                        disabled={index === 0}
+                        aria-label={`Move ${blockLabels[block.type]} up`}
+                        title="Move up"
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed disabled:opacity-30"
+                      >
+                        <span aria-hidden="true">↑</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => moveBlock(block.id, "down")}
-                      disabled={index === blocks.length - 1}
-                      aria-label="Move block down"
-                      className="disabled:opacity-30"
-                    >
-                      ↓
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => moveBlock(block.id, "down")}
+                        disabled={index === blocks.length - 1}
+                        aria-label={`Move ${blockLabels[block.type]} down`}
+                        title="Move down"
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed disabled:opacity-30"
+                      >
+                        <span aria-hidden="true">↓</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => deleteBlock(block.id)}
-                      className="ml-auto text-red-600"
-                    >
-                      Delete
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => deleteBlock(block.id)}
+                        aria-label={`Delete ${blockLabels[block.type]}`}
+                        className="ml-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
 
-                  <BlockRenderer block={block} isEditing />
+                  <div className="pointer-events-none">
+                    <BlockRenderer block={block} isEditing />
+                  </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           </div>
         </section>
 
-        <div className="border-l border-slate-200 bg-white p-4">
+        <div className="min-w-0 border-t border-slate-200 bg-white p-6 xl:border-l xl:border-t-0">
           {selectedBlock ? (
             <PropertiesPanel
               key={selectedBlock.id}

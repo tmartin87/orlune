@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 
-import { LoginForm } from "../features/auth/LoginForm";
+import { RegisterForm } from "../features/auth/RegisterForm";
 
-export function LoginPage() {
+export function RegisterPage() {
   return (
     <main className="min-h-screen bg-slate-50 lg:grid lg:grid-cols-2">
       <section
-        aria-labelledby="intro-title"
-        className="relative hidden overflow-hidden bg-slate-950 p-12 text-white lg:flex lg:flex-col lg:justify-between xl:p-16"
+        aria-labelledby="register-intro-title"
+        className="hidden bg-slate-950 p-12 text-white lg:flex lg:flex-col lg:justify-between xl:p-16"
       >
         <Link
           to="/"
           aria-label="Orlune home"
-          className="relative z-10 flex w-fit items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-400"
+          className="flex w-fit items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-400"
         >
           <span
             aria-hidden="true"
@@ -25,13 +25,13 @@ export function LoginPage() {
           </span>
         </Link>
 
-        <div className="relative z-10 max-w-lg py-16">
+        <div className="max-w-lg py-16">
           <p className="text-xs font-semibold uppercase tracking-widest text-indigo-300">
             Your ideas, ready for the web
           </p>
 
           <h2
-            id="intro-title"
+            id="register-intro-title"
             className="mt-6 text-5xl font-bold leading-tight tracking-tight xl:text-6xl"
           >
             A place for your next big idea.
@@ -42,46 +42,30 @@ export function LoginPage() {
             Publish something that feels like you.
           </p>
 
-          <div
-            aria-hidden="true"
-            className="mt-12 max-w-sm rounded-2xl border border-slate-700 bg-slate-900 p-5 shadow-xl"
-          >
-            <div className="mb-5 flex gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-slate-600" />
-              <span className="h-2 w-2 rounded-full bg-slate-600" />
-              <span className="h-2 w-2 rounded-full bg-slate-600" />
-            </div>
-
-            <div className="rounded-xl bg-indigo-500/15 p-6">
-              <div className="h-3 w-3/4 rounded bg-indigo-200" />
-              <div className="mt-3 h-2 w-full rounded bg-slate-600" />
-              <div className="mt-2 h-2 w-2/3 rounded bg-slate-600" />
-              <div className="mt-5 h-7 w-24 rounded-lg bg-indigo-500" />
-            </div>
-
-            <div className="mt-3 grid grid-cols-3 gap-3">
-              {[1, 2, 3].map((item) => (
-                <div
-                  key={item}
-                  className="rounded-lg border border-slate-700 p-3"
+          <ol className="mt-12 space-y-6">
+            {[
+              "Create your first project.",
+              "Make it yours with visual blocks.",
+              "Publish and share your page.",
+            ].map((step, index) => (
+              <li key={step} className="flex items-center gap-4">
+                <span
+                  aria-hidden="true"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/15 text-sm font-semibold text-indigo-300"
                 >
-                  <div className="h-4 w-4 rounded bg-indigo-400/40" />
-                  <div className="mt-3 h-1.5 w-full rounded bg-slate-600" />
-                  <div className="mt-2 h-1.5 w-2/3 rounded bg-slate-700" />
-                </div>
-              ))}
-            </div>
-          </div>
+                  {index + 1}
+                </span>
+                <span className="text-sm text-slate-300">
+                  {step}
+                </span>
+              </li>
+            ))}
+          </ol>
         </div>
 
-        <p className="relative z-10 text-xs text-slate-400">
+        <p className="text-xs text-slate-400">
           Build something that moves people.
         </p>
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-indigo-600/10 blur-3xl"
-        />
       </section>
 
       <div className="flex min-h-screen flex-col px-6 py-8 sm:px-10">
@@ -94,7 +78,7 @@ export function LoginPage() {
 
         <div className="flex flex-1 items-center justify-center py-12">
           <section
-            aria-labelledby="login-title"
+            aria-labelledby="register-title"
             className="w-full max-w-md"
           >
             <div className="mb-8 flex items-center gap-3 lg:hidden">
@@ -110,31 +94,31 @@ export function LoginPage() {
             </div>
 
             <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600">
-              Your workspace awaits
+              Your next chapter
             </p>
 
             <h1
-              id="login-title"
+              id="register-title"
               className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl"
             >
-              Welcome back.
+              Create your account.
             </h1>
 
             <p className="mt-3 text-sm leading-relaxed text-slate-500">
-              Sign in to continue building your landing pages.
+              Start building your first landing page with Orlune.
             </p>
 
             <div className="mt-8">
-              <LoginForm />
+              <RegisterForm />
             </div>
 
             <p className="mt-6 text-sm text-slate-500">
-              Don’t have an account?{" "}
+              Already have an account?{" "}
               <Link
-                to="/register"
+                to="/login"
                 className="rounded font-semibold text-indigo-600 hover:text-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
-                Create an account
+                Sign in
               </Link>
             </p>
           </section>

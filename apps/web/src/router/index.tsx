@@ -5,6 +5,7 @@ import { LoginPage } from "../pages/LoginPage";
 import { ProjectsPage } from "../pages/ProjectsPage";
 import { PublicLandingPage } from "../pages/PublicLandingPage";
 import { HomePage } from "../pages/HomePage";
+import { RegisterPage } from "../pages/RegisterPage";
 
 export const router = createBrowserRouter([
   {
@@ -15,33 +16,36 @@ export const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
-  
   {
-  path: "/projects/:projectId/editor",
-  element: (
-    <ProtectedRoute>
-      <LandingEditorPage />
-    </ProtectedRoute>
-  ),
-},
+    path: "/register",
+    element: <RegisterPage />,
+  },
   {
-  path: "/projects",
-  element: (
-    <ProtectedRoute>
-      <ProjectsPage />
-    </ProtectedRoute>
-  ),
-},
- {
-  path: "/projects/:projectId",
-  element: (
-    <ProtectedRoute>
-      <LandingEditorPage />
-    </ProtectedRoute>
-  ),
-},
- {
-  path: "/p/:projectId",
-  element: <PublicLandingPage />,
-},
+    path: "/projects/:projectId/editor",
+    element: (
+      <ProtectedRoute>
+        <LandingEditorPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/projects",
+    element: (
+      <ProtectedRoute>
+        <ProjectsPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/projects/:projectId",
+    element: (
+      <ProtectedRoute>
+        <LandingEditorPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/p/:projectId",
+    element: <PublicLandingPage />,
+  },
 ]);

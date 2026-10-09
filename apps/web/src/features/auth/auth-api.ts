@@ -1,4 +1,8 @@
-import type { LoginUserInput } from "@orlune/shared";
+import type {
+  LoginUserInput,
+  RegisterUserInput,
+} from "@orlune/shared";
+
 import { api } from "../../lib/api";
 
 export type AuthUser = {
@@ -16,5 +20,12 @@ export function login(credentials: LoginUserInput) {
   return api<LoginResponse>("/auth/login", {
     method: "POST",
     body: JSON.stringify(credentials),
+  });
+}
+
+export function registerUser(input: RegisterUserInput) {
+  return api<AuthUser>("/auth/register", {
+    method: "POST",
+    body: JSON.stringify(input),
   });
 }

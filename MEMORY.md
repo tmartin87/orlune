@@ -1,5 +1,49 @@
 # Contexto de Orlune
 
+## Estado actual — 11 de octubre de 2026
+
+Esta sección prevalece sobre todos los estados y próximos pasos históricos de abajo.
+
+### Objetivo y colaboración
+
+- El usuario quiere la aplicación lista para el 15 de octubre; aclaró que no necesita preparar una presentación o ensayo de demo. Priorizar producto, diseño y pruebas.
+- El usuario escribe el código y ejecuta Git. El asistente lee, explica y proporciona archivos completos cuando se solicitan. No modificar código ni ejecutar operaciones de Git que cambien el estado sin petición expresa.
+- La lectura local vuelve a funcionar tras reiniciar Codex el 11 de octubre. Los fallos anteriores eran de la herramienta, no del proyecto.
+
+### Avances integrados desde la última actualización
+
+- dba70f9: página inicial de Orlune; e4e7d29: ajustes de espaciado y sección de pasos. La página de inicio ya existe. El usuario prefirió conservar los textos originales y un footer sencillo.
+- 7221e3b y ae62d62: mejoras del editor, propiedades, subida de imágenes, biblioteca, login y proyectos.
+- a1e52c2: página y formulario de registro, cliente de API y ruta pública /register; enlace desde login. El usuario confirmó funcionamiento local. No asumir verificación de correo o recuperación de contraseña implementadas.
+- 16731ee: rediseño del editor y preview de dispositivos, desarrollado en feature/editor-layout e integrado en main.
+
+### Diseño acordado e implementado en el editor
+
+- Referencias del usuario: distribución de un CMS, degradados y variaciones tonales de un dashboard, y paleta azul de otra referencia. La maqueta del usuario define la distribución.
+- Cabecera fija con acceso a proyectos, Preview, Save y Publish. Biblioteca a la izquierda; bloques seleccionables y reordenables en el centro; propiedades debajo del centro; preview general a la derecha.
+- Scroll independiente de los paneles en escritorio. El preview lateral está visible desde xl; se conserva el Preview completo.
+- Los apartados Content, Design, Image y los de Features se distribuyen horizontalmente en una cuadrícula adaptable. PropertySection usa details sin open: comienzan plegados.
+- Paleta del editor: acentos sky, superficies claras y degradado azul en biblioteca y panel inferior. El usuario rechazó fondo inferior blanco con cabeceras azules; la elección final es degradado suave con desplegables blancos.
+- Los colores de las landings generadas son independientes de la interfaz del editor; los botones índigo de los bloques no se cambiaron por este rediseño.
+- LandingLivePreview.tsx renderiza el borrador mediante un portal React en un iframe, copia los estilos del documento y utiliza un viewport de 1280 × 800 para Desktop y 390 × 844 para Mobile.
+- Marcos de monitor y teléfono fijos, contenido con scroll dentro de la pantalla. ResizeObserver calcula la reducción visual para encajar el dispositivo. Las ediciones del borrador se reflejan sin guardar; los enlaces de esta miniatura no navegan.
+- Expand / Collapse amplía la columna derecha del ancho habitual de 340 px a aproximadamente el 45 % de la cuadrícula; mantiene el editor y sus controles disponibles.
+- Se mantienen edición, selección, reordenación, subida de imágenes, Save y Publish y las animaciones Motion del editor.
+
+### Comprobaciones y Git
+
+- El usuario confirmó el resultado visual, el funcionamiento del preview con marcos y scroll y, después, Expand / Collapse. Confirmó lint y build web correctos antes de los últimos retoques de color y ampliación; no aportó una nueva salida detallada de esas comprobaciones tras el último cambio.
+- Tras las instrucciones de merge, push y prueba en Render respondió «todo ok». Es confirmación general del usuario, no una comprobación independiente del asistente en producción.
+- Lectura local antes de esta actualización: main...origin/main, HEAD 16731ee y únicamente tmp/ sin seguimiento. No se hizo fetch; origin/main es la referencia local.
+- Esta edición de MEMORY.md está expresamente autorizada. No se han modificado archivos de aplicación ni realizado commits. tmp/ sigue sin revisarse y queda fuera de los commits.
+
+### Próximo trabajo
+
+- Extender la nueva identidad azul a Projects, Login y Register; revisar después la coherencia con Home. Comprobar la rama y crear una rama de trabajo antes de cambios de código.
+- El usuario priorizó afinar el diseño de toda la aplicación antes de las animaciones GSAP. Motion del editor ya existe; GSAP para landing/preview sigue pendiente.
+- Se comentó como posible mejora futura un zoom del lienzo central, pero no está implementado ni es el próximo paso acordado.
+- Pendientes históricos vigentes: revisar bundle >500 kB, restos de Kanban, recorrido completo de la aplicación y caducidad del PostgreSQL gratuito creado el 6 de octubre. No hay recordatorios automáticos configurados.
+
 ## Estado actual — 8 de octubre de 2026
 
 Esta sección prevalece sobre los próximos pasos y estados de Git históricos de abajo.

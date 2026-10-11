@@ -11,8 +11,11 @@ type PropertiesPanelProps = {
   onContentChange: (update: BlockContentUpdate) => void;
 };
 
+const panelClassName =
+  "grid grid-cols-1 items-start gap-4 md:grid-cols-2 2xl:grid-cols-3";
+
 const fieldClassName =
-  "block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 disabled:cursor-not-allowed disabled:opacity-60";
+  "block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 disabled:cursor-not-allowed disabled:opacity-60";
 
 const labelClassName =
   "block space-y-2 text-sm font-medium text-slate-700";
@@ -29,8 +32,8 @@ export function PropertiesPanel({
       Boolean(block.content.imageUrl?.trim());
 
     return (
-      <aside className="space-y-4">
-        <div>
+      <aside className={panelClassName}>
+        <div className="col-span-full">
           <h2 className="text-base font-semibold text-slate-900">
             Hero
           </h2>
@@ -263,8 +266,8 @@ export function PropertiesPanel({
 
   if (block.type === "cta") {
     return (
-      <aside className="space-y-4">
-        <div>
+      <aside className={panelClassName}>
+        <div className="col-span-full">
           <h2 className="text-base font-semibold text-slate-900">
             Call to action
           </h2>
@@ -359,8 +362,8 @@ export function PropertiesPanel({
 
   if (block.type === "features") {
     return (
-      <aside className="space-y-4">
-        <div>
+      <aside className={panelClassName}>
+        <div className="col-span-full">
           <h2 className="text-base font-semibold text-slate-900">
             Features
           </h2>
@@ -436,8 +439,8 @@ export function PropertiesPanel({
 
   if (block.type === "imageText") {
     return (
-      <aside className="space-y-4">
-        <div>
+      <aside className={panelClassName}>
+        <div className="col-span-full">
           <h2 className="text-base font-semibold text-slate-900">
             Image and text
           </h2>

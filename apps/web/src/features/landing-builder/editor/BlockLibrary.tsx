@@ -25,11 +25,11 @@ function BlockOption({
       type="button"
       onClick={onClick}
       aria-label={`Add ${title} block`}
-      className="group w-full overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition-colors hover:border-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+      className="group w-full overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition-colors hover:border-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
     >
       <div
         aria-hidden="true"
-        className="flex h-20 items-center justify-center border-b border-slate-100 bg-slate-50 px-5 transition-colors group-hover:bg-indigo-50"
+        className="flex h-20 items-center justify-center border-b border-slate-100 bg-slate-50 px-5 transition-colors group-hover:bg-sky-50"
       >
         {children}
       </div>
@@ -41,7 +41,7 @@ function BlockOption({
           </span>
           <span
             aria-hidden="true"
-            className="flex h-5 w-5 items-center justify-center rounded-md bg-indigo-50 text-indigo-600"
+            className="flex h-5 w-5 items-center justify-center rounded-md bg-sky-50 text-sky-600"
           >
             +
           </span>
@@ -82,7 +82,7 @@ export function BlockLibrary({
             <div className="h-2 w-3/4 rounded bg-slate-700" />
             <div className="h-1.5 w-full rounded bg-slate-200" />
             <div className="h-1.5 w-2/3 rounded bg-slate-200" />
-            <div className="mt-1 h-3 w-10 rounded bg-indigo-500" />
+            <div className="mt-1 h-3 w-10 rounded bg-sky-500" />
           </div>
         </BlockOption>
 
@@ -97,7 +97,7 @@ export function BlockLibrary({
                 key={item}
                 className="space-y-2 rounded-md border border-slate-200 bg-white p-2"
               >
-                <div className="h-3 w-3 rounded bg-indigo-200" />
+                <div className="h-3 w-3 rounded bg-sky-200" />
                 <div className="h-1 w-full rounded bg-slate-300" />
                 <div className="h-1 w-3/4 rounded bg-slate-200" />
               </div>
@@ -111,8 +111,8 @@ export function BlockLibrary({
           onClick={onAddImageText}
         >
           <div className="grid w-full grid-cols-2 items-center gap-3">
-            <div className="flex h-12 items-center justify-center rounded-md bg-indigo-100">
-              <div className="h-6 w-6 rounded-full bg-indigo-300" />
+            <div className="flex h-12 items-center justify-center rounded-md bg-sky-100">
+              <div className="h-6 w-6 rounded-full bg-sky-300" />
             </div>
             <div className="space-y-2">
               <div className="h-2 w-full rounded bg-slate-600" />

@@ -89,7 +89,7 @@ export function HeroImageUpload({
           type="button"
           disabled={isUploading}
           onClick={() => inputRef.current?.click()}
-          className="flex-1 rounded-lg bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700 transition-colors hover:bg-indigo-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex-1 rounded-lg bg-sky-50 px-3 py-2 text-sm font-medium text-sky-700 transition-colors hover:bg-sky-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isUploading
             ? "Uploading..."
@@ -115,7 +115,7 @@ export function HeroImageUpload({
       </p>
 
       {isUploading && (
-        <p role="status" className="text-sm text-indigo-600">
+        <p role="status" className="text-sm text-sky-600">
           Uploading image…
         </p>
       )}

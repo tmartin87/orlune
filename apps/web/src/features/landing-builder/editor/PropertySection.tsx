@@ -10,12 +10,10 @@ export function PropertySection({
   children,
 }: PropertySectionProps) {
   return (
-    <details
-      open
-      className="group rounded-xl border border-slate-200 bg-white"
-    >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 [&::-webkit-details-marker]:hidden">
+    <details className="group min-w-0 rounded-xl border border-slate-200 bg-white">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 [&::-webkit-details-marker]:hidden">
         {title}
+
         <span
           aria-hidden="true"
           className="text-slate-400 group-open:rotate-180"

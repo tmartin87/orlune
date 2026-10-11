@@ -7,6 +7,7 @@ import type { LandingBlock } from "@orlune/shared";
 import { PropertiesPanel } from "./PropertiesPanel";
 import { BlockRenderer } from "../blocks/BlockRenderer";
 import { BlockLibrary } from "./BlockLibrary";
+import { LandingLivePreview } from "./LandingLivePreview";
 
 import type { BlockContentUpdate } from "../types/landing-block";
 
@@ -41,6 +42,7 @@ export function LandingEditor({
   const [blocks, setBlocks] = useState<LandingBlock[]>(initialBlocks);
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [isPreview, setIsPreview] = useState(false);
+  const [isPreviewExpanded, setIsPreviewExpanded] = useState(false);
 
   const shouldReduceMotion = useReducedMotion();
 
@@ -247,7 +249,7 @@ export function LandingEditor({
   if (isPreview) {
     return (
       <main className="min-h-screen bg-white">
-        <header className="flex items-center justify-between gap-4 border-b border-slate-200 px-6 py-4">
+        <header className="sticky top-0 z-50 flex items-center justify-between gap-4 border-b border-sky-100 bg-white px-6 py-4">
           <p className="text-sm font-medium text-slate-500">
             Preview · current draft
           </p>
@@ -255,7 +257,7 @@ export function LandingEditor({
           <button
             type="button"
             onClick={() => setIsPreview(false)}
-            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700"
+            className="rounded-lg bg-sky-700 px-4 py-2 text-sm font-medium text-white hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
           >
             Back to editor
           </button>
@@ -282,13 +284,13 @@ export function LandingEditor({
   }
 
   return (
-    <main className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4 shadow-sm">
+    <main className="flex min-h-screen flex-col bg-[#edf5fa] xl:h-dvh xl:overflow-hidden">
+      <header className="sticky top-0 z-50 flex shrink-0 flex-wrap items-center justify-between gap-4 border-b border-sky-100 bg-white px-6 py-4 shadow-sm">
         <div className="flex min-w-0 items-center gap-4">
           <Link
             to="/projects"
             aria-label="Orlune — back to projects"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-lg font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-500"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-700 text-lg font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500"
           >
             O
           </Link>
@@ -296,10 +298,11 @@ export function LandingEditor({
           <div className="min-w-0">
             <Link
               to="/projects"
-              className="text-xs font-medium text-slate-500 transition-colors hover:text-indigo-600"
+              className="text-xs font-medium text-slate-500 transition-colors hover:text-sky-700"
             >
               ← All projects
             </Link>
+
             <h1 className="text-base font-semibold tracking-tight text-slate-900">
               Landing editor
             </h1>
@@ -310,7 +313,7 @@ export function LandingEditor({
           <button
             type="button"
             onClick={() => setIsPreview(true)}
-            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+            className="rounded-lg border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-800 hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
           >
             Preview
           </button>
@@ -319,7 +322,7 @@ export function LandingEditor({
             type="button"
             onClick={() => onSave(blocks)}
             disabled={isSaving || isPublishing}
-            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSaving ? "Saving..." : "Save"}
           </button>
@@ -328,7 +331,7 @@ export function LandingEditor({
             type="button"
             onClick={() => onPublish(blocks)}
             disabled={isSaving || isPublishing}
-            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+            className="rounded-lg bg-sky-700 px-4 py-2 text-sm font-medium text-white hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isPublishing ? "Publishing..." : "Publish"}
           </button>
@@ -336,14 +339,20 @@ export function LandingEditor({
       </header>
 
       <div
-        className="space-y-1 bg-white px-6 py-2"
+        className="shrink-0 space-y-1 bg-white px-6 py-2"
         aria-label="Save and publish feedback"
       >
         {feedback}
       </div>
 
-      <div className="grid flex-1 grid-cols-1 xl:grid-cols-[220px_minmax(0,1fr)_340px]">
-        <aside className="border-b border-slate-200 bg-white p-4 xl:border-b-0 xl:border-r">
+      <div
+        className={`grid min-h-0 flex-1 grid-cols-1 xl:overflow-hidden ${
+          isPreviewExpanded
+            ? "xl:grid-cols-[220px_minmax(0,1fr)_minmax(340px,45%)]"
+            : "xl:grid-cols-[220px_minmax(0,1fr)_340px]"
+        }`}
+      >
+        <aside className="min-h-0 border-b border-sky-200 bg-gradient-to-b from-[#e0f0fa] via-[#c4e0f1] to-[#8ebedc] p-4 xl:overflow-y-auto xl:border-b-0 xl:border-r">
           <BlockLibrary
             onAddHero={addHero}
             onAddCta={addCta}
@@ -352,119 +361,129 @@ export function LandingEditor({
           />
         </aside>
 
-        <section
-          aria-label="Landing canvas"
-          className="min-w-0 bg-slate-100/80 p-4 sm:p-6"
-        >
-          <div className="mx-auto max-w-5xl space-y-5">
-            {blocks.length === 0 && (
-              <p className="rounded-xl border-2 border-dashed border-slate-300 p-12 text-center text-slate-500">
-                Add a block to start building your landing.
+        <div className="flex min-h-0 min-w-0 flex-col xl:overflow-hidden">
+          <section
+            aria-label="Landing canvas"
+            className="min-h-0 min-w-0 flex-1 bg-[#edf5fa] p-4 sm:p-6 xl:overflow-y-auto"
+          >
+            <div className="mx-auto max-w-5xl space-y-5">
+              {blocks.length === 0 && (
+                <p className="rounded-xl border-2 border-dashed border-sky-200 p-12 text-center text-slate-500">
+                  Add a block to start building your landing.
+                </p>
+              )}
+
+              <AnimatePresence initial={false}>
+                {blocks.map((block, index) => (
+                  <motion.div
+                    key={block.id}
+                    onClick={() => setSelectedBlockId(block.id)}
+                    layout={shouldReduceMotion ? false : "position"}
+                    initial={{
+                      opacity: 0,
+                      y: shouldReduceMotion ? 0 : 16,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      y: shouldReduceMotion ? 0 : -12,
+                    }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0 : 0.2,
+                      ease: "easeOut",
+                    }}
+                    className={`cursor-pointer rounded-2xl border bg-white p-3 shadow-sm ${
+                      selectedBlockId === block.id
+                        ? "border-sky-500 ring-2 ring-sky-100"
+                        : "border-slate-200"
+                    }`}
+                  >
+                    <div className="mb-3 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedBlockId(block.id)}
+                        aria-pressed={selectedBlockId === block.id}
+                        className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 ${
+                          selectedBlockId === block.id
+                            ? "bg-sky-50 text-sky-700"
+                            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                        }`}
+                      >
+                        {blockLabels[block.type]}
+                      </button>
+
+                      <div
+                        className="ml-auto flex items-center gap-1"
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => moveBlock(block.id, "up")}
+                          disabled={index === 0}
+                          aria-label={`Move ${blockLabels[block.type]} up`}
+                          title="Move up"
+                          className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-not-allowed disabled:opacity-30"
+                        >
+                          <span aria-hidden="true">↑</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => moveBlock(block.id, "down")}
+                          disabled={index === blocks.length - 1}
+                          aria-label={`Move ${blockLabels[block.type]} down`}
+                          title="Move down"
+                          className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-not-allowed disabled:opacity-30"
+                        >
+                          <span aria-hidden="true">↓</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => deleteBlock(block.id)}
+                          aria-label={`Delete ${blockLabels[block.type]}`}
+                          className="ml-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="pointer-events-none">
+                      <BlockRenderer block={block} isEditing />
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </section>
+
+          <div className="min-h-0 shrink-0 border-t border-sky-200 bg-gradient-to-r from-[#dceef9] via-[#edf6fc] to-[#e3f0f9] p-6 xl:max-h-[35dvh] xl:overflow-y-auto">
+            {selectedBlock ? (
+              <PropertiesPanel
+                key={selectedBlock.id}
+                projectId={projectId}
+                block={selectedBlock}
+                onContentChange={updateBlockContent}
+              />
+            ) : (
+              <p className="text-sm text-slate-500">
+                Select a block to edit its properties.
               </p>
             )}
-
-            <AnimatePresence initial={false}>
-              {blocks.map((block, index) => (
-                <motion.div
-                  key={block.id}
-                  onClick={() => setSelectedBlockId(block.id)}
-                  layout={shouldReduceMotion ? false : "position"}
-                  initial={{
-                    opacity: 0,
-                    y: shouldReduceMotion ? 0 : 16,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    y: shouldReduceMotion ? 0 : -12,
-                  }}
-                  transition={{
-                    duration: shouldReduceMotion ? 0 : 0.2,
-                    ease: "easeOut",
-                  }}
-                  className={`cursor-pointer rounded-2xl border bg-white p-3 shadow-sm ${
-                    selectedBlockId === block.id
-                      ? "border-indigo-500 ring-2 ring-indigo-100"
-                      : "border-slate-200"
-                  }`}
-                >
-                  <div className="mb-3 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedBlockId(block.id)}
-                      aria-pressed={selectedBlockId === block.id}
-                      className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 ${
-                        selectedBlockId === block.id
-                          ? "bg-indigo-50 text-indigo-700"
-                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                      }`}
-                    >
-                      {blockLabels[block.type]}
-                    </button>
-
-                    <div
-                      className="ml-auto flex items-center gap-1"
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => moveBlock(block.id, "up")}
-                        disabled={index === 0}
-                        aria-label={`Move ${blockLabels[block.type]} up`}
-                        title="Move up"
-                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed disabled:opacity-30"
-                      >
-                        <span aria-hidden="true">↑</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => moveBlock(block.id, "down")}
-                        disabled={index === blocks.length - 1}
-                        aria-label={`Move ${blockLabels[block.type]} down`}
-                        title="Move down"
-                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:cursor-not-allowed disabled:opacity-30"
-                      >
-                        <span aria-hidden="true">↓</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => deleteBlock(block.id)}
-                        aria-label={`Delete ${blockLabels[block.type]}`}
-                        className="ml-2 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="pointer-events-none">
-                    <BlockRenderer block={block} isEditing />
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
           </div>
-        </section>
-
-        <div className="min-w-0 border-t border-slate-200 bg-white p-6 xl:border-l xl:border-t-0">
-          {selectedBlock ? (
-            <PropertiesPanel
-              key={selectedBlock.id}
-              projectId={projectId}
-              block={selectedBlock}
-              onContentChange={updateBlockContent}
-            />
-          ) : (
-            <p className="text-sm text-slate-500">
-              Select a block to edit its properties.
-            </p>
-          )}
         </div>
+
+        <LandingLivePreview
+          blocks={blocks}
+          isExpanded={isPreviewExpanded}
+          onToggleExpanded={() =>
+            setIsPreviewExpanded((current) => !current)
+          }
+        />
       </div>
     </main>
   );

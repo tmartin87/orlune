@@ -90,6 +90,7 @@ export function ProjectsPage() {
             <span aria-hidden="true">
               {isCreateOpen ? "−" : "+"}
             </span>
+
             {isCreateOpen ? "Close form" : "New project"}
           </button>
         </div>
@@ -169,27 +170,74 @@ export function ProjectsPage() {
                 >
                   <Link
                     to={`/projects/${project.id}/editor`}
-                    className="group block rounded-t-2xl p-5 transition-colors hover:bg-sky-50/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+                    className="group block rounded-t-2xl transition-colors hover:bg-sky-50/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
                   >
-                    <div className="flex items-start gap-4">
+                    <div className="relative aspect-video overflow-hidden rounded-t-2xl border-b border-sky-100 bg-gradient-to-br from-[#e0f0fa] via-[#c4e0f1] to-[#8ebedc]">
                       <span
                         aria-hidden="true"
-                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#e0f0fa] to-[#a9cfe6] text-lg font-semibold text-sky-900"
+                        className="absolute inset-0 flex items-center justify-center text-5xl font-semibold text-sky-800"
                       >
                         {project.name.trim().charAt(0).toUpperCase() || "O"}
                       </span>
 
-                      <div className="min-w-0">
-                        <h2 className="break-words text-lg font-semibold group-hover:text-sky-800">
-                          {project.name}
-                        </h2>
+                      {project.coverImageUrl && (
+                        <img
+                          key={project.coverImageUrl}
+                          src={project.coverImageUrl}
+                          alt=""
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full bg-white object-cover"
+                          onError={(event) => {
+                            event.currentTarget.style.display = "none";
+                          }}
+                        />
+                      )}
+                    </div>
 
-                        <p className="mt-2 text-sm font-medium text-sky-700">
-                          Open editor
-                        </p>
+                    <div className="p-5">
+                      <h2 className="break-words text-lg font-semibold group-hover:text-sky-800">
+                        {project.name}
+                      </h2>
+
+                      <div className="mt-3 flex flex-wrap items-center gap-2">
+                        <span
+                          className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                            project.publishedAt
+                              ? "bg-emerald-50 text-emerald-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {project.publishedAt
+                            ? "Published"
+                            : "Not published"}
+                        </span>
+
+                        <span className="text-xs text-slate-500">
+                          {project.blockCount}{" "}
+                          {project.blockCount === 1
+                            ? "saved block"
+                            : "saved blocks"}
+                        </span>
                       </div>
+
+                      <p className="mt-4 text-sm font-medium text-sky-700">
+                        Open editor
+                      </p>
                     </div>
                   </Link>
+
+                  {project.publishedAt && (
+                    <div className="px-5 pb-4">
+                      <Link
+                        to={`/p/${project.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex rounded-lg border border-sky-200 px-3 py-2 text-xs font-medium text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+                      >
+                        View published
+                      </Link>
+                    </div>
+                  )}
 
                   <details className="border-t border-sky-100">
                     <summary className="cursor-pointer rounded-b-2xl px-5 py-3 text-sm font-medium text-slate-600 hover:text-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">

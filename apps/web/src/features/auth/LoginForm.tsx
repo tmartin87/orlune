@@ -66,7 +66,7 @@ export function LoginForm() {
           aria-invalid={Boolean(errors.email)}
           aria-describedby={errors.email ? "login-email-error" : undefined}
           {...register("email")}
-          className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 aria-invalid:border-red-500"
+          className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 aria-invalid:border-red-500"
         />
 
         {errors.email && (
@@ -98,7 +98,7 @@ export function LoginForm() {
             errors.password ? "login-password-error" : undefined
           }
           {...register("password")}
-          className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 aria-invalid:border-red-500"
+          className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 aria-invalid:border-red-500"
         />
 
         {errors.password && (
@@ -124,7 +124,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-wait disabled:opacity-60"
+        className="w-full rounded-lg bg-sky-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-wait disabled:opacity-60"
       >
         {isSubmitting ? "Signing in..." : "Sign in"}
       </button>

@@ -4,29 +4,30 @@ import { RegisterForm } from "../features/auth/RegisterForm";
 
 export function RegisterPage() {
   return (
-    <main className="min-h-screen bg-slate-50 lg:grid lg:grid-cols-2">
+    <main className="min-h-screen bg-[#f5f9fc] lg:grid lg:grid-cols-2">
       <section
         aria-labelledby="register-intro-title"
-        className="hidden bg-slate-950 p-12 text-white lg:flex lg:flex-col lg:justify-between xl:p-16"
+        className="hidden bg-gradient-to-br from-[#e0f0fa] via-[#c4e0f1] to-[#8ebedc] p-12 text-slate-900 lg:flex lg:flex-col lg:justify-between xl:p-16"
       >
         <Link
           to="/"
           aria-label="Orlune home"
-          className="flex w-fit items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-400"
+          className="flex w-fit items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700"
         >
           <span
             aria-hidden="true"
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-lg font-bold"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-700 text-lg font-bold text-white"
           >
             O
           </span>
+
           <span className="text-lg font-semibold tracking-tight">
             Orlune
           </span>
         </Link>
 
         <div className="max-w-lg py-16">
-          <p className="text-xs font-semibold uppercase tracking-widest text-indigo-300">
+          <p className="text-xs font-semibold uppercase tracking-widest text-sky-800">
             Your ideas, ready for the web
           </p>
 
@@ -37,7 +38,7 @@ export function RegisterPage() {
             A place for your next big idea.
           </h2>
 
-          <p className="mt-6 max-w-md text-lg leading-relaxed text-slate-300">
+          <p className="mt-6 max-w-md text-lg leading-relaxed text-slate-700">
             Start with a few blocks. Add your words and images.
             Publish something that feels like you.
           </p>
@@ -51,11 +52,12 @@ export function RegisterPage() {
               <li key={step} className="flex items-center gap-4">
                 <span
                   aria-hidden="true"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/15 text-sm font-semibold text-indigo-300"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/80 text-sm font-semibold text-sky-800"
                 >
                   {index + 1}
                 </span>
-                <span className="text-sm text-slate-300">
+
+                <span className="text-sm text-slate-700">
                   {step}
                 </span>
               </li>
@@ -63,7 +65,7 @@ export function RegisterPage() {
           </ol>
         </div>
 
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-sky-900">
           Build something that moves people.
         </p>
       </section>
@@ -71,7 +73,7 @@ export function RegisterPage() {
       <div className="flex min-h-screen flex-col px-6 py-8 sm:px-10">
         <Link
           to="/"
-          className="w-fit rounded-lg text-sm font-medium text-slate-500 transition-colors hover:text-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-500"
+          className="w-fit rounded-lg text-sm font-medium text-slate-600 transition-colors hover:text-sky-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500"
         >
           Back to home
         </Link>
@@ -84,16 +86,17 @@ export function RegisterPage() {
             <div className="mb-8 flex items-center gap-3 lg:hidden">
               <span
                 aria-hidden="true"
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-lg font-bold text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-700 text-lg font-bold text-white"
               >
                 O
               </span>
+
               <span className="text-xl font-semibold tracking-tight text-slate-900">
                 Orlune
               </span>
             </div>
 
-            <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600">
+            <p className="text-xs font-semibold uppercase tracking-widest text-sky-700">
               Your next chapter
             </p>
 
@@ -104,7 +107,7 @@ export function RegisterPage() {
               Create your account.
             </h1>
 
-            <p className="mt-3 text-sm leading-relaxed text-slate-500">
+            <p className="mt-3 text-sm leading-relaxed text-slate-600">
               Start building your first landing page with Orlune.
             </p>
 
@@ -112,11 +115,11 @@ export function RegisterPage() {
               <RegisterForm />
             </div>
 
-            <p className="mt-6 text-sm text-slate-500">
+            <p className="mt-6 text-sm text-slate-600">
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="rounded font-semibold text-indigo-600 hover:text-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                className="rounded font-semibold text-sky-700 hover:text-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
               >
                 Sign in
               </Link>
@@ -124,7 +127,7 @@ export function RegisterPage() {
           </section>
         </div>
 
-        <p className="text-center text-xs text-slate-400">
+        <p className="text-center text-xs text-slate-500">
           Orlune — Your ideas, ready for the web.
         </p>
       </div>

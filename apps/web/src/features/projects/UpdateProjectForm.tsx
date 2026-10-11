@@ -36,7 +36,7 @@ export function UpdateProjectForm({
   const errorId = `${inputId}-error`;
 
   const onSubmit = async (data: UpdateProjectInput) => {
-   const { name } = data;
+    const { name } = data;
 
     try {
       const project = await updateProjectMutation.mutateAsync({
@@ -77,7 +77,7 @@ export function UpdateProjectForm({
           aria-invalid={Boolean(errors.name)}
           aria-describedby={errors.name ? errorId : undefined}
           {...register("name")}
-          className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 disabled:opacity-60 aria-invalid:border-red-500"
+          className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 disabled:opacity-60 aria-invalid:border-red-500"
         />
 
         {errors.name && (
@@ -103,11 +103,9 @@ export function UpdateProjectForm({
       <button
         type="submit"
         disabled={updateProjectMutation.isPending || !isDirty}
-        className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-lg border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {updateProjectMutation.isPending
-          ? "Saving..."
-          : "Save name"}
+        {updateProjectMutation.isPending ? "Saving..." : "Save name"}
       </button>
     </form>
   );

@@ -26,6 +26,7 @@ export function CreateProjectForm() {
 
   const onSubmit = async (data: CreateProjectInput) => {
     const { name } = data;
+
     try {
       await createProjectMutation.mutateAsync({ name });
       reset();
@@ -65,14 +66,14 @@ export function CreateProjectForm() {
               errors.name ? "new-project-name-error" : undefined
             }
             {...register("name")}
-            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 disabled:opacity-60 aria-invalid:border-red-500"
+            className="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 disabled:opacity-60 aria-invalid:border-red-500"
           />
         </div>
 
         <button
           type="submit"
           disabled={createProjectMutation.isPending}
-          className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-wait disabled:opacity-60"
+          className="rounded-lg bg-sky-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-wait disabled:opacity-60"
         >
           {createProjectMutation.isPending
             ? "Creating..."

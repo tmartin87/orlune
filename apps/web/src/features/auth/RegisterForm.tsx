@@ -11,7 +11,7 @@ import { ApiError } from "../../lib/api";
 import { registerUser } from "./auth-api";
 
 const inputClassName =
-  "block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 disabled:opacity-60 aria-invalid:border-red-500";
+  "block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 disabled:opacity-60 aria-invalid:border-red-500";
 
 export function RegisterForm() {
   const [isCreated, setIsCreated] = useState(false);
@@ -60,7 +60,7 @@ export function RegisterForm() {
 
         <Link
           to="/login"
-          className="block rounded-lg bg-indigo-600 px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="block rounded-lg bg-sky-700 px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
         >
           Continue to sign in
         </Link>
@@ -195,7 +195,7 @@ export function RegisterForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-wait disabled:opacity-60"
+        className="w-full rounded-lg bg-sky-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-wait disabled:opacity-60"
       >
         {isSubmitting ? "Creating account..." : "Create account"}
       </button>

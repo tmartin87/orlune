@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useProjects } from "../features/projects/useProjects";
@@ -7,6 +8,8 @@ import { DeleteProjectButton } from "../features/projects/DeleteProjectButton";
 import { UpdateProjectForm } from "../features/projects/UpdateProjectForm";
 
 export function ProjectsPage() {
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+
   const {
     data: projects,
     isPending,
@@ -24,20 +27,21 @@ export function ProjectsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white">
+    <div className="min-h-screen bg-[#edf5fa] text-slate-900">
+      <header className="sticky top-0 z-40 border-b border-sky-100 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
           <Link
             to="/projects"
             aria-label="Orlune projects"
-            className="flex items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-500"
+            className="flex items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500"
           >
             <span
               aria-hidden="true"
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-lg font-bold text-white"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-700 text-lg font-bold text-white"
             >
               O
             </span>
+
             <span className="text-lg font-semibold tracking-tight">
               Orlune
             </span>
@@ -46,67 +50,80 @@ export function ProjectsPage() {
           <button
             type="button"
             onClick={handleLogout}
-            className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            className="rounded-lg border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
           >
             Sign out
           </button>
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl space-y-10 px-6 py-10 sm:py-14">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600">
-            Your workspace
-          </p>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            Ideas start here.
-          </h1>
-          <p className="mt-3 max-w-xl leading-relaxed text-slate-500">
-            Create a new landing or pick up where you left off.
-          </p>
+      <main className="mx-auto max-w-6xl px-6 py-8 sm:py-12">
+        <div className="flex flex-wrap items-center justify-between gap-5">
+          <div>
+            <div className="flex items-center gap-3">
+              <h1
+                id="projects-title"
+                className="text-3xl font-bold tracking-tight"
+              >
+                Your projects
+              </h1>
+
+              {!isPending && !isError && (
+                <span className="rounded-full border border-sky-200 bg-white px-2.5 py-0.5 text-xs font-semibold text-sky-800">
+                  {projects.length}
+                </span>
+              )}
+            </div>
+
+            <p className="mt-2 text-sm text-slate-600">
+              Create a new landing or pick up where you left off.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            aria-expanded={isCreateOpen}
+            aria-controls="create-project-panel"
+            onClick={() => setIsCreateOpen((current) => !current)}
+            className="inline-flex items-center gap-2 rounded-xl bg-sky-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+          >
+            <span aria-hidden="true">
+              {isCreateOpen ? "−" : "+"}
+            </span>
+            {isCreateOpen ? "Close form" : "New project"}
+          </button>
         </div>
 
         <section
+          id="create-project-panel"
           aria-labelledby="create-project-title"
-          className="grid gap-6 rounded-2xl border border-indigo-100 bg-white p-6 shadow-sm lg:grid-cols-[1fr_1.5fr] lg:items-center lg:gap-10 lg:p-8"
+          hidden={!isCreateOpen}
+          className="mt-6 rounded-2xl border border-sky-200 bg-gradient-to-r from-[#dceef9] to-[#eaf4fb] p-6"
         >
-          <div>
+          <div className="mb-5">
             <h2
               id="create-project-title"
               className="text-lg font-semibold"
             >
               Start something new
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-slate-500">
+
+            <p className="mt-1 text-sm text-slate-600">
               Give your idea a name. Build the rest one block at a time.
             </p>
           </div>
 
-          <div className="min-w-0">
-            <CreateProjectForm />
-          </div>
+          <CreateProjectForm />
         </section>
 
-        <section aria-labelledby="project-list-title">
-          <div className="mb-5 flex items-center gap-3">
-            <h2
-              id="project-list-title"
-              className="text-lg font-semibold"
-            >
-              Your projects
-            </h2>
-
-            {!isPending && !isError && (
-              <span className="rounded-full bg-slate-200/70 px-2.5 py-0.5 text-xs font-semibold text-slate-600">
-                {projects.length}
-              </span>
-            )}
-          </div>
-
+        <section
+          aria-labelledby="projects-title"
+          className="mt-8"
+        >
           {isPending ? (
             <p
               role="status"
-              className="rounded-2xl border border-slate-200 bg-white p-10 text-center text-sm text-slate-500"
+              className="rounded-2xl border border-sky-100 bg-white p-10 text-center text-sm text-slate-500"
             >
               Loading projects...
             </p>
@@ -126,19 +143,21 @@ export function ProjectsPage() {
               </button>
             </div>
           ) : projects.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
+            <div className="rounded-2xl border border-dashed border-sky-300 bg-white px-6 py-16 text-center">
               <span
                 aria-hidden="true"
-                className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-2xl text-indigo-600"
+                className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-50 text-2xl text-sky-700"
               >
                 +
               </span>
-              <h3 className="mt-5 text-lg font-semibold">
+
+              <h2 className="mt-5 text-xl font-semibold">
                 A blank canvas for your next idea
-              </h3>
-              <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-slate-500">
-                Create your first project using the form above, then
-                make it yours in the editor.
+              </h2>
+
+              <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-slate-600">
+                Choose New project to create your first landing,
+                then make it yours in the editor.
               </p>
             </div>
           ) : (
@@ -146,43 +165,44 @@ export function ProjectsPage() {
               {projects.map((project) => (
                 <li
                   key={project.id}
-                  className="min-w-0 rounded-2xl border border-slate-200 bg-white shadow-sm"
+                  className="min-w-0 rounded-2xl border border-sky-100 bg-white shadow-sm"
                 >
                   <Link
                     to={`/projects/${project.id}/editor`}
-                    className="group block rounded-t-2xl p-6 transition-colors hover:bg-indigo-50/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                    className="group block rounded-t-2xl p-5 transition-colors hover:bg-sky-50/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
                   >
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-start gap-4">
                       <span
                         aria-hidden="true"
-                        className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-lg font-semibold text-indigo-600"
+                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#e0f0fa] to-[#a9cfe6] text-lg font-semibold text-sky-900"
                       >
                         {project.name.trim().charAt(0).toUpperCase() || "O"}
                       </span>
 
-                      
-                    </div>
+                      <div className="min-w-0">
+                        <h2 className="break-words text-lg font-semibold group-hover:text-sky-800">
+                          {project.name}
+                        </h2>
 
-                    <h3 className="mt-5 break-words text-lg font-semibold group-hover:text-indigo-700">
-                      {project.name}
-                    </h3>
-                    <p className="mt-2 text-sm font-medium text-indigo-600">
-                      Open editor
-                    </p>
+                        <p className="mt-2 text-sm font-medium text-sky-700">
+                          Open editor
+                        </p>
+                      </div>
+                    </div>
                   </Link>
 
-                  <details className="border-t border-slate-100">
-                    <summary className="cursor-pointer rounded-b-2xl px-6 py-4 text-sm font-medium text-slate-500 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                  <details className="border-t border-sky-100">
+                    <summary className="cursor-pointer rounded-b-2xl px-5 py-3 text-sm font-medium text-slate-600 hover:text-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">
                       Project settings
                     </summary>
 
-                    <div className="space-y-5 px-6 pb-6">
+                    <div className="space-y-5 px-5 pb-5 pt-2">
                       <UpdateProjectForm
                         projectId={project.id}
                         currentName={project.name}
                       />
 
-                      <div className="border-t border-slate-100 pt-4">
+                      <div className="border-t border-sky-100 pt-4">
                         <DeleteProjectButton projectId={project.id} />
                       </div>
                     </div>

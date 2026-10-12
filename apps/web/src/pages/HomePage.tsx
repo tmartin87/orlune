@@ -10,13 +10,7 @@ export function HomePage() {
             aria-label="Orlune home"
             className="flex items-center gap-3 rounded-lg font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700"
           >
-            <span
-              aria-hidden="true"
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-700 text-white"
-            >
-              O
-            </span>
-            Orlune
+            <img src="/branding/orlune-horizontal.svg" alt="Orlune" width="920" height="280" className="h-11 w-auto" />
           </Link>
 
           <Link

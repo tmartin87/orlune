@@ -35,16 +35,7 @@ export function ProjectsPage() {
             aria-label="Orlune projects"
             className="flex items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500"
           >
-            <span
-              aria-hidden="true"
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-700 text-lg font-bold text-white"
-            >
-              O
-            </span>
-
-            <span className="text-lg font-semibold tracking-tight">
-              Orlune
-            </span>
+            <img src="/branding/orlune-horizontal.svg" alt="Orlune" width="920" height="280" className="h-11 w-auto" />
           </Link>
 
           <button

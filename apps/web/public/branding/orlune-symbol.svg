@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Orlune — símbolo azul revisado</title>
+<desc>Reconstrucción vectorial revisada del símbolo de referencia, con tres cintas, pliegues redondeados y degradados azul-cian. Fondo transparente.</desc>
+<defs>
+ <linearGradient id="top" gradientUnits="userSpaceOnUse" x1="32" y1="130" x2="150" y2="12"><stop stop-color="#16AEFF"/><stop offset="1" stop-color="#006AFF"/></linearGradient>
+ <linearGradient id="right" gradientUnits="userSpaceOnUse" x1="164" y1="28" x2="183" y2="218"><stop stop-color="#00F0E7"/><stop offset=".38" stop-color="#00C7F4"/><stop offset=".73" stop-color="#007CFF"/><stop offset="1" stop-color="#0045ED"/></linearGradient>
+ <linearGradient id="bottom" gradientUnits="userSpaceOnUse" x1="30" y1="131" x2="161" y2="236"><stop stop-color="#003CE4"/><stop offset=".43" stop-color="#008EFF"/><stop offset=".8" stop-color="#00E9E4"/><stop offset="1" stop-color="#00DDE9"/></linearGradient>
+</defs>
+<g id="hexagonal-O">
+ <path fill="url(#right)" d="M128 8 C136 8 144 13 152 18 L228 62 C236 67 240 74 240 84 L240 174 C240 183 236 190 228 195 L190 217 C182 222 177 221 169 217 L128 192 L180 161 L180 103 L152 87 L152 37 C152 22 144 9 128 8Z"/>
+ <path fill="url(#bottom)" d="M16 149 C16 140 20 133 28 128 L74 101 L74 160 L128 192 L169 217 C177 221 182 222 190 217 L141 245 C133 250 125 250 117 245 L28 194 C20 189 16 182 16 173Z"/>
+ <path fill="url(#top)" d="M128 8 C143 8 152 21 152 37 L152 87 L128 73 L74 104 L28 130 C20 135 16 142 16 151 L16 83 C16 73 20 66 28 61 L115 11 C120 8 124 8 128 8Z"/>
+</g>
+</svg>

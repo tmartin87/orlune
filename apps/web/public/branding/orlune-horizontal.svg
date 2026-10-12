@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="280" viewBox="0 0 920 280"><title>Orlune horizontal</title><desc>Reconstrucción vectorial de la propuesta aprobada. Símbolo y letras dibujados como trazados; no requiere fuentes. Ajustes ópticos finales disponibles en Illustrator.</desc><defs>
+ <linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#159EFF"/><stop offset="1" stop-color="#0060FF"/></linearGradient>
+ <linearGradient id="b" x1="0" y1="0" x2="0.4" y2="1"><stop stop-color="#00EBE5"/><stop offset="1" stop-color="#0070FF"/></linearGradient>
+ <linearGradient id="c" x1="0" y1="1" x2="0.9" y2="0"><stop stop-color="#00DFE7"/><stop offset="1" stop-color="#0044E7"/></linearGradient>
+ <g id="symbol">
+  <path fill="url(#a)" d="M128 8 Q139 8 144 18 L144 81 L128 72 L72 104 L24 132 L16 145 L16 81 Q16 69 27 63 L116 12 Q122 8 128 8Z"/>
+  <path fill="url(#b)" d="M144 18 L229 67 Q240 73 240 85 L240 173 Q240 185 229 191 L184 217 Q171 221 160 213 L128 192 L184 160 L184 104 L144 81Z"/>
+  <path fill="url(#c)" d="M16 145 Q16 134 27 128 L72 104 L72 160 L128 192 L160 213 Q171 221 184 217 L140 244 Q128 251 116 244 L27 193 Q16 187 16 175Z"/>
+ </g>
+ <g id="letters" fill="#0F172A">
+  <path d="M0 100V31Q0 20 11 20H20V29Q28 20 43 20H60V40H42Q24 40 24 58V100Z"/>
+  <path d="M70 0H94V100H70Z"/>
+  <path d="M110 20H134V68Q134 80 146 80H155Q167 80 167 68V20H191V73Q191 100 163 100H138Q110 100 110 73Z"/>
+  <path d="M207 100V20H230V28Q238 20 253 20H260Q288 20 288 47V100H264V52Q264 40 252 40H243Q231 40 231 52V100Z"/>
+  <path fill-rule="evenodd" d="M330 20H348Q377 20 377 49V67H325V71Q325 82 339 82H352Q360 82 364 76L377 87Q367 100 350 100H331Q301 100 301 72V48Q301 20 330 20ZM325 51H353V48Q353 38 340 38H338Q325 38 325 48Z"/>
+ </g>
+ <path id="capitalO" fill="#0F172A" fill-rule="evenodd" d="M30 0H65Q95 0 95 30V70Q95 100 65 100H30Q0 100 0 70V30Q0 0 30 0ZM35 23Q24 23 24 35V65Q24 77 35 77H60Q71 77 71 65V35Q71 23 60 23Z"/>
+</defs><use href="#symbol" transform="translate(8 12)"/><use href="#letters" transform="translate(290 55) scale(1.6)"/></svg>

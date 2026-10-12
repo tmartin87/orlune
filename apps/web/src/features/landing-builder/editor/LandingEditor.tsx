@@ -290,9 +290,9 @@ export function LandingEditor({
           <Link
             to="/projects"
             aria-label="Orlune — back to projects"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-700 text-lg font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500"
           >
-            O
+            <img src="/branding/orlune-icon.svg" alt="" width="40" height="40" className="h-10 w-10" />
           </Link>
 
           <div className="min-w-0">

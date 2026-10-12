@@ -1,301 +1,136 @@
-# Contexto de Orlune
-
-## Estado actual — 11 de octubre de 2026
-
-Esta sección prevalece sobre todos los estados y próximos pasos históricos de abajo.
-
-### Objetivo y colaboración
-
-- El usuario quiere la aplicación lista para el 15 de octubre; aclaró que no necesita preparar una presentación o ensayo de demo. Priorizar producto, diseño y pruebas.
-- El usuario escribe el código y ejecuta Git. El asistente lee, explica y proporciona archivos completos cuando se solicitan. No modificar código ni ejecutar operaciones de Git que cambien el estado sin petición expresa.
-- La lectura local vuelve a funcionar tras reiniciar Codex el 11 de octubre. Los fallos anteriores eran de la herramienta, no del proyecto.
-
-### Avances integrados desde la última actualización
-
-- dba70f9: página inicial de Orlune; e4e7d29: ajustes de espaciado y sección de pasos. La página de inicio ya existe. El usuario prefirió conservar los textos originales y un footer sencillo.
-- 7221e3b y ae62d62: mejoras del editor, propiedades, subida de imágenes, biblioteca, login y proyectos.
-- a1e52c2: página y formulario de registro, cliente de API y ruta pública /register; enlace desde login. El usuario confirmó funcionamiento local. No asumir verificación de correo o recuperación de contraseña implementadas.
-- 16731ee: rediseño del editor y preview de dispositivos, desarrollado en feature/editor-layout e integrado en main.
-
-### Diseño acordado e implementado en el editor
-
-- Referencias del usuario: distribución de un CMS, degradados y variaciones tonales de un dashboard, y paleta azul de otra referencia. La maqueta del usuario define la distribución.
-- Cabecera fija con acceso a proyectos, Preview, Save y Publish. Biblioteca a la izquierda; bloques seleccionables y reordenables en el centro; propiedades debajo del centro; preview general a la derecha.
-- Scroll independiente de los paneles en escritorio. El preview lateral está visible desde xl; se conserva el Preview completo.
-- Los apartados Content, Design, Image y los de Features se distribuyen horizontalmente en una cuadrícula adaptable. PropertySection usa details sin open: comienzan plegados.
-- Paleta del editor: acentos sky, superficies claras y degradado azul en biblioteca y panel inferior. El usuario rechazó fondo inferior blanco con cabeceras azules; la elección final es degradado suave con desplegables blancos.
-- Los colores de las landings generadas son independientes de la interfaz del editor; los botones índigo de los bloques no se cambiaron por este rediseño.
-- LandingLivePreview.tsx renderiza el borrador mediante un portal React en un iframe, copia los estilos del documento y utiliza un viewport de 1280 × 800 para Desktop y 390 × 844 para Mobile.
-- Marcos de monitor y teléfono fijos, contenido con scroll dentro de la pantalla. ResizeObserver calcula la reducción visual para encajar el dispositivo. Las ediciones del borrador se reflejan sin guardar; los enlaces de esta miniatura no navegan.
-- Expand / Collapse amplía la columna derecha del ancho habitual de 340 px a aproximadamente el 45 % de la cuadrícula; mantiene el editor y sus controles disponibles.
-- Se mantienen edición, selección, reordenación, subida de imágenes, Save y Publish y las animaciones Motion del editor.
-
-### Comprobaciones y Git
-
-- El usuario confirmó el resultado visual, el funcionamiento del preview con marcos y scroll y, después, Expand / Collapse. Confirmó lint y build web correctos antes de los últimos retoques de color y ampliación; no aportó una nueva salida detallada de esas comprobaciones tras el último cambio.
-- Tras las instrucciones de merge, push y prueba en Render respondió «todo ok». Es confirmación general del usuario, no una comprobación independiente del asistente en producción.
-- Lectura local antes de esta actualización: main...origin/main, HEAD 16731ee y únicamente tmp/ sin seguimiento. No se hizo fetch; origin/main es la referencia local.
-- Esta edición de MEMORY.md está expresamente autorizada. No se han modificado archivos de aplicación ni realizado commits. tmp/ sigue sin revisarse y queda fuera de los commits.
-
-### Próximo trabajo
-
-- Extender la nueva identidad azul a Projects, Login y Register; revisar después la coherencia con Home. Comprobar la rama y crear una rama de trabajo antes de cambios de código.
-- El usuario priorizó afinar el diseño de toda la aplicación antes de las animaciones GSAP. Motion del editor ya existe; GSAP para landing/preview sigue pendiente.
-- Se comentó como posible mejora futura un zoom del lienzo central, pero no está implementado ni es el próximo paso acordado.
-- Pendientes históricos vigentes: revisar bundle >500 kB, restos de Kanban, recorrido completo de la aplicación y caducidad del PostgreSQL gratuito creado el 6 de octubre. No hay recordatorios automáticos configurados.
-
-## Estado actual — 8 de octubre de 2026
-
-Esta sección prevalece sobre los próximos pasos y estados de Git históricos de abajo.
-
-### Bloques implementados e integrados
-
-- e3ed4a4: Hero con layouts centered, split y background; alineación left/center y tema light/dark. Imagen de fondo fuerza aspecto oscuro y desactiva el selector de tema. Campos opcionales para mantener compatibles los bloques antiguos. Usuario confirmó comprobaciones locales y funcionamiento en Render.
-- 57d1770: bloque features con título de sección y tres tarjetas fijas, cada una con id, título y descripción editables. Biblioteca, renderizador, panel, tipos y actualización por itemId conectados. Durante la revisión se detectó la eliminación accidental de los selectores del Hero y se dieron instrucciones para recuperarlos; el usuario confirmó la corrección antes del commit. Confirmó pruebas locales; no dejó una confirmación separada inequívoca de la prueba de Features en Render.
-- ac0be94: bloque imageText con título, descripción, imagen opcional, texto alternativo y posición izquierda/derecha. Reutiliza HeroImageUpload. En móvil la imagen aparece encima; sin imagen se muestra solo texto. Diff revisado por el asistente; el usuario confirmó el resultado después de las instrucciones de integración y prueba en Render.
-- 5b21516: CTA con buttonUrl HTTP/HTTPS opcional y tema light/dark opcional (dark por defecto). Enlace activo en preview/público y botón desactivado en editor. Usuario reportó todo correcto; el 8 de octubre se detectó que el commit seguía fuera de main y se guio su integración. La revisión local posterior confirma que ya está en main. No se ha verificado independientemente el último despliegue ni el CTA público tras esa integración.
-- Las pruebas funcionales y las compilaciones/lint reportadas durante estos cambios fueron realizadas por el usuario. Las revisiones del asistente fueron lecturas de código y diffs; no atribuirle pruebas de navegador.
-
-### Punto exacto para retomar
-
-- Próxima tarea acordada: página de inicio de Orlune en /, distinta del login y de las landings generadas. La última lectura del router todavía no incluye esa ruta.
-- Diseño previsto: Hero que explique Orlune, muestra visual de una landing, tres pasos (crear, personalizar y publicar), botón Entrar a /login. Primero Tailwind adaptable; después animaciones.
-- Se indicó crear feature/home-page, pero NO está creada/activa según la última comprobación: seguimos en main. Antes de modificar código, el usuario debe crear la rama con git switch -c feature/home-page.
-- Prioridad acordada: bloques (ya implementados), página de inicio, capa pequeña de GSAP en Hero/preview y ensayo. Demo el 15 de octubre; reservar tiempo para pruebas y respaldo.
-- Siguen pendientes el aviso de chunks >500 kB, restos de Kanban y revisión de caducidad del PostgreSQL gratuito creado el 6 de octubre. Detalles de despliegue y rotación de credenciales están en la sección siguiente.
-
-### Git y colaboración
-
-- Antes de esta edición: main...origin/main, HEAD 5b21516, solo tmp/ sin seguimiento. No se ha realizado fetch en esta comprobación; la igualdad es con la referencia local origin/main.
-- El usuario escribe código y ejecuta Git. Esta actualización de MEMORY.md está expresamente solicitada; no se han modificado archivos de aplicación ni creado commits. tmp/ continúa fuera del alcance.
-
-## Despliegue completado — 6 de octubre de 2026, cierre de la tarde
-
-Esta sección prevalece sobre todas las notas anteriores de despliegue pendientes que aparecen más abajo.
-
-- Orlune está desplegado en Render y el usuario confirmó el recorrido completo. Demo prevista para el 15 de octubre de 2026.
-- Frontend: Static Site llamado orlune, https://orlune-2t8d.onrender.com ; login en /login.
-- API: Web Service orlune-api, https://orlune-api.onrender.com ; el usuario confirmó la respuesta de GET / con el mensaje Orlune API.
-- Base de datos: orlune-db, PostgreSQL 18, Frankfurt. API también en Frankfurt. La base aparece dentro de My project y la API aparecía en Ungrouped Services. El workspace también se llama orlune-db: distinguirlo del recurso PostgreSQL.
-- feature/deployment-config integrada y subida a main en f57225b, según la salida de Git compartida. En la revisión local previa a esta actualización: main...origin/main y solo tmp/ sin seguimiento. No se ha hecho fetch ni ningún commit por el asistente.
-- Configuración implementada: apps/web/src/lib/config.ts centraliza VITE_API_URL para clientes privados y públicos; apps/web/.env.example documenta el valor local. API utiliza PORT y FRONTEND_URL y escucha en 0.0.0.0.
-- Render: rama main, Root Directory vacío y NODE_VERSION=24. El frontend publica apps/web/dist.
-- Build API corregido: corepack pnpm install --frozen-lockfile --prod=false && corepack pnpm --filter @orlune/shared build && corepack pnpm --filter @orlune/api exec prisma generate && corepack pnpm --filter @orlune/api build.
-- Start API indicado: corepack pnpm --filter @orlune/api exec prisma migrate deploy && corepack pnpm --filter @orlune/api start. El registro compartido todavía mostraba la variante sin corepack; el arranque posterior funcionó. Confirmar el valor efectivo en Render si hace falta.
-- Build frontend indicado: corepack pnpm install --frozen-lockfile --prod=false && corepack pnpm --filter @orlune/shared build && corepack pnpm --filter @orlune/web build.
-- corepack enable falló con EROFS al modificar /usr/bin/pnpm. Se corrigió usando corepack pnpm directamente.
-- Variables API: DATABASE_URL (conexión interna de Render), JWT_SECRET, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET y FRONTEND_URL=https://orlune-2t8d.onrender.com. Render proporciona PORT. No guardar secretos en la memoria.
-- Variable pública del frontend: VITE_API_URL=https://orlune-api.onrender.com. Regla SPA configurada: Source /*, Destination /index.html, Action Rewrite. El usuario confirmó el login al recargar.
-- Error P1013 corregido sustituyendo una DATABASE_URL mal formada. Una credencial se compartió accidentalmente y se guio su rotación. El usuario confirmó expresamente que las credenciales antiguas están eliminadas. No reproducirlas.
-- Error CORS corregido: FRONTEND_URL se había cambiado en el Static Site, pero la API seguía permitiendo localhost:5173. Se cambió en orlune-api y se desplegó de nuevo; login correcto.
-- Cuenta de demo creada por POST /auth/register desde PowerShell con contraseña solicitada de forma oculta. La base de Render es independiente: no se copiaron usuarios ni proyectos locales.
-- Validación local: usuario compartió lint web, build API y build web correctos y confirmó arranque de producción. Validación en Render: confirmó login, crear proyecto, editar Hero, subir imagen, guardar y recargar, publicar y abrir la landing pública en incógnito. Pruebas funcionales realizadas por el usuario, no por el asistente.
-- Planes gratuitos por elección del usuario. API duerme tras inactividad y PostgreSQL gratuito caduca a los 30 días de su creación (6 de octubre): revisar migración o pago antes de caducar y preparar el servicio antes de la demo. No se han configurado recordatorios ni monitorización automática.
-- Próximo trabajo propuesto: GSAP para Hero y preview respetando movimiento reducido, y ensayo de la demo. Pendientes: aviso de chunks >500 kB (577,72 kB en build compartido), retirar restos de Kanban y preparar respaldo.
-- Actualización de esta memoria expresamente solicitada por el usuario. No se han modificado archivos de aplicación ni creado commits; tmp/ continúa fuera del alcance.
-
-## Estado actual — 6 de octubre de 2026
-
-Esta sección prevalece sobre los pendientes históricos que aparecen más abajo.
-
-### Avances integrados
-
-- Historial local verificado: 0eadfbe (motion del editor), b8961ee (imágenes por URL), 0a3d645 (subida firmada con Cloudinary), dfb5dbd (enlaces del Hero), 910aaea (diseño del login), 7002aef (interfaz de proyectos y validación de nombres).
-- El usuario confirmó los pushes. Al revisar el repositorio, main y la referencia local origin/main coinciden en 7002aef; no se ha realizado un fetch nuevo en esta comprobación.
-- Hero admite buttonUrl opcional HTTP/HTTPS. El enlace funciona en Preview y en la landing pública; el editor recibe isEditing para impedir navegar mientras se edita. El usuario confirmó los tres comportamientos.
-- Login con identidad de Orlune, formulario diseñado, errores accesibles y botón desactivado con estado Signing in mientras se envía. El usuario confirmó su funcionamiento.
-- Lista de proyectos con tarjetas adaptables, acceso al editor, estado vacío, reintento de carga y controles de renombrar/eliminar dentro de Project settings.
-- Formularios de creación y renombrado diseñados; eliminación con confirmación y cancelación. Se conserva la restricción antigua del backend que impide borrar proyectos con tareas.
-- projectNameSchema compartido aplica trim y min(1) tanto a creación como a actualización. Se dieron instrucciones para retirar la validación duplicada de los formularios. El cambio está integrado en 7002aef; no se han repetido compilaciones ni pruebas de navegador por el asistente en esta actualización.
-
-### Despliegue: punto exacto para continuar
-
-- Prioridad inmediata: preparar y desplegar frontend, API y PostgreSQL para la demo del 15 de octubre de 2026; quedan 9 días desde esta actualización.
-- Se ha propuesto crear feature/deployment-config desde main. En la comprobación actual la rama sigue siendo main; no dar por creada la nueva rama.
-- Instrucciones entregadas, todavía sin aplicar en el código observado: crear apps/web/src/lib/config.ts que lea VITE_API_URL, falle si falta y elimine barras finales; importar API_URL desde los clientes privado y público.
-- Se indicó crear apps/web/.env.local y apps/web/.env.example con VITE_API_URL=http://localhost:3000. git check-ignore confirma que la ruta .env.local está ignorada; no se ha leído su contenido ni confirmado su existencia.
-- Ambos clientes siguen utilizando http://localhost:3000 en el código. No hay config.ts ni .env.example nuevos identificados por Git. El próximo paso es que el usuario aplique las instrucciones, reinicie Vite y compile el frontend.
-- Después: preparar puerto y CORS configurables en la API, configuración de compilación/arranque y migraciones, alojamiento gratuito y pruebas completas en el entorno desplegado. No hay despliegue ni cuenta de Render confirmados.
-- Las variables VITE_ se incluyen en el navegador; solo deben contener configuración pública. Cloudinary API Secret, JWT_SECRET y DATABASE_URL siguen siendo exclusivos del backend.
-
-### Estado de herramientas y Git
-
-- El acceso de lectura mediante terminal vuelve a funcionar el 6 de octubre. Las notas anteriores sobre imposibilidad de leer archivos describen el periodo anterior.
-- Antes de editar esta memoria: main sin modificaciones de archivos seguidos y únicamente tmp/ sin seguimiento. El contenido de tmp/ sigue sin revisarse; no incluirlo en commits.
-- El usuario sigue escribiendo código y ejecutando Git. Esta actualización de MEMORY.md está expresamente autorizada; no se ha creado ningún commit.
-- Siguen pendientes revisar el aviso de chunks superiores a 500 kB, GSAP para landing/preview, retirar el Kanban restante y ensayar la demo con respaldo.
-
-
-## Subida de imágenes completada — 1 de octubre de 2026
-
-Esta actualización sustituye las notas anteriores que indicaban que el proveedor y la subida de archivos estaban pendientes.
-
-- Proveedor elegido: Cloudinary, con cuenta gratuita creada por el usuario.
-- Rama confirmada para esta funcionalidad: feature/hero-image-upload. El commit de esta funcionalidad todavía no se ha confirmado.
-- Credenciales configuradas únicamente en apps/api/.env; el usuario confirmó que Git ignora ese archivo. No incluir credenciales en documentación ni commits.
-- SDK cloudinary instalado en la API y configuración en src/lib/cloudinary.ts.
-- El repositorio de proyectos incorpora findProjectByIdAndUserId para comprobar la propiedad del proyecto.
-- Servicio upload.service.ts: verifica el propietario y firma timestamp, public_id único por proyecto, upload_preset y overwrite=false. Devuelve cloudName, apiKey, signature y params, nunca el API Secret.
-- Ruta protegida: POST /projects/:projectId/images/upload-signature. La respuesta utiliza Cache-Control: no-store.
-- Preset previsto/utilizado: orlune_hero_images, Signed, formatos JPG/JPEG, PNG y WebP, sin sobrescritura. No se encontró un límite de tamaño configurable en la consola.
-- El frontend solicita la firma con el token de Orlune y sube el archivo directamente al endpoint image/upload de Cloudinary mediante FormData, sin enviarle el token de Orlune.
-- image-upload-api.ts comprueba formato MIME y tamaño máximo de 5 MiB antes de subir. Ese límite es una comprobación del frontend, no un límite confirmado del proveedor.
-- HeroImageUpload muestra el selector, el estado de subida y los errores. Al completarse, actualiza imageUrl del Hero; Save persiste el borrador y Publish actualiza la copia pública.
-- projectId se transmite desde LandingEditorPage a LandingEditor, PropertiesPanel y HeroImageUpload. PropertiesPanel utiliza key={selectedBlock.id}.
-- Se corrigió un error Invalid cloud_name: el usuario ajustó el nombre del entorno de Cloudinary y reinició la API.
-- El usuario confirmó compilación correcta y las pruebas de subir imagen, guardar y recargar, publicar y abrir la página pública, y reemplazar la imagen.
-- Las pruebas funcionales fueron realizadas por el usuario. La terminal del asistente sigue sin funcionar; no afirmar una verificación local independiente.
-
-### Próxima acción
-
-- Revisar git status con el usuario y preparar el commit de subida de imágenes, incluyendo esta memoria y excluyendo .env y tmp/.
-- Siguen pendientes el despliegue, la revisión del aviso de chunks de más de 500 kB, GSAP en la landing/preview y el resto de personalización acordada.
-
-
-## Estado al preparar el commit — 1 de octubre de 2026
-
-Esta actualización sustituye las notas anteriores que indicaban que la animación de entrada y las imágenes del Hero aún no estaban implementadas.
-
-### Implementado y confirmado por el usuario
-
-- Motion en el editor: entrada suave de bloques, salida al eliminar mediante AnimatePresence y animación de posición al reordenar. Se utiliza useReducedMotion y AnimatePresence con initial={false}.
-- El esquema compartido del Hero incluye imageUrl e imageAlt opcionales. imageUrl admite HTTP/HTTPS o cadena vacía; los bloques antiguos sin imagen siguen siendo válidos.
-- Los tipos HeroBlock, CtaBlock y LandingBlock del frontend se importan/reexportan desde @orlune/shared, eliminando las definiciones duplicadas del archivo types/landing-block.ts.
-- PropertiesPanel permite editar la URL y la descripción de la imagen únicamente en bloques Hero.
-- BlockRenderer muestra la imagen del Hero con proporción 16:9 y object-cover, utilizando imageAlt como texto alternativo.
-- El usuario confirmó el funcionamiento de las imágenes, su guardado y su visualización en la versión pública tras publicar.
-- El usuario aportó compilaciones correctas del frontend. El aviso de chunks superiores a 500 kB sigue pendiente de revisión antes del despliegue.
-- La verificación funcional ha sido realizada por el usuario; el asistente sigue sin poder ejecutar comandos por el fallo de inicialización de la terminal.
-
-### Próximo paso
-
-- Implementar subida de imágenes desde el ordenador: selector de archivo, almacenamiento externo y guardado de la URL resultante en imageUrl.
-- Todavía no hay proveedor de almacenamiento elegido ni integración de subida implementada. Comparar las condiciones actuales de opciones gratuitas antes de elegir.
-- Las imágenes por URL ya funcionan y serán la base de la subida. Los enlaces de destino de botones y otras opciones visuales siguen pendientes.
-- El despliegue y las animaciones GSAP de la landing/preview siguen pendientes.
-
-### Git y cierre de este avance
-
-- El usuario ha decidido hacer commit ahora, antes de comenzar la integración de subida de imágenes, en lugar de esperar al final de toda la sesión.
-- El asistente actualiza únicamente este documento por petición expresa. El usuario ejecutará el commit.
-- No se ha confirmado aún la creación del commit. Comprobar git status y la rama real antes de dar instrucciones de staging; no incluir tmp/ sin revisarlo.
-- Se propuso separar motion e imágenes en commits distintos si la distribución de cambios lo permite.
-
-
-## Pendiente de rendimiento — 1 de octubre de 2026
-
-- Durante la compilación del frontend, Vite avisó de que algunos chunks superan los 500 kB después de minificar. La compilación terminó correctamente; es una advertencia, no un error.
-- Antes del despliegue, revisar el tamaño del bundle y valorar la carga diferida por rutas mediante imports dinámicos. Comprobar qué dependencias contribuyen al tamaño antes de decidir cambios; no limitarse a aumentar el umbral del aviso.
-- Esta revisión sigue pendiente. El usuario ha pedido realizar el commit al finalizar la sesión.
-
-
-## Actualización de sesión — 1 de octubre de 2026
-
-- El usuario ha elegido comenzar con alojamiento gratuito y valorar pago más adelante. Se ha considerado Render; su PostgreSQL gratuito caduca a los 30 días. El despliegue sigue pendiente y no se ha confirmado la creación de una cuenta.
-- Se ha priorizado esta sesión para las animaciones del editor; el despliegue se retomará después.
-- El usuario confirmó la instalación de `motion` en `@orlune/web`. Los imports se harán desde `motion/react`.
-- Rama propuesta para este trabajo: `feature/landing-editor-motion`; comprobar la rama real antes de continuar.
-- Se han dado instrucciones para animar la entrada de los bloques con `motion.div` (opacidad y desplazamiento vertical de 16 px en 0,2 s), respetando `useReducedMotion`. Todavía no se ha confirmado su implementación ni probado el resultado.
-- Próximos pasos de motion: salida con AnimatePresence y reordenación fluida. GSAP queda para la landing y el preview.
-
-### Personalización de bloques acordada
-
-- Los bloques Hero y CTA actuales son una primera versión y se ampliarán.
-- Evolución prevista: subir y reemplazar imágenes, ajustar encuadre y posición y editar texto alternativo; colores, alineación, espaciado y disposición de texto e imagen; enlaces de botones; configuración de animaciones por bloque.
-- Subir imágenes requerirá almacenamiento de archivos; el contenido del bloque guardará su URL. El proveedor y la implementación no están decididos.
-- Para la demo del 15 de octubre se ha acordado incluir un Hero con imagen, enlace del botón y algunas opciones visuales acotadas. Los controles concretos quedan por definir; no se pretende construir un editor de diseño completo.
-- Estas funcionalidades están pendientes, no implementadas. Cada ampliación debe reflejarse en los esquemas compartidos, el panel de propiedades y el renderizado de bloques.
-
-
-Última actualización: 1 de octubre de 2026.
-
-## Producto y objetivo
-
-Orlune es un constructor de landings.
-El Kanban queda fuera del producto.
-
-Objetivo inmediato: demo guiada el 15 de octubre de 2026
-para Software Crafters Barcelona.
-
-Recorrido de la demo:
-login → proyectos → editor → guardar → preview → publicar
-→ abrir la landing sin iniciar sesión.
-
-El usuario escribe el código para aprender y poder explicar
-las decisiones técnicas durante la presentación.
-
-## Implementado
-
-- Autenticación y gestión de proyectos.
-- Editor con biblioteca, lienzo y panel de propiedades.
-- Bloques Hero y CTA.
-- Edición de textos, eliminación y reordenación.
-- Guardado del borrador.
-- Preview local, incluidos cambios sin guardar.
-- Publicación como copia independiente del borrador.
-- Página pública en /p/:projectId.
-- Avisos de guardado y publicación bajo la cabecera.
-- Ocultación de avisos al modificar el borrador.
-- Limpieza de caché de TanStack Query al cerrar sesión.
-
-## Publicación
+# Estado actual de Orlune
+
+Actualizado el 12 de octubre de 2026.
+
+Este documento registra el estado de la aplicación, su configuración, las comprobaciones realizadas y las limitaciones conocidas. No contiene objetivos, fechas de entrega ni planes de trabajo. Las normas de colaboración están en AGENTS.md.
+
+## Aplicación y arquitectura
+
+Orlune es un constructor de landing pages con editor visual.
+
+- Monorepo con pnpm.
+- apps/web: React, TypeScript, Vite, Tailwind CSS, React Router, React Hook Form y TanStack Query.
+- apps/api: Express, TypeScript, Prisma y PostgreSQL; organizado en rutas, controladores, servicios y repositorios.
+- packages/shared: esquemas Zod y tipos compartidos.
+- TanStack Query gestiona datos del servidor; el borrador y la interfaz del editor utilizan estado local de React.
+
+## Páginas y autenticación
+
+- /: página de inicio con presentación del producto, ejemplo de landing y explicación de uso.
+- /login y /register: formularios de acceso y registro.
+- /projects: gestión de proyectos, protegida por autenticación.
+- /projects/:projectId/editor: editor protegido; /projects/:projectId también abre el editor.
+- /p/:projectId: landing pública sin necesidad de iniciar sesión.
+- Autenticación mediante token. El cierre de sesión elimina el token y limpia la caché de TanStack Query.
+- Las respuestas 401 de la API disparan auth:unauthorized.
+- No consta verificación de correo ni recuperación de contraseña implementadas.
+
+## Proyectos
+
+- Creación, renombrado y eliminación con confirmación.
+- El esquema compartido del nombre aplica trim y exige al menos un carácter.
+- Estados de carga, error con reintento y lista vacía.
+- Tarjetas con nombre, portada, número de bloques guardados, estado de publicación y acceso al editor.
+- La portada es la primera imagen disponible en los bloques Hero o Image and text guardados, no una captura de la landing.
+- Los proyectos publicados muestran acceso a su página pública.
+- Los controles de renombrar y eliminar están dentro de Project settings.
+- El backend conserva código de Kanban y la restricción que impide eliminar proyectos con tareas.
+
+## Editor
+
+- Cabecera fija con acceso a proyectos, Preview, Save y Publish.
+- Biblioteca a la izquierda, lienzo con bloques en el centro, propiedades debajo y preview general a la derecha.
+- Selección al pulsar una sección, edición de contenido, eliminación y reordenación.
+- Paneles con scroll independiente en escritorio.
+- Propiedades distribuidas horizontalmente en una cuadrícula adaptable; sus apartados comienzan plegados.
+- Avisos de guardado y publicación; se ocultan al modificar el borrador.
+- Animaciones Motion de entrada, salida y reordenación, respetando useReducedMotion.
+- Preview completo del borrador, incluidos cambios sin guardar.
+- LandingLivePreview renderiza mediante un portal React en un iframe con estilos del documento.
+- Viewports de 1280 × 800 para escritorio y 390 × 844 para móvil, escalados mediante ResizeObserver.
+- Marcos de monitor y teléfono con scroll interior; los enlaces de la miniatura no navegan.
+- Expand / Collapse modifica el ancho de la columna de preview. El panel lateral se muestra desde xl.
+- No hay integración GSAP identificada en el código revisado.
+
+## Bloques disponibles
+
+- Hero: título, subtítulo, texto y enlace de botón, imagen y texto alternativo. Layouts centered, split y background; alineación left/center; temas light/dark. El fondo con imagen fuerza apariencia oscura.
+- CTA: título, texto y enlace de botón, temas light/dark.
+- Features: título de sección y tres elementos con título y descripción editables.
+- Image and text: título, descripción, imagen, texto alternativo y posición izquierda/derecha. En móvil la imagen aparece encima.
+- Los enlaces y las imágenes admiten URL HTTP/HTTPS; los campos opcionales mantienen compatibles los bloques anteriores.
+- Los enlaces funcionan en Preview completo y en la página pública; se desactivan durante la edición.
+
+## Imágenes
+
+- Integración con Cloudinary mediante subida firmada.
+- POST /projects/:projectId/images/upload-signature requiere autenticación y comprueba la propiedad del proyecto.
+- La firma incluye identificador por proyecto y overwrite=false. La respuesta usa Cache-Control: no-store.
+- El frontend envía el archivo directamente a Cloudinary mediante FormData; no le envía el token de Orlune.
+- Validación del frontend: JPG/JPEG, PNG o WebP y máximo 5 MiB. No se confirmó un límite equivalente en el proveedor.
+- HeroImageUpload muestra selección, progreso de subida y errores; actualiza la URL del bloque.
+- Las credenciales del proveedor permanecen en el backend y no se registran en este documento.
+
+## Guardado y publicación
 
 - Project.blocks contiene el borrador.
-- Project.publishedBlocks contiene la copia publicada.
-- Project.publishedAt registra la fecha de publicación.
-- Publish guarda primero y publica después, en dos peticiones.
-- Guardar por sí solo no modifica la versión pública.
+- Project.publishedBlocks contiene la copia publicada y Project.publishedAt su fecha.
+- Publish guarda primero y publica después mediante dos peticiones.
+- Guardar no modifica por sí solo la versión pública.
 - POST /projects/:projectId/landing/publish requiere autenticación.
 - GET /public/landings/:projectId permite lectura pública.
-- La URL pública todavía utiliza el entorno local.
 
-## Comprobaciones realizadas
+## Identidad visual y logo
 
-El usuario confirmó:
-- Compilaciones de API y frontend correctas durante el desarrollo.
-- Publicación y acceso público sin sesión.
-- Separación entre borrador guardado y versión publicada.
-- Avisos visibles y ocultación al volver a editar.
-- Cierre de sesión y reingreso tras limpiar la caché.
+- Interfaz con acentos azules, superficies claras y degradados suaves.
+- Biblioteca y panel inferior del editor con degradado azul; controles de propiedades blancos.
+- Los colores de los bloques de las landings son independientes de los de la aplicación.
+- SVG aportados por el usuario desde C:/Users/User/Documents/PROYECTOS/DISEÑO/ORLUNE/v2, copiados sin modificar.
+- El logo recibido utiliza un símbolo de tres piezas con degradados azul/cian y letras sin cortes.
+- Assets en apps/web/public/branding/: orlune-horizontal.svg, orlune-vertical.svg, orlune-symbol.svg y orlune-icon.svg.
+- Horizontal en Home, Projects y cabeceras de escritorio de Login/Register.
+- Vertical en Login/Register desde móvil.
+- Recuadro azul en la cabecera del editor y como favicon. Símbolo independiente disponible entre los assets.
+- Título de pestaña: Orlune.
 
-No se ha confirmado una prueba específica entre dos cuentas.
-No hay una suite automatizada identificada en la revisión inicial.
+## Despliegue registrado
 
-## Motion previsto
+- Frontend Render: https://orlune-2t8d.onrender.com, Static Site llamado orlune.
+- API Render: https://orlune-api.onrender.com, Web Service llamado orlune-api.
+- PostgreSQL: recurso orlune-db, versión 18, Frankfurt; API también en Frankfurt.
+- Configuración registrada: rama main, Root Directory vacío, NODE_VERSION=24 y publicación del frontend desde apps/web/dist.
+- apps/web/src/lib/config.ts centraliza VITE_API_URL para clientes privados y públicos.
+- API usa PORT y FRONTEND_URL y escucha en 0.0.0.0.
+- Frontend: VITE_API_URL=https://orlune-api.onrender.com.
+- API: FRONTEND_URL=https://orlune-2t8d.onrender.com; DATABASE_URL, JWT_SECRET y variables de Cloudinary se configuran exclusivamente en el servidor.
+- Regla SPA de Render: /* hacia /index.html con acción Rewrite.
+- Se utiliza corepack pnpm directamente porque corepack enable falló con EROFS en Render.
+- Compilación API registrada: instalación de dependencias, build shared, prisma generate y build API.
+- Arranque registrado: prisma migrate deploy seguido de start de la API.
+- Compilación frontend registrada: instalación, build shared y build web.
+- El usuario confirmó el funcionamiento del despliegue y la eliminación de credenciales antiguas tras su rotación.
+- Las cuentas y los datos locales son independientes de los de Render.
+- El despliegue del logo nuevo no está confirmado.
 
-- Framer Motion para microinteracciones, entrada y salida
-  de bloques y reordenación en el editor.
-- GSAP para Hero animado y efectos de scroll en la landing.
-- Alcance de demo: pocas animaciones cuidadas.
-- Configuración de animaciones por bloque: evolución posterior.
-- Contemplar movimiento reducido y limpieza de animaciones.
+## Comprobaciones y limitaciones conocidas
 
-## Pendientes
+- Tras integrar el logo, el asistente ejecutó pnpm --filter @orlune/web build correctamente.
+- Sigue el aviso de bundle superior a 500 kB: aproximadamente 623 kB sin comprimir en esa compilación.
+- Corepack impidió arrancar pnpm lint por un fallo de conexión al registro. ESLint se ejecutó directamente con node node_modules/eslint/bin/eslint.js . desde apps/web y terminó correctamente.
+- git diff --check correcto después de la integración del logo.
+- El usuario respondió «PERFECTO» a la integración. El asistente no realizó una comprobación independiente en navegador.
+- El usuario había confirmado login, creación de proyectos, edición, subida de imágenes, guardado y recarga, publicación y acceso público en Render.
+- No consta una prueba específica de aislamiento entre dos cuentas.
+- La última configuración de alojamiento registrada utiliza planes gratuitos: la API se suspende por inactividad y el PostgreSQL creado el 6 de octubre tenía caducidad a los 30 días. No se ha vuelto a comprobar su configuración en el panel.
+- No hay monitorización ni recordatorios automáticos configurados.
 
-1. Confirmar estado de Git y sincronización con GitHub.
-2. Preparar configuración por entorno y desplegar.
-3. Probar frontend, API y PostgreSQL fuera del ordenador local.
-4. Añadir motion acotado para la demo.
-5. Pulir login y lista de proyectos.
-6. Retirar código y tablas del Kanban, revisando antes los datos.
-7. Ensayar la demo y preparar un vídeo de respaldo.
+## Estado de Git comprobado
 
-## Estado conocido de Git
-
-Últimos commits comunicados:
-- d257b99: publicación y página pública.
-- df8be2c: feedback del editor.
-
-El usuario confirmó un commit posterior de limpieza de caché,
-pero su identificador y la sincronización final deben verificarse.
-
-La carpeta tmp/ estaba sin seguimiento; su contenido no se ha revisado.
-
-## Limitación del entorno del asistente
-
-Desde el 30 de septiembre, los intentos de ejecutar comandos
-fallan al iniciar con helper_unknown_error / setup refresh had errors.
-
-Esto ha impedido leer archivos y verificar cambios directamente.
-Las revisiones posteriores se han basado en código pegado y
-resultados aportados por el usuario. Reintentar el acceso al retomar.
+- Rama: feature/brand-logo.
+- HEAD al iniciar esta actualización: 3bfe3ac, feat: add project card covers and publication details.
+- Commit anterior: cb999a1, feat: unify app blue theme and simplify projects page.
+- La integración del logo y MEMORY.md tienen cambios sin commit.
+- Archivos de aplicación modificados: apps/web/index.html, LandingEditor.tsx, HomePage.tsx, LoginPage.tsx, ProjectsPage.tsx y RegisterPage.tsx.
+- apps/web/public/branding/ contiene los cuatro SVG nuevos sin seguimiento.
+- output/ contiene exploraciones de branding sin seguimiento; tmp/ también está sin seguimiento y su contenido no se ha revisado.
+- No se ha realizado commit, merge ni push de la integración del logo desde esta conversación.

@@ -14,16 +14,7 @@ export function LoginPage() {
           aria-label="Orlune home"
           className="relative z-10 flex w-fit items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700"
         >
-          <span
-            aria-hidden="true"
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-700 text-lg font-bold text-white"
-          >
-            O
-          </span>
-
-          <span className="text-lg font-semibold tracking-tight">
-            Orlune
-          </span>
+          <img src="/branding/orlune-horizontal.svg" alt="Orlune" width="920" height="280" className="h-11 w-auto" />
         </Link>
 
         <div className="relative z-10 max-w-lg py-16">
@@ -99,16 +90,7 @@ export function LoginPage() {
             className="w-full max-w-md"
           >
             <div className="mb-8 flex items-center gap-3 lg:hidden">
-              <span
-                aria-hidden="true"
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-700 text-lg font-bold text-white"
-              >
-                O
-              </span>
-
-              <span className="text-xl font-semibold tracking-tight text-slate-900">
-                Orlune
-              </span>
+              <img src="/branding/orlune-vertical.svg" alt="Orlune" width="640" height="520" className="h-24 w-auto" />
             </div>
 
             <p className="text-xs font-semibold uppercase tracking-widest text-sky-700">

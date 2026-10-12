@@ -8,6 +8,7 @@ import { PropertiesPanel } from "./PropertiesPanel";
 import { BlockRenderer } from "../blocks/BlockRenderer";
 import { BlockLibrary } from "./BlockLibrary";
 import { LandingLivePreview } from "./LandingLivePreview";
+import { AnimatedBlock } from "../blocks/AnimatedBlock";
 
 import type { BlockContentUpdate } from "../types/landing-block";
 
@@ -276,7 +277,7 @@ export function LandingEditor({
           </p>
         ) : (
           blocks.map((block) => (
-            <BlockRenderer key={block.id} block={block} />
+            <AnimatedBlock key={block.id} block={block} />
           ))
         )}
       </main>

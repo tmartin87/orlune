@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
-
-import { BlockRenderer } from "../features/landing-builder/blocks/BlockRenderer";
 import { usePublishedLanding } from "../features/landing-builder/usePublishedLanding";
+import { AnimatedBlock } from "../features/landing-builder/blocks/AnimatedBlock";
 
 export function PublicLandingPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -47,7 +46,7 @@ function PublicLandingContent({
         </p>
       ) : (
         data.blocks.map((block) => (
-          <BlockRenderer key={block.id} block={block} />
+          <AnimatedBlock key={block.id} block={block} />
         ))
       )}
     </main>

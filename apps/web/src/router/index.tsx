@@ -1,38 +1,58 @@
+import { Suspense, type ReactNode } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import { LandingEditorPage } from "../pages/LandingEditorPage";
+
 import { ProtectedRoute } from "../features/auth/ProtectedRoute";
-import { LoginPage } from "../pages/LoginPage";
-import { ProjectsPage } from "../pages/ProjectsPage";
-import { PublicLandingPage } from "../pages/PublicLandingPage";
-import { HomePage } from "../pages/HomePage";
-import { RegisterPage } from "../pages/RegisterPage";
+import {
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  ProjectsPage,
+  LandingEditorPage,
+  PublicLandingPage,
+} from "./lazy-pages";
+
+function withLoading(page: ReactNode) {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-[#f5f9fc]">
+          <p role="status" className="text-sm text-slate-600">
+            Loading page...
+          </p>
+        </div>
+      }
+    >
+      {page}
+    </Suspense>
+  );
+}
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: withLoading(<HomePage />),
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: withLoading(<LoginPage />),
   },
   {
     path: "/register",
-    element: <RegisterPage />,
-  },
-  {
-    path: "/projects/:projectId/editor",
-    element: (
-      <ProtectedRoute>
-        <LandingEditorPage />
-      </ProtectedRoute>
-    ),
+    element: withLoading(<RegisterPage />),
   },
   {
     path: "/projects",
     element: (
       <ProtectedRoute>
-        <ProjectsPage />
+        {withLoading(<ProjectsPage />)}
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/projects/:projectId/editor",
+    element: (
+      <ProtectedRoute>
+        {withLoading(<LandingEditorPage />)}
       </ProtectedRoute>
     ),
   },
@@ -40,12 +60,12 @@ export const router = createBrowserRouter([
     path: "/projects/:projectId",
     element: (
       <ProtectedRoute>
-        <LandingEditorPage />
+        {withLoading(<LandingEditorPage />)}
       </ProtectedRoute>
     ),
   },
   {
     path: "/p/:projectId",
-    element: <PublicLandingPage />,
+    element: withLoading(<PublicLandingPage />),
   },
 ]);

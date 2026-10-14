@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="apps/web/public/branding/orlune-horizontal.svg" alt="Orlune" width="280" />
+  <img src="apps/web/public/branding/orlune-horizontal-white.svg" alt="Orlune" width="280" />
 </p>
 
 # Orlune

@@ -309,7 +309,10 @@ Si modificas el paquete compartido, vuelve a compilarlo para actualizar sus expo
 
 ### Pendiente
 
-- [ ] Integración con IA 
+- [ ] Más opciones de proporción y distribución de los bloques: anchos, alturas y relación entre imagen y texto.
+- [ ] Personalización de colores, tipografías, tamaños y espaciados.
+- [ ] Más variantes de diseño para cada bloque.
+- [ ] Integración con IA.
 
 ## Despliegue
 

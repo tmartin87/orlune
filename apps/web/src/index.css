@@ -1,6 +1,43 @@
 @import "tailwindcss";
 
+.landing-canvas-scroll {
+  scrollbar-color: #a1cfec #e0f0fa;
+  scrollbar-width: thin;
+}
+
+.landing-canvas-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.landing-canvas-scroll::-webkit-scrollbar-track {
+  background: #e0f0fa;
+}
+
+.landing-canvas-scroll::-webkit-scrollbar-thumb {
+  background: #8ebedc;
+  border: 2px solid #e0f0fa;
+  border-radius: 999px;
+}
+
+.landing-canvas-scroll::-webkit-scrollbar-thumb:hover {
+  background: #6da7cd;
+}
+
 @layer base {
+  button:enabled,
+  input[type="button"]:enabled,
+  input[type="submit"]:enabled,
+  input[type="reset"]:enabled {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  input[type="button"]:disabled,
+  input[type="submit"]:disabled,
+  input[type="reset"]:disabled {
+    cursor: not-allowed;
+  }
+
   body {
     @apply m-0 bg-slate-50 font-sans text-slate-900;
   }

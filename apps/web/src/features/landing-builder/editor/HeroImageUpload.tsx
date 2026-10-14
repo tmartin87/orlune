@@ -60,11 +60,11 @@ export function HeroImageUpload({
           <img
             src={currentImageUrl}
             alt={imageAlt ?? ""}
-            className="aspect-video w-full object-cover"
+            className="h-36 w-full object-contain"
           />
         </div>
       ) : (
-        <div className="flex aspect-video flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 text-center">
+        <div className="flex h-36 flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 text-center">
           <p className="text-sm font-medium text-slate-600">
             No image selected
           </p>

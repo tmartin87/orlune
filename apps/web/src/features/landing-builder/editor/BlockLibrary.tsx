@@ -25,7 +25,7 @@ function BlockOption({
       type="button"
       onClick={onClick}
       aria-label={`Add ${title} block`}
-      className="group w-full overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition-colors hover:border-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+      className="group w-full cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition-colors hover:border-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
     >
       <div
         aria-hidden="true"

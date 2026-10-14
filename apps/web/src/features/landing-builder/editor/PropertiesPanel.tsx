@@ -4,15 +4,15 @@ import type {
 } from "../types/landing-block";
 import { HeroImageUpload } from "./HeroImageUpload";
 import { PropertySection } from "./PropertySection";
+import { PropertyTabs } from "./PropertyTabs";
 
 type PropertiesPanelProps = {
   projectId: string;
+  isExpanded: boolean;
+  onToggleExpanded: () => void;
   block: LandingBlock;
   onContentChange: (update: BlockContentUpdate) => void;
 };
-
-const panelClassName =
-  "grid grid-cols-1 items-start gap-4 md:grid-cols-2 2xl:grid-cols-3";
 
 const fieldClassName =
   "block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 disabled:cursor-not-allowed disabled:opacity-60";
@@ -22,6 +22,8 @@ const labelClassName =
 
 export function PropertiesPanel({
   projectId,
+  isExpanded,
+  onToggleExpanded,
   block,
   onContentChange,
 }: PropertiesPanelProps) {
@@ -32,7 +34,7 @@ export function PropertiesPanel({
       Boolean(block.content.imageUrl?.trim());
 
     return (
-      <aside className={panelClassName}>
+      <PropertyTabs isExpanded={isExpanded} onToggleExpanded={onToggleExpanded}>
         <div className="col-span-full">
           <h2 className="text-base font-semibold text-slate-900">
             Hero
@@ -260,13 +262,13 @@ export function PropertiesPanel({
             />
           </label>
         </PropertySection>
-      </aside>
+      </PropertyTabs>
     );
   }
 
   if (block.type === "cta") {
     return (
-      <aside className={panelClassName}>
+      <PropertyTabs isExpanded={isExpanded} onToggleExpanded={onToggleExpanded}>
         <div className="col-span-full">
           <h2 className="text-base font-semibold text-slate-900">
             Call to action
@@ -356,13 +358,13 @@ export function PropertiesPanel({
             </select>
           </label>
         </PropertySection>
-      </aside>
+      </PropertyTabs>
     );
   }
 
   if (block.type === "features") {
     return (
-      <aside className={panelClassName}>
+      <PropertyTabs isExpanded={isExpanded} onToggleExpanded={onToggleExpanded}>
         <div className="col-span-full">
           <h2 className="text-base font-semibold text-slate-900">
             Features
@@ -433,13 +435,13 @@ export function PropertiesPanel({
             </label>
           </PropertySection>
         ))}
-      </aside>
+      </PropertyTabs>
     );
   }
 
   if (block.type === "imageText") {
     return (
-      <aside className={panelClassName}>
+      <PropertyTabs isExpanded={isExpanded} onToggleExpanded={onToggleExpanded}>
         <div className="col-span-full">
           <h2 className="text-base font-semibold text-slate-900">
             Image and text
@@ -563,7 +565,7 @@ export function PropertiesPanel({
             />
           </label>
         </PropertySection>
-      </aside>
+      </PropertyTabs>
     );
   }
 

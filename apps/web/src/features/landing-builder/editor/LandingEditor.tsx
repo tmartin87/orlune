@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 
@@ -24,9 +24,9 @@ type LandingEditorProps = {
   initialBlocks: LandingBlock[];
   onSave: (blocks: LandingBlock[]) => void;
   isSaving: boolean;
+  isSaved: boolean;
   onPublish: (blocks: LandingBlock[]) => void;
   isPublishing: boolean;
-  feedback: ReactNode;
   onDraftChange: () => void;
 };
 
@@ -35,15 +35,21 @@ export function LandingEditor({
   initialBlocks,
   onSave,
   isSaving,
+  isSaved,
   onPublish,
   isPublishing,
-  feedback,
   onDraftChange,
 }: LandingEditorProps) {
   const [blocks, setBlocks] = useState<LandingBlock[]>(initialBlocks);
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [isPreview, setIsPreview] = useState(false);
   const [isPreviewExpanded, setIsPreviewExpanded] = useState(false);
+  const [isPropertiesExpanded, setIsPropertiesExpanded] = useState(false);
+
+  const selectBlock = (blockId: string | null) => {
+    setSelectedBlockId(blockId);
+    setIsPropertiesExpanded(false);
+  };
 
   const shouldReduceMotion = useReducedMotion();
 
@@ -110,7 +116,7 @@ export function LandingEditor({
     };
 
     setBlocks((currentBlocks) => [...currentBlocks, features]);
-    setSelectedBlockId(features.id);
+    selectBlock(features.id);
   };
 
   const addImageText = () => {
@@ -129,7 +135,7 @@ export function LandingEditor({
     };
 
     setBlocks((currentBlocks) => [...currentBlocks, imageText]);
-    setSelectedBlockId(imageText.id);
+    selectBlock(imageText.id);
   };
 
   const updateBlockContent = (update: BlockContentUpdate) => {
@@ -213,7 +219,7 @@ export function LandingEditor({
     );
 
     if (selectedBlockId === blockId) {
-      setSelectedBlockId(null);
+      selectBlock(null);
     }
   };
 
@@ -258,18 +264,11 @@ export function LandingEditor({
           <button
             type="button"
             onClick={() => setIsPreview(false)}
-            className="rounded-lg bg-sky-700 px-4 py-2 text-sm font-medium text-white hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+            className="rounded-lg bg-sky-700 px-4 py-2 text-sm font-medium text-white hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500"
           >
             Back to editor
           </button>
         </header>
-
-        <div
-          className="space-y-1 bg-white px-6 py-2"
-          aria-label="Save and publish feedback"
-        >
-          {feedback}
-        </div>
 
         {blocks.length === 0 ? (
           <p className="p-12 text-center text-slate-500">
@@ -293,7 +292,13 @@ export function LandingEditor({
             aria-label="Orlune — back to projects"
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500"
           >
-            <img src="/branding/orlune-icon.svg" alt="" width="40" height="40" className="h-10 w-10" />
+            <img
+              src="/branding/orlune-icon.svg"
+              alt=""
+              width="40"
+              height="40"
+              className="h-10 w-10"
+            />
           </Link>
 
           <div className="min-w-0">
@@ -323,9 +328,11 @@ export function LandingEditor({
             type="button"
             onClick={() => onSave(blocks)}
             disabled={isSaving || isPublishing}
-            className="rounded-lg border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
+            className="min-w-24 rounded-lg border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {isSaving ? "Saving..." : "Save"}
+            <span aria-live="polite">
+              {isSaving ? "Saving..." : isSaved ? "Saved ✓" : "Save"}
+            </span>
           </button>
 
           <button
@@ -338,13 +345,6 @@ export function LandingEditor({
           </button>
         </div>
       </header>
-
-      <div
-        className="shrink-0 space-y-1 bg-white px-6 py-2"
-        aria-label="Save and publish feedback"
-      >
-        {feedback}
-      </div>
 
       <div
         className={`grid min-h-0 flex-1 grid-cols-1 xl:overflow-hidden ${
@@ -365,7 +365,7 @@ export function LandingEditor({
         <div className="flex min-h-0 min-w-0 flex-col xl:overflow-hidden">
           <section
             aria-label="Landing canvas"
-            className="min-h-0 min-w-0 flex-1 bg-[#edf5fa] p-4 sm:p-6 xl:overflow-y-auto"
+            className="landing-canvas-scroll min-h-0 min-w-0 flex-1 bg-[#edf5fa] p-4 sm:p-6 xl:overflow-y-auto"
           >
             <div className="mx-auto max-w-5xl space-y-5">
               {blocks.length === 0 && (
@@ -378,7 +378,7 @@ export function LandingEditor({
                 {blocks.map((block, index) => (
                   <motion.div
                     key={block.id}
-                    onClick={() => setSelectedBlockId(block.id)}
+                    onClick={() => selectBlock(block.id)}
                     layout={shouldReduceMotion ? false : "position"}
                     initial={{
                       opacity: 0,
@@ -398,18 +398,18 @@ export function LandingEditor({
                     }}
                     className={`cursor-pointer rounded-2xl border bg-white p-3 shadow-sm ${
                       selectedBlockId === block.id
-                        ? "border-sky-500 ring-2 ring-sky-100"
+                        ? "border-sky-600 ring-2 ring-sky-400"
                         : "border-slate-200"
                     }`}
                   >
                     <div className="mb-3 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
                       <button
                         type="button"
-                        onClick={() => setSelectedBlockId(block.id)}
+                        onClick={() => selectBlock(block.id)}
                         aria-pressed={selectedBlockId === block.id}
                         className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 ${
                           selectedBlockId === block.id
-                            ? "bg-sky-50 text-sky-700"
+                            ? "bg-sky-100 text-sky-900"
                             : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                         }`}
                       >
@@ -462,12 +462,20 @@ export function LandingEditor({
             </div>
           </section>
 
-          <div className="min-h-0 shrink-0 border-t border-sky-200 bg-gradient-to-r from-[#dceef9] via-[#edf6fc] to-[#e3f0f9] p-6 xl:max-h-[35dvh] xl:overflow-y-auto">
+          <div
+            className={
+              "flex min-h-0 shrink-0 flex-col border-t border-sky-200 bg-gradient-to-b from-[#edf6fc] to-[#e3f0f9] " +
+              (selectedBlock ? ""
+                : "p-6")
+            }
+          >
             {selectedBlock ? (
               <PropertiesPanel
                 key={selectedBlock.id}
                 projectId={projectId}
                 block={selectedBlock}
+                isExpanded={isPropertiesExpanded}
+                onToggleExpanded={() => setIsPropertiesExpanded((current) => !current)}
                 onContentChange={updateBlockContent}
               />
             ) : (

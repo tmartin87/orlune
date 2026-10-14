@@ -227,7 +227,7 @@ export function BlockRenderer({
       return (
         <section
           className={[
-            "rounded-lg px-6 py-12 text-center sm:px-10",
+            "px-6 py-12 text-center sm:px-10",
             isDark ? "bg-slate-900" : "bg-slate-50",
           ].join(" ")}
         >

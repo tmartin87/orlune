@@ -309,7 +309,7 @@ Si modificas el paquete compartido, vuelve a compilarlo para actualizar sus expo
 
 ### Pendiente
 
-- [ ] Integración con IA (sin implementar ni fecha prevista)
+- [ ] Integración con IA 
 
 ## Despliegue
 

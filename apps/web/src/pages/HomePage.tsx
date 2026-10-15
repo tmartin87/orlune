@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 export function HomePage() {
   return (
     <main className="min-h-screen bg-[#f5f9fc] text-slate-900">
-      <div className="bg-gradient-to-br from-[#e0f0fa] via-[#c4e0f1] to-[#8ebedc]">
-        <header className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6">
+      <div className="flex min-h-dvh flex-col bg-gradient-to-br from-[#e0f0fa] via-[#c4e0f1] to-[#8ebedc]">
+        <header className="relative z-10 shrink-0 border-b border-sky-200/60 bg-white/80 shadow-md shadow-sky-900/10">
+          <div className="mx-auto flex w-full max-w-[1720px] flex-wrap items-center justify-between gap-4 px-6 py-6 lg:px-10">
           <Link
             to="/"
             aria-label="Orlune home"
@@ -27,36 +28,48 @@ export function HomePage() {
               Sign up
             </Link>
           </nav>
+          </div>
         </header>
 
-        <section className="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pb-24 sm:pt-20">
-          <p className="text-sm font-semibold uppercase tracking-widest text-sky-800">
-            Your ideas, ready for the web
-          </p>
+        <section className="mx-auto grid w-full max-w-[1720px] flex-1 content-center items-center gap-10 px-6 py-16 sm:py-24 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-12 lg:px-10">
+          <div className="min-w-0">
+            <p className="text-sm font-semibold uppercase tracking-widest text-sky-800">
+              Your ideas, ready for the web
+            </p>
 
-          <h1 className="mt-6 max-w-4xl text-balance text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl lg:text-7xl">
-            Give your next idea a place to shine.
-          </h1>
+            <h1 className="mt-6 max-w-4xl text-balance text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl lg:text-7xl">
+              Give your next idea a place to shine.
+            </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-700">
-            Build a landing page with visual blocks. Make it yours with
-            images, layouts and colors, then publish it with a link.
-          </p>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-700">
+              Build a landing page with visual blocks. Make it yours with
+              images, layouts and colors, then publish it with a link.
+            </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Link
-              to="/login"
-              className="rounded-xl bg-sky-700 px-6 py-3 font-semibold text-white transition-colors hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700"
-            >
-              Open the editor
-            </Link>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link
+                to="/register"
+                className="rounded-xl bg-sky-700 px-6 py-3 font-semibold text-white transition-colors hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700"
+              >
+                Create your first landing
+              </Link>
 
-            <a
-              href="#how-it-works"
-              className="rounded-xl border border-sky-200 bg-white px-6 py-3 font-semibold text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700"
-            >
-              How it works
-            </a>
+              <a
+                href="#how-it-works"
+                className="rounded-xl border border-sky-200 bg-white px-6 py-3 font-semibold text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700"
+              >
+                How it works
+              </a>
+            </div>
+          </div>
+          <div className="min-w-0 overflow-hidden rounded-xl border border-white/70 bg-white shadow-2xl shadow-sky-950/15">
+            <img
+              src="/images/orlune-editor-preview.png"
+              alt="Orlune editor showing the block library, Studio North hero, design controls and mobile live preview"
+              width="1913"
+              height="943"
+              className="h-auto w-full"
+            />
           </div>
         </section>
       </div>
@@ -95,71 +108,25 @@ export function HomePage() {
             </span>
           </div>
 
-          <div className="bg-stone-50 px-6 py-12 text-slate-900 sm:px-12 sm:py-16">
-            <div className="grid items-center gap-10 md:grid-cols-2">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-sky-700">
-                  Studio North
-                </p>
-
-                <h3 className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-                  Good design starts with a conversation.
-                </h3>
-
-                <p className="mt-5 max-w-md leading-relaxed text-slate-600">
-                  An independent studio helping ambitious ideas become
-                  thoughtful digital experiences.
-                </p>
-
-                <span className="mt-7 inline-block rounded-lg bg-sky-700 px-5 py-3 text-sm font-semibold text-white">
-                  Let’s talk
-                </span>
-              </div>
-
-              <div
-                aria-hidden="true"
-                className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-sky-100"
-              >
-                <div className="absolute -right-12 -top-12 h-56 w-56 rounded-full bg-sky-200" />
-                <div className="absolute -bottom-16 -left-12 h-64 w-64 rounded-full bg-[#b2d5eb]" />
-
-                <div className="relative flex h-44 w-44 -rotate-12 items-center justify-center rounded-3xl bg-gradient-to-br from-sky-600 to-sky-800 shadow-xl shadow-sky-900/20 sm:h-56 sm:w-56">
-                  <div className="h-20 w-20 rounded-full border-[16px] border-white sm:h-28 sm:w-28" />
-                </div>
-              </div>
+          <a
+            href="https://orlune-2t8d.onrender.com/p/cmv6fxtqq00003tdftry097cz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700"
+          >
+            <img
+              src="/images/studio-north-preview.png"
+              alt="Studio North landing page with a photographic hero and its services section"
+              width="1903"
+              height="942"
+              loading="lazy"
+              className="h-auto w-full"
+            />
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-sky-100 bg-white px-6 py-4">
+              <span className="text-sm text-slate-600">Built with Orlune · Studio North</span>
+              <span className="font-semibold text-sky-700 group-hover:underline">View live page ↗</span>
             </div>
-
-            <div className="mt-12 grid gap-4 border-t border-stone-200 pt-8 sm:grid-cols-3">
-              {[
-                {
-                  title: "Clear direction",
-                  description:
-                    "A shared vision from the first conversation.",
-                },
-                {
-                  title: "Thoughtful details",
-                  description: "Every element has a purpose.",
-                },
-                {
-                  title: "Built together",
-                  description: "An open process from start to finish.",
-                },
-              ].map((feature) => (
-                <div
-                  key={feature.title}
-                  className="rounded-xl bg-white p-5"
-                >
-                  <h4 className="font-semibold">
-                    {feature.title}
-                  </h4>
-
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          </a>
         </div>
       </section>
 
@@ -194,7 +161,7 @@ export function HomePage() {
           ].map((step) => (
             <article
               key={step.number}
-              className="border-t border-sky-200 pt-6"
+              className="rounded-2xl border border-sky-200 bg-white p-6 sm:p-8"
             >
               <span className="text-sm font-semibold text-sky-700">
                 {step.number}
@@ -204,7 +171,7 @@ export function HomePage() {
                 {step.title}
               </h3>
 
-              <p className="mt-3 leading-relaxed text-slate-600">
+              <p className="mt-3 leading-relaxed text-slate-700">
                 {step.description}
               </p>
             </article>

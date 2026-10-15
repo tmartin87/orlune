@@ -54,7 +54,7 @@ export function BlockRenderer({
       return (
         <section
           className={[
-            "relative isolate overflow-hidden rounded-lg px-6 py-16 sm:px-10",
+            "relative isolate overflow-hidden px-6 py-16 sm:px-10",
             isDark ? "bg-slate-900" : "bg-slate-50",
           ].join(" ")}
         >

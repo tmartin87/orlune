@@ -4,7 +4,7 @@ export function HomePage() {
   return (
     <main className="min-h-screen bg-[#f5f9fc] text-slate-900">
       <div className="bg-gradient-to-br from-[#e0f0fa] via-[#c4e0f1] to-[#8ebedc]">
-        <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-6">
+        <header className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6">
           <Link
             to="/"
             aria-label="Orlune home"
@@ -13,12 +13,20 @@ export function HomePage() {
             <img src="/branding/orlune-horizontal.svg" alt="Orlune" width="920" height="280" className="h-11 w-auto" />
           </Link>
 
-          <Link
-            to="/login"
-            className="rounded-lg border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700"
-          >
-            Sign in
-          </Link>
+          <nav aria-label="Account" className="flex items-center gap-3">
+            <Link
+              to="/login"
+              className="whitespace-nowrap rounded-lg border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-800 transition-colors hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700"
+            >
+              Log in
+            </Link>
+            <Link
+              to="/register"
+              className="whitespace-nowrap rounded-lg border border-sky-700 bg-sky-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-sky-800 hover:bg-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700"
+            >
+              Sign up
+            </Link>
+          </nav>
         </header>
 
         <section className="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pb-24 sm:pt-20">

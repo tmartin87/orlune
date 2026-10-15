@@ -179,7 +179,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <footer className="mx-auto max-w-6xl px-6 py-8 text-sm text-slate-600">
+      <footer className="mx-auto max-w-6xl px-6 py-8 text-center text-sm text-slate-600">
         Orlune — Build something that moves people.
       </footer>
     </main>

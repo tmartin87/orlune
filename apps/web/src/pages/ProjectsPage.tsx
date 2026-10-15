@@ -28,7 +28,7 @@ export function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-[#edf5fa] text-slate-900">
-      <header className="sticky top-0 z-40 border-b border-sky-100 bg-white">
+      <header className="sticky top-0 z-40 border-b border-sky-100 bg-white shadow-md shadow-sky-900/10">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
           <Link
             to="/projects"

@@ -1,6 +1,6 @@
 # Estado actual de Orlune
 
-Actualizado el 14 de octubre de 2026.
+Actualizado el 5 de noviembre de 2026.
 
 Este documento registra el estado de la aplicación, su configuración, las comprobaciones realizadas y las limitaciones conocidas. No contiene objetivos, fechas de entrega ni planes de trabajo. Las normas de colaboración están en AGENTS.md.
 
@@ -110,31 +110,54 @@ Orlune es un constructor de landing pages con editor visual.
 - Frontend: VITE_API_URL=https://orlune-api.onrender.com.
 - API: FRONTEND_URL=https://orlune-2t8d.onrender.com; DATABASE_URL, JWT_SECRET y variables de Cloudinary se configuran exclusivamente en el servidor.
 - Regla SPA de Render: /* hacia /index.html con acción Rewrite.
-- Se utiliza corepack pnpm directamente porque corepack enable falló con EROFS en Render.
+- La compilación utiliza corepack pnpm porque corepack enable falló con EROFS en Render. El arranque actual ejecuta Prisma y Node directamente, sin Corepack/pnpm.
 - Compilación API registrada: instalación de dependencias, build shared, prisma generate y build API.
-- Arranque registrado: prisma migrate deploy seguido de start de la API.
+- Start Command actual, cambiado en Render el 29 de octubre con Root Directory vacío: `cd apps/api && node node_modules/prisma/build/index.js migrate deploy && node dist/server.js`. El usuario confirmó que recuperó el acceso. Es una configuración del panel, no un cambio de código.
 - Compilación frontend registrada: instalación, build shared y build web.
 - El usuario confirmó el funcionamiento del despliegue y la eliminación de credenciales antiguas tras su rotación.
 - Las cuentas y los datos locales son independientes de los de Render.
-- El usuario confirmó el logo, el recorrido de la aplicación y las animaciones en Render. Los ajustes actuales de pestañas y avisos siguen locales, sin despliegue confirmado.
+- Los ajustes de pestañas, avisos y diseño están integrados en main y desplegados. El editor en producción fue comprobado en navegador el 22 de octubre.
 
-## Comprobaciones y limitaciones conocidas
+## Diseño integrado en producción
 
-- El 14 de octubre el asistente ejecutó ESLint directamente con node node_modules/eslint/bin/eslint.js . desde apps/web: correcto. Se usa esta vía por los fallos de conexión de Corepack al ejecutar pnpm lint.
-- pnpm --filter @orlune/web build correcto tras los últimos retoques del editor.
-- La carga diferida elimina el aviso de chunks >500 kB. Último build: archivo principal de 210,59 kB y CSS de 41,10 kB sin comprimir.
-- El usuario confirmó el resultado visual final del editor con «lo veo todo perfecto». El asistente revisó la captura y el código; no realizó una prueba independiente en navegador.
-- El usuario había confirmado login, creación de proyectos, edición, subida de imágenes, guardado y recarga, publicación y acceso público en Render.
-- No consta una prueba específica de aislamiento entre dos cuentas.
-- La última configuración de alojamiento registrada utiliza planes gratuitos: la API se suspende por inactividad y el PostgreSQL creado el 6 de octubre tenía caducidad a los 30 días. No se ha vuelto a comprobar su configuración en el panel.
-- No hay monitorización ni recordatorios automáticos configurados.
+- Home: hero de altura mínima de pantalla con captura del editor, ejemplo real de Studio North enlazado a su landing pública, enlaces Log in / Sign up, tarjetas inferiores blancas y footer centrado.
+- Cabeceras de Home y Projects con sombra.
+- Contenedores Hero y CTA sin esquinas redondeadas; botones e imágenes pueden conservarlas.
+- README actualizado con arquitectura, configuración y funcionalidades; utiliza el logo horizontal blanco. Sus opciones ampliadas de personalización e IA siguen marcadas como no implementadas.
+
+## Comprobaciones realizadas
+
+- El 22 de octubre pasaron TypeScript de shared, API y web, ESLint del frontend y build de Vite. Se ejecutaron herramientas locales directamente por un fallo de acceso de Corepack a registry.npmjs.org. Vite avisó de que el Node local 20.17.0 era inferior al mínimo requerido, pero terminó correctamente. No se han repetido estas pruebas el 5 de noviembre.
+- Build registrado: JavaScript principal 210,59 kB y CSS 40,38 kB sin comprimir, sin aviso de chunks mayores de 500 kB.
+- Pasaron 28 comprobaciones de API en producción: registro, login, duplicados, contraseña incorrecta, acceso sin sesión, creación, guardado, publicación, aislamiento entre cuentas y separación de borrador y versión publicada.
+- La segunda cuenta no pudo leer, modificar, publicar ni eliminar el proyecto ajeno, ni obtener una firma de subida para él. Tampoco aparecía en su listado.
+- Prueba independiente en navegador: registro, login, creación de proyecto, subida real a Cloudinary, guardado, vuelta a Projects, reapertura con imagen conservada, publicación y acceso público después de cerrar sesión.
+- Revisión visual en escritorio y móvil. El editor móvil apila la biblioteca antes del lienzo y exige bastante desplazamiento. En escritorios bajos los botones del hero de Home pueden quedar fuera del primer vistazo.
+- Se crearon tres cuentas técnicas QA y dos proyectos QA con autorización del usuario. No se conservaron contraseñas ni tokens. No se eliminaron estos datos ni se modificaron Studio North o Forma Studio.
+- Evidencia local: output/qa/public-mobile.png, sin seguimiento en Git.
+
+## Incidencias de alojamiento y estado actual
+
+- El 29 de octubre Render notificó exceso de memoria de la API sobre 512 MB y reinicio automático. Los logs posteriores mostraban comprobaciones de dependencias y numerosas consultas a npm durante el arranque con Corepack/pnpm.
+- El arranque directo de Prisma y Node permitió recuperar el acceso según el usuario. No se ha demostrado la causa del primer exceso de memoria ni descartado su repetición.
+- Argon2 usa argon2id; la configuración instalada de hash tiene memoryCost=65536 KiB. No se identificaron límites de peticiones o concurrencia en las rutas de autenticación. Su contribución al incidente fue una hipótesis no confirmada; no se modificó Argon2.
+- El 5 de noviembre, PostgreSQL orlune-db aparece como Free database expired y SUSPENDED en el panel. No hay confirmación de eliminación ni de recuperación de datos.
+- Los botones Upgrade database y Upgrade your instance no abrieron el cambio de plan según el usuario. Los errores 429 visibles eran del endpoint de monitorización Sentry; no demuestran bloqueo de la actualización por límite de peticiones. La respuesta GraphQL consultada solo confirmó SUSPENDED.
+- El usuario confirmó que envió un correo a soporte de Render. No consta respuesta ni reactivación. Enviar el correo no confirma una ampliación del plazo de conservación.
+- La documentación de Render consultada el 5 de noviembre indica caducidad de PostgreSQL gratuito a los 30 días y 14 días posteriores para actualizar antes de eliminar los datos. No se ha verificado la fecha límite exacta de esta base en el panel.
+- El panel mostró una opción de 6 USD/mes de cómputo para la base. No consta contratación ni coste total confirmado. La API seguía en Free en las capturas; cambiar su plan o el del espacio de trabajo no reactiva PostgreSQL.
+- El espacio de trabajo también se llama orlune-db: se debe distinguir del recurso PostgreSQL del mismo nombre y del servidor orlune-api.
+- No consta una copia de seguridad exportada de producción ni una configuración de copias periódicas verificada. No hay monitorización ni recordatorios automáticos configurados por el asistente.
+
+## Limitaciones funcionales registradas
+
+- No consta recuperación de contraseña ni verificación de correo implementada.
+- La personalización se limita a las opciones actuales de los cuatro bloques. Los controles ampliados de proporciones, colores, tipografías, tamaños, espaciados, nuevas variantes e IA no están implementados según el README y la revisión registrada.
+- Las pruebas manuales y de compilación no equivalen a una suite automática de regresión.
 
 ## Estado de Git comprobado
 
-- Rama: fix/editor-feedback-layout; HEAD c26ece0, perf: lazy load application routes.
-- Commits anteriores integrados: 4261620, animaciones de las landings; 245607c, identidad de marca.
-- Cambios actuales sin commit: avisos flotantes y estado de Save, pestañas de propiedades, miniatura de imagen, selección de bloques, scroll azul y cursores de botones.
-- Archivos modificados: BlockLibrary.tsx, HeroImageUpload.tsx, LandingEditor.tsx, PropertiesPanel.tsx, PropertySection.tsx, LandingEditorPage.tsx e index.css; nuevo PropertyTabs.tsx.
-- MEMORY.md actualizado con el estado actual; sin objetivos ni planes.
-- output/ y tmp/ siguen sin seguimiento y no forman parte de esta entrega. output/ contiene exploraciones, imágenes de Studio North y copias de trabajo; tmp/ no se ha revisado.
-- No se ha creado el commit de estos ajustes ni realizado su merge o push.
+- Antes de esta actualización: main...origin/main, HEAD 1b64b7f, `style: add shadow to projects header`, sin cambios en archivos rastreados. La referencia local origin/main coincide; no se ha realizado fetch en esta revisión.
+- Rama documental: docs/current-app-state, creada desde main.
+- MEMORY.md es el único archivo rastreado modificado en esta actualización. No se ha creado commit ni realizado push.
+- output/ y tmp/ siguen sin seguimiento y no forman parte de esta actualización. output/ contiene imágenes, variantes de marca y evidencia QA; tmp/ no se ha revisado.

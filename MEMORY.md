@@ -1,6 +1,6 @@
 # Estado actual de Orlune
 
-Actualizado el 5 de noviembre de 2026.
+Actualizado el 9 de noviembre de 2026.
 
 Este documento registra el estado de la aplicación, su configuración, las comprobaciones realizadas y las limitaciones conocidas. No contiene objetivos, fechas de entrega ni planes de trabajo. Las normas de colaboración están en AGENTS.md.
 
@@ -103,7 +103,7 @@ Orlune es un constructor de landing pages con editor visual.
 
 - Frontend Render: https://orlune-2t8d.onrender.com, Static Site llamado orlune.
 - API Render: https://orlune-api.onrender.com, Web Service llamado orlune-api.
-- PostgreSQL: recurso orlune-db, versión 18, Frankfurt; API también en Frankfurt.
+- PostgreSQL alojado en Neon tras configurar la nueva conexión en Render. El usuario confirmó el funcionamiento el 7 de noviembre y volvió a confirmarlo el 9. La API permanece en Render, Frankfurt. La versión y región efectivas de Neon no se han comprobado directamente.
 - Configuración registrada: rama main, Root Directory vacío, NODE_VERSION=24 y publicación del frontend desde apps/web/dist.
 - apps/web/src/lib/config.ts centraliza VITE_API_URL para clientes privados y públicos.
 - API usa PORT y FRONTEND_URL y escucha en 0.0.0.0.
@@ -115,7 +115,7 @@ Orlune es un constructor de landing pages con editor visual.
 - Start Command actual, cambiado en Render el 29 de octubre con Root Directory vacío: `cd apps/api && node node_modules/prisma/build/index.js migrate deploy && node dist/server.js`. El usuario confirmó que recuperó el acceso. Es una configuración del panel, no un cambio de código.
 - Compilación frontend registrada: instalación, build shared y build web.
 - El usuario confirmó el funcionamiento del despliegue y la eliminación de credenciales antiguas tras su rotación.
-- Las cuentas y los datos locales son independientes de los de Render.
+- Las cuentas y los datos locales son independientes de los de producción en Neon.
 - Los ajustes de pestañas, avisos y diseño están integrados en main y desplegados. El editor en producción fue comprobado en navegador el 22 de octubre.
 
 ## Diseño integrado en producción
@@ -138,6 +138,10 @@ Orlune es un constructor de landing pages con editor visual.
 
 ## Incidencias de alojamiento y estado actual
 
+- El 7 de noviembre el usuario decidió empezar con una base vacía, sin recuperar los datos anteriores. Confirmó que Orlune funcionaba tras conectar Neon; el 9 confirmó que la base estaba bien. El asistente no ha repetido el recorrido de registro, guardado, reapertura y publicación contra Neon.
+- La búsqueda local del 6 de noviembre no localizó una exportación de producción en las carpetas examinadas. orlune.zip contenía migraciones, y los SQL de Descargas eran anteriores al desarrollo de Orlune. La inspección de una posible base de desarrollo quedó pendiente.
+- El usuario proporcionó el nuevo enlace público de Studio North, https://orlune-2t8d.onrender.com/p/cmw6b0cl900011x9rvi41dbum. HomePage.tsx se ha actualizado localmente para enlazarlo. El cambio está pendiente de commit y despliegue; su funcionamiento en navegador no se ha verificado por el asistente.
+- Se instalaron siete skills de Neon para Codex en .agents/skills/ y skills-lock.json el 7 de noviembre. Estos archivos siguen sin seguimiento en Git.
 - El 29 de octubre Render notificó exceso de memoria de la API sobre 512 MB y reinicio automático. Los logs posteriores mostraban comprobaciones de dependencias y numerosas consultas a npm durante el arranque con Corepack/pnpm.
 - El arranque directo de Prisma y Node permitió recuperar el acceso según el usuario. No se ha demostrado la causa del primer exceso de memoria ni descartado su repetición.
 - Argon2 usa argon2id; la configuración instalada de hash tiene memoryCost=65536 KiB. No se identificaron límites de peticiones o concurrencia en las rutas de autenticación. Su contribución al incidente fue una hipótesis no confirmada; no se modificó Argon2.
@@ -157,7 +161,7 @@ Orlune es un constructor de landing pages con editor visual.
 
 ## Estado de Git comprobado
 
-- Antes de esta actualización: main...origin/main, HEAD 1b64b7f, `style: add shadow to projects header`, sin cambios en archivos rastreados. La referencia local origin/main coincide; no se ha realizado fetch en esta revisión.
-- Rama documental: docs/current-app-state, creada desde main.
-- MEMORY.md es el único archivo rastreado modificado en esta actualización. No se ha creado commit ni realizado push.
-- output/ y tmp/ siguen sin seguimiento y no forman parte de esta actualización. output/ contiene imágenes, variantes de marca y evidencia QA; tmp/ no se ha revisado.
+- Antes de esta actualización: main...origin/main, HEAD e28bd66, `docs: update app state and Render incidents`, sin cambios en archivos rastreados. La referencia local origin/main coincide; no se ha realizado fetch en esta revisión.
+- Rama documental: docs/neon-database-state, creada desde main.
+- MEMORY.md y apps/web/src/pages/HomePage.tsx están modificados en esta actualización. No se ha creado commit ni realizado push.
+- .agents/, skills-lock.json, output/ y tmp/ siguen sin seguimiento. output/ contiene imágenes, variantes de marca y evidencia QA; tmp/ no se ha revisado.

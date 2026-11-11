@@ -1,8 +1,4 @@
-import type {
-  HeroBlock,
-  CtaBlock,
-  ImageTextBlock,
-} from "@orlune/shared";
+import type { HeroBlock, CtaBlock, ImageTextBlock } from "@orlune/shared";
 
 export type {
   HeroBlock,
@@ -28,7 +24,7 @@ export type BlockContentUpdate =
   | {
       blockId: string;
       type: "features";
-      field: "heading" | "spacing";
+      field: "heading" | "spacing" | "headingSize";
       value: string;
     }
   | {

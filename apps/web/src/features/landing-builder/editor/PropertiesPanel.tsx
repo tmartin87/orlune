@@ -1,7 +1,4 @@
-import type {
-  BlockContentUpdate,
-  LandingBlock,
-} from "../types/landing-block";
+import type { BlockContentUpdate, LandingBlock } from "../types/landing-block";
 import { HeroImageUpload } from "./HeroImageUpload";
 import { PropertySection } from "./PropertySection";
 import { PropertyTabs } from "./PropertyTabs";
@@ -17,8 +14,7 @@ type PropertiesPanelProps = {
 const fieldClassName =
   "block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 disabled:cursor-not-allowed disabled:opacity-60";
 
-const labelClassName =
-  "block space-y-2 text-sm font-medium text-slate-700";
+const labelClassName = "block space-y-2 text-sm font-medium text-slate-700";
 
 export function PropertiesPanel({
   projectId,
@@ -27,7 +23,7 @@ export function PropertiesPanel({
   block,
   onContentChange,
 }: PropertiesPanelProps) {
-    const spacingControl = (
+  const spacingControl = (
     <label className={labelClassName}>
       Vertical spacing
       <select
@@ -58,6 +54,37 @@ export function PropertiesPanel({
       </select>
     </label>
   );
+  const headingSizeControl = (
+    <label className={labelClassName}>
+      Heading size
+      <select
+        className={fieldClassName}
+        value={block.content.headingSize ?? "medium"}
+        onChange={(event) => {
+          const headingSize = event.target.value;
+
+          if (
+            headingSize !== "small" &&
+            headingSize !== "medium" &&
+            headingSize !== "large"
+          ) {
+            return;
+          }
+
+          onContentChange({
+            blockId: block.id,
+            type: block.type,
+            field: "headingSize",
+            value: headingSize,
+          });
+        }}
+      >
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+    </label>
+  );
   if (block.type === "hero") {
     const isBackground = block.content.layout === "background";
     const isSplit =
@@ -67,9 +94,7 @@ export function PropertiesPanel({
     return (
       <PropertyTabs isExpanded={isExpanded} onToggleExpanded={onToggleExpanded}>
         <div className="col-span-full">
-          <h2 className="text-base font-semibold text-slate-900">
-            Hero
-          </h2>
+          <h2 className="text-base font-semibold text-slate-900">Hero</h2>
           <p className="mt-1 text-xs text-slate-500">
             Edit your opening section.
           </p>
@@ -148,6 +173,7 @@ export function PropertiesPanel({
 
         <PropertySection title="Design">
           {spacingControl}
+          {headingSizeControl}
           <label className={labelClassName}>
             Layout
             <select
@@ -177,15 +203,11 @@ export function PropertiesPanel({
               <option value="background">Background image</option>
             </select>
           </label>
-
           <label className={labelClassName}>
             Text alignment
             <select
               className={fieldClassName}
-              value={
-                block.content.alignment ??
-                (isSplit ? "left" : "center")
-              }
+              value={block.content.alignment ?? (isSplit ? "left" : "center")}
               onChange={(event) => {
                 const alignment = event.target.value;
 
@@ -205,17 +227,12 @@ export function PropertiesPanel({
               <option value="center">Center</option>
             </select>
           </label>
-
           <label className={labelClassName}>
             Color theme
             <select
               className={fieldClassName}
               disabled={isBackground}
-              value={
-                isBackground
-                  ? "dark"
-                  : block.content.theme ?? "light"
-              }
+              value={isBackground ? "dark" : (block.content.theme ?? "light")}
               onChange={(event) => {
                 const theme = event.target.value;
 
@@ -234,7 +251,6 @@ export function PropertiesPanel({
               <option value="light">Light</option>
               <option value="dark">Dark</option>
             </select>
-
             {isBackground && (
               <span className="block text-xs font-normal text-slate-500">
                 Background images always use the dark theme for readability.
@@ -366,6 +382,7 @@ export function PropertiesPanel({
 
         <PropertySection title="Design">
           {spacingControl}
+          {headingSizeControl}
           <label className={labelClassName}>
             Color theme
             <select
@@ -399,9 +416,7 @@ export function PropertiesPanel({
     return (
       <PropertyTabs isExpanded={isExpanded} onToggleExpanded={onToggleExpanded}>
         <div className="col-span-full">
-          <h2 className="text-base font-semibold text-slate-900">
-            Features
-          </h2>
+          <h2 className="text-base font-semibold text-slate-900">Features</h2>
           <p className="mt-1 text-xs text-slate-500">
             Highlight three benefits.
           </p>
@@ -425,12 +440,13 @@ export function PropertiesPanel({
             />
           </label>
         </PropertySection>
+        <PropertySection title="Design">
+          {spacingControl}
+          {headingSizeControl}
+        </PropertySection>
 
         {block.content.items.map((item, index) => (
-          <PropertySection
-            key={item.id}
-            title={`Feature ${index + 1}`}
-          >
+          <PropertySection key={item.id} title={`Feature ${index + 1}`}>
             <label className={labelClassName}>
               Title
               <input
@@ -522,6 +538,7 @@ export function PropertiesPanel({
 
         <PropertySection title="Design">
           {spacingControl}
+          {headingSizeControl}
           <label className={labelClassName}>
             Image position
             <select

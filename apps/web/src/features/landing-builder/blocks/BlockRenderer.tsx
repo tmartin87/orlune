@@ -34,6 +34,34 @@ export function BlockRenderer({
     medium: block.type === "cta" ? "py-12" : "py-16",
     large: "py-24",
   }[spacing];
+
+  const headingSize = block.content.headingSize ?? "medium";
+
+  const headingClasses = {
+    hero: {
+      small: "text-3xl sm:text-4xl",
+      medium: "text-4xl sm:text-5xl",
+      large: "text-5xl sm:text-6xl",
+    },
+    features: {
+      small: "text-2xl sm:text-3xl",
+      medium: "text-3xl sm:text-4xl",
+      large: "text-4xl sm:text-5xl",
+    },
+    imageText: {
+      small: "text-2xl sm:text-3xl",
+      medium: "text-3xl sm:text-4xl",
+      large: "text-4xl sm:text-5xl",
+    },
+    cta: {
+      small: "text-xl",
+      medium: "text-2xl",
+      large: "text-3xl sm:text-4xl",
+    },
+  };
+
+  const headingClassName = headingClasses[block.type][headingSize];
+
   switch (block.type) {
     case "hero": {
       const layout = block.content.layout ?? "centered";
@@ -96,7 +124,8 @@ export function BlockRenderer({
             >
               <h1
                 className={[
-                  "break-words text-4xl font-bold tracking-tight sm:text-5xl",
+                  "break-words font-bold tracking-tight",
+                  headingClassName,
                   isDark ? "text-white" : "text-slate-900",
                 ].join(" ")}
               >
@@ -147,7 +176,9 @@ export function BlockRenderer({
           className={`rounded-lg bg-white px-6 sm:px-10 ${spacingClassName}`}
         >
           <div className="mx-auto max-w-6xl">
-            <h2 className="mx-auto max-w-3xl break-words text-center text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            <h2
+              className={`mx-auto max-w-3xl break-words text-center font-bold tracking-tight text-slate-900 ${headingClassName}`}
+            >
               {block.content.heading}
             </h2>
 
@@ -183,7 +214,9 @@ export function BlockRenderer({
       const imageOnRight = block.content.imagePosition === "right";
 
       return (
-        <section className="rounded-lg bg-white px-6 py-16 sm:px-10">
+        <section
+          className={`rounded-lg bg-white px-6 sm:px-10 ${spacingClassName}`}
+        >
           <div
             className={[
               "mx-auto max-w-6xl",
@@ -208,7 +241,9 @@ export function BlockRenderer({
                 imageOnRight && imageUrl ? "md:order-1" : "",
               ].join(" ")}
             >
-              <h2 className="break-words text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              <h2
+                className={`break-words font-bold tracking-tight text-slate-900 ${headingClassName}`}
+              >
                 {block.content.heading}
               </h2>
 
@@ -244,7 +279,8 @@ export function BlockRenderer({
         >
           <h2
             className={[
-              "mx-auto max-w-xl break-words text-2xl font-semibold",
+              "mx-auto max-w-xl break-words font-semibold",
+              headingClassName,
               isDark ? "text-white" : "text-slate-900",
             ].join(" ")}
           >

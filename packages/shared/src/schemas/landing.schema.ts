@@ -6,6 +6,7 @@ export const heroBlockSchema = z.object({
   content: z.object({
     heading: z.string(),
     spacing: z.enum(["small", "medium", "large"]).optional(),
+    headingSize: z.enum(["small", "medium", "large"]).optional(),
     subheading: z.string(),
     buttonText: z.string(),
     buttonUrl: z
@@ -35,6 +36,7 @@ export const ctaBlockSchema = z.object({
   content: z.object({
     heading: z.string(),
     spacing: z.enum(["small", "medium", "large"]).optional(),
+    headingSize: z.enum(["small", "medium", "large"]).optional(),
     buttonText: z.string(),
     buttonUrl: z
       .string()
@@ -53,6 +55,7 @@ export const featuresBlockSchema = z.object({
   content: z.object({
     heading: z.string(),
     spacing: z.enum(["small", "medium", "large"]).optional(),
+    headingSize: z.enum(["small", "medium", "large"]).optional(),
     items: z
       .array(
         z.object({
@@ -72,6 +75,7 @@ export const imageTextBlockSchema = z.object({
     heading: z.string(),
     description: z.string(),
     spacing: z.enum(["small", "medium", "large"]).optional(),
+    headingSize: z.enum(["small", "medium", "large"]).optional(),
     imageUrl: z
       .string()
       .trim()

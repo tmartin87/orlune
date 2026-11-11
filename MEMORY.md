@@ -1,6 +1,6 @@
 # Estado actual de Orlune
 
-Actualizado el 9 de noviembre de 2026.
+Actualizado el 11 de noviembre de 2026.
 
 Este documento registra el estado de la aplicación, su configuración, las comprobaciones realizadas y las limitaciones conocidas. No contiene objetivos, fechas de entrega ni planes de trabajo. Las normas de colaboración están en AGENTS.md.
 
@@ -63,6 +63,8 @@ Orlune es un constructor de landing pages con editor visual.
 - CTA: título, texto y enlace de botón, temas light/dark.
 - Features: título de sección y tres elementos con título y descripción editables.
 - Image and text: título, descripción, imagen, texto alternativo y posición izquierda/derecha. En móvil la imagen aparece encima.
+- spacing y headingSize son opcionales en el esquema de los cuatro bloques. En feature/heading-size, el renderizado aplica ambos valores a los cuatro bloques, incluida la corrección del espaciado de Image and text. La sección Design ofrece ambos selectores en Hero, CTA, Features e Image and text, comprobado en el código local.
+- Medium conserva el espaciado previo: py-16 en Hero, Features e Image and text, py-12 en CTA. Small usa py-8 y Large py-24. El Hero con fondo mantiene además min-h-96. Heading size admite Small, Medium y Large; Medium conserva el tamaño anterior de cada título.
 - Los enlaces y las imágenes admiten URL HTTP/HTTPS; los campos opcionales mantienen compatibles los bloques anteriores.
 - Los enlaces funcionan en Preview completo y en la página pública; se desactivan durante la edición.
 
@@ -127,6 +129,7 @@ Orlune es un constructor de landing pages con editor visual.
 
 ## Comprobaciones realizadas
 
+- El usuario confirmó compilación y funcionamiento local del espaciado, y después indicó que todo estaba correcto tras los pasos de integración y despliegue. El asistente revisó el código integrado el 11 de noviembre y detectó la omisión de Image and text indicada arriba. No repitió las pruebas en navegador.
 - El 22 de octubre pasaron TypeScript de shared, API y web, ESLint del frontend y build de Vite. Se ejecutaron herramientas locales directamente por un fallo de acceso de Corepack a registry.npmjs.org. Vite avisó de que el Node local 20.17.0 era inferior al mínimo requerido, pero terminó correctamente. No se han repetido estas pruebas el 5 de noviembre.
 - Build registrado: JavaScript principal 210,59 kB y CSS 40,38 kB sin comprimir, sin aviso de chunks mayores de 500 kB.
 - Pasaron 28 comprobaciones de API en producción: registro, login, duplicados, contraseña incorrecta, acceso sin sesión, creación, guardado, publicación, aislamiento entre cuentas y separación de borrador y versión publicada.
@@ -140,7 +143,7 @@ Orlune es un constructor de landing pages con editor visual.
 
 - El 7 de noviembre el usuario decidió empezar con una base vacía, sin recuperar los datos anteriores. Confirmó que Orlune funcionaba tras conectar Neon; el 9 confirmó que la base estaba bien. El asistente no ha repetido el recorrido de registro, guardado, reapertura y publicación contra Neon.
 - La búsqueda local del 6 de noviembre no localizó una exportación de producción en las carpetas examinadas. orlune.zip contenía migraciones, y los SQL de Descargas eran anteriores al desarrollo de Orlune. La inspección de una posible base de desarrollo quedó pendiente.
-- El usuario proporcionó el nuevo enlace público de Studio North, https://orlune-2t8d.onrender.com/p/cmw6b0cl900011x9rvi41dbum. HomePage.tsx se ha actualizado localmente para enlazarlo. El cambio está pendiente de commit y despliegue; su funcionamiento en navegador no se ha verificado por el asistente.
+- Home enlaza al nuevo Studio North, https://orlune-2t8d.onrender.com/p/cmw6b0cl900011x9rvi41dbum. El cambio se integró en main con d95cec0. El asistente comprobó el enlace en el JavaScript publicado y una respuesta HTTP 200 del endpoint público con sus cuatro bloques. No realizó una revisión visual en navegador.
 - Se instalaron siete skills de Neon para Codex en .agents/skills/ y skills-lock.json el 7 de noviembre. Estos archivos siguen sin seguimiento en Git.
 - El 29 de octubre Render notificó exceso de memoria de la API sobre 512 MB y reinicio automático. Los logs posteriores mostraban comprobaciones de dependencias y numerosas consultas a npm durante el arranque con Corepack/pnpm.
 - El arranque directo de Prisma y Node permitió recuperar el acceso según el usuario. No se ha demostrado la causa del primer exceso de memoria ni descartado su repetición.
@@ -156,12 +159,12 @@ Orlune es un constructor de landing pages con editor visual.
 ## Limitaciones funcionales registradas
 
 - No consta recuperación de contraseña ni verificación de correo implementada.
-- La personalización se limita a las opciones actuales de los cuatro bloques. Los controles ampliados de proporciones, colores, tipografías, tamaños, espaciados, nuevas variantes e IA no están implementados según el README y la revisión registrada.
+- La personalización incluye espaciado vertical y tamaños de título en la rama actual. Los controles ampliados de proporciones, colores, familias tipográficas, nuevas variantes e IA no están implementados en el código revisado.
 - Las pruebas manuales y de compilación no equivalen a una suite automática de regresión.
 
 ## Estado de Git comprobado
 
-- Antes de esta actualización: main...origin/main, HEAD e28bd66, `docs: update app state and Render incidents`, sin cambios en archivos rastreados. La referencia local origin/main coincide; no se ha realizado fetch en esta revisión.
-- Rama documental: docs/neon-database-state, creada desde main.
-- MEMORY.md y apps/web/src/pages/HomePage.tsx están modificados en esta actualización. No se ha creado commit ni realizado push.
-- .agents/, skills-lock.json, output/ y tmp/ siguen sin seguimiento. output/ contiene imágenes, variantes de marca y evidencia QA; tmp/ no se ha revisado.
+- Antes de esta actualización: main...origin/main, HEAD dd780c3, `feat: add vertical spacing options to landing blocks`, sin cambios en archivos rastreados. La referencia local origin/main coincide; no se ha realizado fetch en esta revisión.
+- Rama actual: feature/heading-size, creada desde main.
+- MEMORY.md, BlockRenderer.tsx, PropertiesPanel.tsx, landing-block.ts y landing.schema.ts están modificados en esta actualización, pendientes de commit.
+- .agents/, .vscode/, skills-lock.json, output/ y tmp/ siguen sin seguimiento. output/ contiene imágenes, variantes de marca y evidencia QA; tmp/ no se ha revisado.

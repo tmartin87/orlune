@@ -148,12 +148,12 @@ export function LandingEditor({
         }
 
         if (update.type === "features" && block.type === "features") {
-          if (update.field === "heading") {
+            if (!("itemId" in update)) {
             return {
               ...block,
               content: {
                 ...block.content,
-                heading: update.value,
+                [update.field]: update.value,
               },
             };
           }

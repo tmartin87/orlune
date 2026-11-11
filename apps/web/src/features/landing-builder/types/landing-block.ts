@@ -28,7 +28,7 @@ export type BlockContentUpdate =
   | {
       blockId: string;
       type: "features";
-      field: "heading";
+      field: "heading" | "spacing";
       value: string;
     }
   | {

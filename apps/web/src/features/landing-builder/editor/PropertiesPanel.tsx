@@ -27,6 +27,37 @@ export function PropertiesPanel({
   block,
   onContentChange,
 }: PropertiesPanelProps) {
+    const spacingControl = (
+    <label className={labelClassName}>
+      Vertical spacing
+      <select
+        className={fieldClassName}
+        value={block.content.spacing ?? "medium"}
+        onChange={(event) => {
+          const spacing = event.target.value;
+
+          if (
+            spacing !== "small" &&
+            spacing !== "medium" &&
+            spacing !== "large"
+          ) {
+            return;
+          }
+
+          onContentChange({
+            blockId: block.id,
+            type: block.type,
+            field: "spacing",
+            value: spacing,
+          });
+        }}
+      >
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+    </label>
+  );
   if (block.type === "hero") {
     const isBackground = block.content.layout === "background";
     const isSplit =
@@ -116,6 +147,7 @@ export function PropertiesPanel({
         </PropertySection>
 
         <PropertySection title="Design">
+          {spacingControl}
           <label className={labelClassName}>
             Layout
             <select
@@ -333,6 +365,7 @@ export function PropertiesPanel({
         </PropertySection>
 
         <PropertySection title="Design">
+          {spacingControl}
           <label className={labelClassName}>
             Color theme
             <select
@@ -488,6 +521,7 @@ export function PropertiesPanel({
         </PropertySection>
 
         <PropertySection title="Design">
+          {spacingControl}
           <label className={labelClassName}>
             Image position
             <select

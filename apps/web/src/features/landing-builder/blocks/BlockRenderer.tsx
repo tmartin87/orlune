@@ -27,6 +27,13 @@ export function BlockRenderer({
   block,
   isEditing = false,
 }: BlockRendererProps) {
+  const spacing = block.content.spacing ?? "medium";
+
+  const spacingClassName = {
+    small: "py-8",
+    medium: block.type === "cta" ? "py-12" : "py-16",
+    large: "py-24",
+  }[spacing];
   switch (block.type) {
     case "hero": {
       const layout = block.content.layout ?? "centered";
@@ -54,7 +61,8 @@ export function BlockRenderer({
       return (
         <section
           className={[
-            "relative isolate overflow-hidden px-6 py-16 sm:px-10",
+            "relative isolate overflow-hidden px-6 sm:px-10",
+            spacingClassName,
             isDark ? "bg-slate-900" : "bg-slate-50",
           ].join(" ")}
         >
@@ -135,7 +143,9 @@ export function BlockRenderer({
     }
     case "features":
       return (
-        <section className="rounded-lg bg-white px-6 py-16 sm:px-10">
+        <section
+          className={`rounded-lg bg-white px-6 sm:px-10 ${spacingClassName}`}
+        >
           <div className="mx-auto max-w-6xl">
             <h2 className="mx-auto max-w-3xl break-words text-center text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
               {block.content.heading}
@@ -227,7 +237,8 @@ export function BlockRenderer({
       return (
         <section
           className={[
-            "px-6 py-12 text-center sm:px-10",
+            "px-6 text-center sm:px-10",
+            spacingClassName,
             isDark ? "bg-slate-900" : "bg-slate-50",
           ].join(" ")}
         >

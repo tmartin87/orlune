@@ -5,6 +5,7 @@ export const heroBlockSchema = z.object({
   type: z.literal("hero"),
   content: z.object({
     heading: z.string(),
+    spacing: z.enum(["small", "medium", "large"]).optional(),
     subheading: z.string(),
     buttonText: z.string(),
     buttonUrl: z
@@ -33,6 +34,7 @@ export const ctaBlockSchema = z.object({
   type: z.literal("cta"),
   content: z.object({
     heading: z.string(),
+    spacing: z.enum(["small", "medium", "large"]).optional(),
     buttonText: z.string(),
     buttonUrl: z
       .string()
@@ -50,6 +52,7 @@ export const featuresBlockSchema = z.object({
   type: z.literal("features"),
   content: z.object({
     heading: z.string(),
+    spacing: z.enum(["small", "medium", "large"]).optional(),
     items: z
       .array(
         z.object({
@@ -68,6 +71,7 @@ export const imageTextBlockSchema = z.object({
   content: z.object({
     heading: z.string(),
     description: z.string(),
+    spacing: z.enum(["small", "medium", "large"]).optional(),
     imageUrl: z
       .string()
       .trim()

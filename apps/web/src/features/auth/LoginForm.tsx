@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   loginUserSchema,
@@ -26,8 +27,23 @@ export function LoginForm() {
 
   const navigate = useNavigate();
   const { login: authenticate } = useAuth();
+  const [showSlowMessage, setShowSlowMessage] = useState(false);
+
+  useEffect(() => {
+    if (!isSubmitting) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setShowSlowMessage(true);
+    }, 5000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [isSubmitting]);
 
   const onSubmit = async (data: LoginUserInput) => {
+    setShowSlowMessage(false);
+
     try {
       const response = await login(data);
 
@@ -40,6 +56,8 @@ export function LoginForm() {
             ? error.message
             : "Could not connect. Please try again.",
       });
+    } finally {
+      setShowSlowMessage(false);
     }
   };
 
@@ -128,6 +146,16 @@ export function LoginForm() {
       >
         {isSubmitting ? "Signing in..." : "Sign in"}
       </button>
+
+      {isSubmitting && showSlowMessage && (
+        <p
+          role="status"
+          className="rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-sm text-sky-800"
+        >
+          This is taking a little longer. The server may be waking up
+          after inactivity. Please keep this page open while we sign you in.
+        </p>
+      )}
     </form>
   );
 }
